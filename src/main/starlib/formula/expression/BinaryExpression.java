@@ -78,5 +78,8 @@ public class BinaryExpression extends Expression {
 	public String toString() {
 		return "(" + exp1.toString() + op.toString() + exp2.toString() + ")";
 	}
-	
+
+	public String evaluate() {
+		return exp1.toString() + op.toString() + exp2.toString();
+	}
 }

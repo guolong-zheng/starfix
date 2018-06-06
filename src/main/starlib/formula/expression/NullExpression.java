@@ -54,4 +54,8 @@ public class NullExpression extends Expression{
 		return "null".hashCode();
 	}
 
+	@Override
+	public String evaluate() {
+		return null;
+	}
 }

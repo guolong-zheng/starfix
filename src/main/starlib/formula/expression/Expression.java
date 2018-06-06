@@ -26,4 +26,6 @@ public abstract class Expression {
 	
 	public abstract void updateType(HashMap<String, String> knownTypeVars);
 
+	public abstract String evaluate();
+
 }

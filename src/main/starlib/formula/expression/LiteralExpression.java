@@ -72,4 +72,8 @@ public class LiteralExpression extends Expression {
 		// Do nothing
 	}
 
+	@Override
+	public String evaluate() {
+		return value;
+	}
 }

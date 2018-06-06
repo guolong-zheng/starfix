@@ -1,5 +1,7 @@
 package repair.heap;
 
+import repair.concreteFormula.ConcreteVariable;
+
 public class HeapNode {
     protected String type;
     protected String name;
@@ -16,4 +18,5 @@ public class HeapNode {
     public Object getValue() {
         return var;
     }
+
 }

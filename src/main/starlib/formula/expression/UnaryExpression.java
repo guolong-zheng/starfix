@@ -55,4 +55,8 @@ public class UnaryExpression extends Expression {
 		return "(" + op.toString() + exp.toString() + ")";
 	}
 
+	@Override
+	public String evaluate() {
+		return op.toString() + exp.evaluate();
+	}
 }

@@ -7,10 +7,14 @@ import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
 import starlib.formula.PureFormula;
 import starlib.formula.Variable;
+import starlib.formula.expression.*;
 import starlib.formula.heap.HeapTerm;
 import starlib.formula.heap.InductiveTerm;
 import starlib.formula.heap.PointToTerm;
+import starlib.formula.pure.ComparisonTerm;
+import starlib.formula.pure.PureTerm;
 import starlib.precondition.Initializer;
+import starlib.solver.CollectVarsVisitor;
 
 import java.util.*;
 
@@ -41,21 +45,31 @@ public class Checker {
     }
 
     public static boolean check(Heap heap) {
+        boolean res = true;
         for (Formula f : heap.getState()) {
             HeapFormula hp = f.getHeapFormula();
             PureFormula pf = f.getPureFormula();
             if (hp.toString().contains("emp")) {
-
+                for (PureTerm pt : pf.getPureTerms()) {
+                    ComparisonTerm ct = (ComparisonTerm) pt;
+                    CheckerVisitor cv = new CheckerVisitor();
+                    res = res && cv.visit(ct);
+                }
             } else {
                 for (HeapTerm it : hp.getHeapTerms()) {
                     if (it instanceof PointToTerm) {
+                        HeapNode root = heap.getNode(it.getVars()[0].getName());
                         for (Variable var : it.getVars()) {
                             HeapNode hn = heap.getNode(var.getName());
+                            if (hn.getName() != var.toString()) {
+                                res = false;
+                                return res;
+                            }
                         }
                     }
                 }
             }
         }
-        return false;
+        return res;
     }
 }
