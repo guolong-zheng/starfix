@@ -25,16 +25,16 @@ import starlib.formula.pure.PureTerm;
 // a formula includes heap part and pure part
 
 public class Formula {
-	
-	private HeapFormula heapFormula;
-	
-	private PureFormula pureFormula;
+
+	public HeapFormula heapFormula;
+
+	public PureFormula pureFormula;
 	
 	private Map<String, List<Variable>> typeMap;
 	
 	private Map<String, Integer> addressMap;
-	
-	private int depth;
+
+	public int depth;
 	
 	public Formula(HeapFormula heapFormula, PureFormula pureFormula,
 			Map<String, List<Variable>> typeMap, Map<String, Integer> addressMap, int depth) {

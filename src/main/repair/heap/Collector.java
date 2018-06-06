@@ -16,11 +16,11 @@ public class Collector {
             Object var = toVisit.remove();
             Class cal = var.getClass();
             Map<String, HeapNode> name2field = new HashMap<>();
-            System.out.print(var.toString() + "|");
+            System.out.println(var.toString() + "|");
 
             for (Field field : cal.getFields()) {
-                    String name = field.getName();
-                    String type = field.getType().toString();
+                String name = field.getName();
+                String type = field.getType().toString();
                 Object newVar = null;
                 try {
                     newVar = field.get(var);
@@ -28,26 +28,30 @@ public class Collector {
                     e.printStackTrace();
                 }
 
-                System.out.println("name:" + name + " type:" + type + " value:" + newVar.toString());
+                System.out.println("name:" + name + "\t type:" + type + "\t value:" + newVar.toString());
 
-                    if(newVar.getClass().isPrimitive()){
-                        name2field.put(name, new PrimVar(type, newVar, Integer.getInteger(newVar.toString())));
-                    }else if (newVar == null){
-                        name2field.put(name, new PointVar(type));
-                    }else {
-                        name2field.put(name, new PointVar(type, newVar));
+                if (newVar.getClass().isPrimitive()) {
+                    name2field.put(name, new PrimVar(type, newVar, Integer.getInteger(newVar.toString())));
+                } else if (newVar == null) {
+                    name2field.put(name, new PointVar(type));
+                } else {
+                    name2field.put(name, new PointVar(type, newVar));
 
-                    }
+                }
 
-                    if (visited.add(newVar)) {
-                        toVisit.add(newVar);
-                    }
+                if (!isPrim(newVar) && visited.add(newVar)) {
+                    toVisit.add(newVar);
+                }
             }
 
             heap.addNode(new PointVar(cal.getTypeName(), var, name2field));
         }
 
         return heap;
+    }
+
+    public static boolean isPrim(Object var) {
+        return Integer.class.isInstance(var);
     }
 }
 
