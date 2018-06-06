@@ -2,15 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bb5f2eac-20aa-4f7f-8ae3-169df794eb17" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/repair/heap/ConcretePointToTerm.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/repair/heap/PointVar.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/repair/heap/PrimVar.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/repair/checker/CheckerVisitor.java" afterPath="$PROJECT_DIR$/src/main/repair/checker/EvaluateVisitor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/repair/checker/Checker.java" afterPath="$PROJECT_DIR$/src/main/repair/checker/Checker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/repair/heap/Collector.java" afterPath="$PROJECT_DIR$/src/main/repair/heap/Collector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/repair/heap/Heap.java" afterPath="$PROJECT_DIR$/src/main/repair/heap/Heap.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/repair/heap/HeapNode.java" afterPath="$PROJECT_DIR$/src/main/repair/heap/HeapNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/starlib/formula/expression/BinaryExpression.java" afterPath="$PROJECT_DIR$/src/main/starlib/formula/expression/BinaryExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/starlib/formula/expression/Comparator.java" afterPath="$PROJECT_DIR$/src/main/starlib/formula/expression/Comparator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/starlib/formula/expression/Expression.java" afterPath="$PROJECT_DIR$/src/main/starlib/formula/expression/Expression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/starlib/formula/expression/LiteralExpression.java" afterPath="$PROJECT_DIR$/src/main/starlib/formula/expression/LiteralExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/starlib/formula/expression/NullExpression.java" afterPath="$PROJECT_DIR$/src/main/starlib/formula/expression/NullExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/starlib/formula/expression/UnaryExpression.java" afterPath="$PROJECT_DIR$/src/main/starlib/formula/expression/UnaryExpression.java" />
     </list>
     <ignored path="starlib.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,11 +31,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CheckerVisitor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/repair/checker/CheckerVisitor.java">
+      <file leaf-file-name="Collector.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/repair/heap/Collector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
+            <state relative-caret-position="214">
+              <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -43,14 +43,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Checker.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/repair/checker/Checker.java">
+      <file leaf-file-name="Heap.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/repair/heap/Heap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="65" column="43" selection-start-line="65" selection-start-column="43" selection-end-line="65" selection-end-column="43" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="60">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -58,85 +56,12 @@
       <file leaf-file-name="HeapNode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/repair/heap/HeapNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PointVar.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/repair/heap/PointVar.java">
-          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
-              <caret line="6" column="73" selection-start-line="6" selection-start-column="73" selection-end-line="6" selection-end-column="73" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Comparator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/starlib/formula/expression/Comparator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="99" column="45" selection-start-line="99" selection-start-column="45" selection-end-line="99" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Expression.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/starlib/formula/expression/Expression.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="28" column="36" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Operator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/starlib/formula/expression/Operator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4">
-              <caret line="39" column="12" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BinaryExpression.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/starlib/formula/expression/BinaryExpression.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="82" column="65" selection-start-line="82" selection-start-column="65" selection-end-line="82" selection-end-column="65" />
+              <caret line="5" column="84" selection-start-line="5" selection-start-column="84" selection-end-line="5" selection-end-column="84" />
               <folding>
-                <element signature="e#1889#1890#0" expanded="true" />
-                <element signature="e#1952#1953#0" expanded="true" />
+                <element signature="e#427#428#0" expanded="true" />
+                <element signature="e#456#457#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UnaryExpression.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/starlib/formula/expression/UnaryExpression.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="61" column="1" selection-start-line="61" selection-start-column="1" selection-end-line="61" selection-end-column="1" />
-              <folding>
-                <element signature="e#1226#1227#0" expanded="true" />
-                <element signature="e#1268#1269#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StarVisitor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/starlib/StarVisitor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -170,7 +95,6 @@
         <option value="$PROJECT_DIR$/src/main/starlib/formula/Variable.java" />
         <option value="$PROJECT_DIR$/src/main/repair/heap/ConcreteNode.java" />
         <option value="$PROJECT_DIR$/src/main/repair/heap/PrimVar.java" />
-        <option value="$PROJECT_DIR$/src/main/repair/heap/Collector.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/formula/heap/PointToTerm.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/solver/Preprocessor.java" />
         <option value="$PROJECT_DIR$/src/main/repair/heap/ConcretePointToTerm.java" />
@@ -178,8 +102,6 @@
         <option value="$PROJECT_DIR$/src/main/starlib/formula/Formula.java" />
         <option value="$PROJECT_DIR$/src/main/repair/test/Node.java" />
         <option value="$PROJECT_DIR$/src/main/repair/concreteFormula/ConcreteFormula.java" />
-        <option value="$PROJECT_DIR$/src/main/repair/heap/Heap.java" />
-        <option value="$PROJECT_DIR$/src/main/repair/heap/HeapNode.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/formula/expression/Comparator.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/formula/expression/Expression.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/formula/expression/LiteralExpression.java" />
@@ -187,9 +109,12 @@
         <option value="$PROJECT_DIR$/src/main/starlib/formula/expression/UnaryExpression.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/formula/expression/BinaryExpression.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/StarVisitor.java" />
-        <option value="$PROJECT_DIR$/src/main/repair/checker/CheckerVisitor.java" />
         <option value="$PROJECT_DIR$/src/main/repair/heap/PointVar.java" />
+        <option value="$PROJECT_DIR$/src/main/repair/checker/CheckerVisitor.java" />
         <option value="$PROJECT_DIR$/src/main/repair/checker/Checker.java" />
+        <option value="$PROJECT_DIR$/src/main/repair/heap/HeapNode.java" />
+        <option value="$PROJECT_DIR$/src/main/repair/heap/Heap.java" />
+        <option value="$PROJECT_DIR$/src/main/repair/heap/Collector.java" />
       </list>
     </option>
   </component>
@@ -364,58 +289,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="heap" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="starepair" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="starepair" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="repair" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="concreteFormula" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="starepair" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="starepair" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="repair" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checker" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -748,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1528250970671</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add checking for pure formula">
+      <created>1528253391043</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1528253391043</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -797,7 +677,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add unfold and partial of checking" />
-    <option name="LAST_COMMIT_MESSAGE" value="add unfold and partial of checking" />
+    <MESSAGE value="add checking for pure formula" />
+    <option name="LAST_COMMIT_MESSAGE" value="add checking for pure formula" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1042,40 +923,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/repair/heap/Collector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/repair/heap/ConcretePointToTerm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/repair/heap/Heap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="63" column="45" selection-start-line="63" selection-start-column="45" selection-end-line="63" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/repair/heap/PrimVar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="39" selection-start-line="2" selection-start-column="39" selection-end-line="2" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/starlib/formula/pure/PureTerm.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -1150,7 +997,7 @@
           <caret line="61" column="1" selection-start-line="61" selection-start-column="1" selection-end-line="61" selection-end-column="1" />
           <folding>
             <element signature="e#1226#1227#0" expanded="true" />
-            <element signature="e#1268#1269#0" expanded="true" />
+            <element signature="e#1270#1271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1168,8 +1015,8 @@
         <state relative-caret-position="277">
           <caret line="82" column="65" selection-start-line="82" selection-start-column="65" selection-end-line="82" selection-end-column="65" />
           <folding>
-            <element signature="e#1889#1890#0" expanded="true" />
-            <element signature="e#1952#1953#0" expanded="true" />
+            <element signature="e#1890#1891#0" expanded="true" />
+            <element signature="e#1953#1954#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1198,10 +1045,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/repair/checker/CheckerVisitor.java">
+    <entry file="file://$PROJECT_DIR$/src/main/repair/checker/EvaluateVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
-          <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
+          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/repair/checker/Checker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="55" column="17" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1216,18 +1073,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/repair/heap/HeapNode.java">
+    <entry file="file://$PROJECT_DIR$/src/main/repair/heap/PrimVar.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="30">
+          <caret line="2" column="39" selection-start-line="2" selection-start-column="39" selection-end-line="2" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/repair/checker/Checker.java">
+    <entry file="file://$PROJECT_DIR$/src/main/repair/heap/ConcretePointToTerm.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="65" column="43" selection-start-line="65" selection-start-column="43" selection-end-line="65" selection-end-column="43" />
+        <state relative-caret-position="75">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/repair/heap/Heap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/repair/heap/HeapNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="84" selection-start-line="5" selection-start-column="84" selection-end-line="5" selection-end-column="84" />
+          <folding>
+            <element signature="e#427#428#0" expanded="true" />
+            <element signature="e#456#457#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/repair/heap/Collector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

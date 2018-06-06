@@ -13,14 +13,18 @@ import java.util.*;
 
 public class Heap {
     HeapNode root;  //root of current heap
+    Set<HeapNode> heapNodes;
     Map<String, HeapNode> name2node;    //map variable name to concrete heap node
-    Map<Object, HeapNode> nodeMap;  //map original variable to concrete heap node
+    Map<Object, HeapNode> var2node;  //map original variable to concrete heap node
     Set<Variable> visitedVars;  // all visited variables
     Formula[] state;    //store the state of current heap
 
     public Heap() {
         this.root = null;
-        this.nodeMap = new HashMap<>();
+        this.var2node = new HashMap<>();
+        this.name2node = new HashMap<>();
+        this.visitedVars = new HashSet<>();
+        this.heapNodes = new HashSet<>();
     }
 
     public boolean isEmpty() {
@@ -30,7 +34,7 @@ public class Heap {
     public void addNode(HeapNode heapNode) {
         if (root == null)
             root = heapNode;
-        this.nodeMap.put(heapNode.getValue(), heapNode);
+        this.var2node.put(heapNode.getValue(), heapNode);
     }
 
     public HeapNode getRoot() {
@@ -42,7 +46,7 @@ public class Heap {
     }
 
     public HeapNode findNode(Object var) {
-        return nodeMap.get(var);
+        return var2node.get(var);
     }
 
     public Formula[] getState() {

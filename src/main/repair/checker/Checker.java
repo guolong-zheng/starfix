@@ -14,7 +14,6 @@ import starlib.formula.heap.PointToTerm;
 import starlib.formula.pure.ComparisonTerm;
 import starlib.formula.pure.PureTerm;
 import starlib.precondition.Initializer;
-import starlib.solver.CollectVarsVisitor;
 
 import java.util.*;
 
@@ -52,7 +51,7 @@ public class Checker {
             if (hp.toString().contains("emp")) {
                 for (PureTerm pt : pf.getPureTerms()) {
                     ComparisonTerm ct = (ComparisonTerm) pt;
-                    CheckerVisitor cv = new CheckerVisitor();
+                    EvaluateVisitor cv = new EvaluateVisitor();
                     res = res && cv.visit(ct);
                 }
             } else {

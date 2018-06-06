@@ -13,6 +13,7 @@ public class Collector {
         visited.add(root);
 
         while (!toVisit.isEmpty()) {
+            HeapNode heapNode = new HeapNode();
             Object var = toVisit.remove();
             Class cal = var.getClass();
             Map<String, HeapNode> name2field = new HashMap<>();
@@ -30,6 +31,7 @@ public class Collector {
 
                 System.out.println("name:" + name + "\t type:" + type + "\t value:" + newVar.toString());
 
+                /*
                 if (newVar.getClass().isPrimitive()) {
                     name2field.put(name, new PrimVar(type, newVar, Integer.getInteger(newVar.toString())));
                 } else if (newVar == null) {
@@ -38,13 +40,14 @@ public class Collector {
                     name2field.put(name, new PointVar(type, newVar));
 
                 }
+                */
 
                 if (!isPrim(newVar) && visited.add(newVar)) {
                     toVisit.add(newVar);
                 }
             }
 
-            heap.addNode(new PointVar(cal.getTypeName(), var, name2field));
+            // heap.addNode(new PointVar(cal.getTypeName(), var, name2field));
         }
 
         return heap;
