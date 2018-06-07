@@ -1,10 +1,20 @@
 package repair.heap;
 
+import java.util.Set;
+
 public class HeapNode {
     protected String type;
     protected String name;
     protected Object var;   //store object value to change field in original program
+    protected Set<String> fieldsByName;
     protected HeapNode[] fields;
+
+    public HeapNode(String type, String name, Object var, Set<String> fieldsByName) {
+        this.type = type;
+        this.name = name;
+        this.var = var;
+        this.fieldsByName = fieldsByName;
+    }
 
     public String getType() {
         return type;

@@ -13,10 +13,10 @@ public class Collector {
         visited.add(root);
 
         while (!toVisit.isEmpty()) {
-            HeapNode heapNode = new HeapNode();
+            Set<String> fields = new HashSet<>();
             Object var = toVisit.remove();
             Class cal = var.getClass();
-            Map<String, HeapNode> name2field = new HashMap<>();
+            // Map<String, HeapNode> name2field = new HashMap<>();
             System.out.println(var.toString() + "|");
 
             for (Field field : cal.getFields()) {
@@ -28,7 +28,7 @@ public class Collector {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-
+                fields.add(newVar.toString());
                 System.out.println("name:" + name + "\t type:" + type + "\t value:" + newVar.toString());
 
                 /*
@@ -42,19 +42,23 @@ public class Collector {
                 }
                 */
 
-                if (!isPrim(newVar) && visited.add(newVar)) {
+                if (!isPrim(type) && visited.add(newVar)) {
                     toVisit.add(newVar);
                 }
             }
-
-            // heap.addNode(new PointVar(cal.getTypeName(), var, name2field));
+            heap.addNode(new HeapNode(cal.getTypeName(), var.toString(), var, fields));
         }
 
         return heap;
     }
 
-    public static boolean isPrim(Object var) {
-        return Integer.class.isInstance(var);
+    public static boolean isPrim(String type) {
+        if (type.equals("boolean") || type.equals("byte") || type.equals("char") ||
+                type.equals("double") || type.equals("float") || type.equals("int") ||
+                type.equals("long") || type.equals("short"))
+            return true;
+        else
+            return false;
     }
 }
 
