@@ -12,12 +12,23 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/*
+    State represents the state of a sub-heap. State is explored in a DFS way.
+    For example, state s = x=null \/ x->(l,r)*tree(l)*tree(r)
+    thus: s.inductiveTerms = [tree(l), tree(r)]
+    First unfolding tree(l) gives a new state s' = l=null \/ l->(l',r')*tree(l')*tree(r'),
+    then we can check the SAT of s', if the base case l=null is SAT, then roll back to s and
+    continue check for tree(r) of s; if the base case is UNSAT, then check if l->(l',r')
+    satisfies the concrete heap, if not, report a bug and try to repair; if yes, continue to unfold.
+    s.index = 0 means all inductive terms have been checked and s is SAT roll back to its parents.
+    s.parent = null means finishing checking.
+ */
 public class State {
     Heap heap;
     State parent;
     Formula[] state;    //store the state of a subheap, a collection of disjunction formulas
-    InductiveTerm[] inductiveTerms;
-    int index;
+    InductiveTerm[] inductiveTerms; //all possible unfolds
+    int index;  //which to unfold; when 0 means have unfolded all inductive terms
 
     public State(State st, Formula[] fs) {
         this.parent = st;

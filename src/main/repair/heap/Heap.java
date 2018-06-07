@@ -1,13 +1,6 @@
 package repair.heap;
 
-import starlib.formula.Formula;
-import starlib.formula.HeapFormula;
-import starlib.formula.PureFormula;
 import starlib.formula.Variable;
-import starlib.formula.heap.HeapTerm;
-import starlib.formula.heap.InductiveTerm;
-import starlib.formula.heap.PointToTerm;
-import starlib.solver.Solver;
 
 import java.util.*;
 
