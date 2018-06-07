@@ -58,23 +58,16 @@ public class Heap {
     public Heap unfold() {
         Heap heap = new Heap();
         heap.parent = this;
-        Queue<Heap> toVisit = new LinkedList<>();
         for (Formula f : state) {
             HeapFormula hf = f.getHeapFormula();
             for (HeapTerm ht : hf.getHeapTerms()) {
                 if (ht instanceof InductiveTerm) {
                     ((InductiveTerm) ht).unfold();
                     Formula[] fs = ((InductiveTerm) ht).getUnfoldedFormulas();
-                    for (int i = 0; i < fs.length; i++) {
-                        Heap newHeap = new Heap();
-                        fs[i].unfold((InductiveTerm) ht, i);
-                        newHeap.state.addAll(Arrays.asList(fs));
-                        toVisit.add(newHeap);
-                    }
+                    heap.state.addAll(Arrays.asList(fs));
                 }
             }
         }
-
         return heap;
     }
 
