@@ -69,6 +69,7 @@ public class Checker {
                 }
             }
         }
+        //TODO: checking the heap in a recursive way??
         return res;
     }
 }

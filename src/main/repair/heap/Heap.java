@@ -12,12 +12,13 @@ import starlib.solver.Solver;
 import java.util.*;
 
 public class Heap {
+    Heap parent;    //store the parent of current heap for the purpose of roll back
     HeapNode root;  //root of current heap
     Set<HeapNode> heapNodes;
     Map<String, HeapNode> name2node;    //map variable name to concrete heap node
     Map<Object, HeapNode> var2node;  //map original variable to concrete heap node
     Set<Variable> visitedVars;  // all visited variables
-    Formula[] state;    //store the state of current heap
+    Set<Formula> state;    //store the state of a heap, a collection of disjunction formulas
 
     public Heap() {
         this.root = null;
@@ -25,6 +26,7 @@ public class Heap {
         this.name2node = new HashMap<>();
         this.visitedVars = new HashSet<>();
         this.heapNodes = new HashSet<>();
+        this.state = new HashSet<>();
     }
 
     public boolean isEmpty() {
@@ -49,11 +51,13 @@ public class Heap {
         return var2node.get(var);
     }
 
-    public Formula[] getState() {
+    public Set<Formula> getState() {
         return state;
     }
 
-    public Queue<Heap> unfold() {
+    public Heap unfold() {
+        Heap heap = new Heap();
+        heap.parent = this;
         Queue<Heap> toVisit = new LinkedList<>();
         for (Formula f : state) {
             HeapFormula hf = f.getHeapFormula();
@@ -64,14 +68,14 @@ public class Heap {
                     for (int i = 0; i < fs.length; i++) {
                         Heap newHeap = new Heap();
                         fs[i].unfold((InductiveTerm) ht, i);
-                        newHeap.state = fs;
+                        newHeap.state.addAll(Arrays.asList(fs));
                         toVisit.add(newHeap);
                     }
                 }
             }
         }
 
-        return toVisit;
+        return heap;
     }
 
 }
