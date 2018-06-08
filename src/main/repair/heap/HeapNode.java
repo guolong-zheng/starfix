@@ -1,5 +1,7 @@
 package repair.heap;
 
+import starlib.formula.Variable;
+
 import java.util.Set;
 
 public class HeapNode {
@@ -47,5 +49,14 @@ public class HeapNode {
             return true;
         else
             return false;
+    }
+
+    public Variable[] toVarArry() {
+        Variable[] vars = new Variable[fields.length + 1];
+        vars[0] = new Variable(name, type);
+        for (int i = 1; i < fields.length + 1; i++) {
+            vars[i] = new Variable(fields[i - 1].getName(), fields[i - 1].getType());
+        }
+        return vars;
     }
 }

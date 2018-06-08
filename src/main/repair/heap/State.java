@@ -7,10 +7,7 @@ import starlib.formula.heap.InductiveTerm;
 import starlib.predicate.InductivePred;
 import starlib.predicate.InductivePredMap;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /*
     State represents the state of a sub-heap. State is explored in a DFS way.
@@ -29,6 +26,7 @@ public class State {
     Formula[] state;    //store the state of a subheap, a collection of disjunction formulas
     InductiveTerm[] inductiveTerms; //all possible unfolds
     int index;  //which to unfold; when 0 means have unfolded all inductive terms
+    Stack<HeapNode> visited;
 
     public State(State st, Formula[] fs) {
         this.parent = st;
@@ -44,6 +42,10 @@ public class State {
         index = inductiveTerms.length;
     }
 
+    public Formula[] getState() {
+        return state;
+    }
+
     public State unfold() {
         if (index > 0) {
             Formula[] fs = unfoldInductiveTerm(inductiveTerms[index]);
@@ -51,6 +53,10 @@ public class State {
             return new State(this, fs);
         }
         return null;
+    }
+
+    public boolean hasNext() {
+        return index > 0;
     }
 
     public Formula[] unfoldInductiveTerm(InductiveTerm it) {
@@ -62,6 +68,7 @@ public class State {
         Formula[] newFormulas = new Formula[length];
         //TODO: collecting this existVarSubMap to use for repairing
         Map<String, String> existVarSubMap = new HashMap<String, String>();
+        Set<Variable> boundedVars = new HashSet<>();
 
         for (int i = 0; i < length; i++) {
             newFormulas[i] = formulas[i].substitute(params, it.getVars(), existVarSubMap);

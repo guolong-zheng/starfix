@@ -86,5 +86,9 @@ public class VariableExpression extends Expression {
 	public String toString() {
 		return var.toString();
 	}
-	
+
+	@Override
+	public String evaluate() {
+		return null;
+	}
 }

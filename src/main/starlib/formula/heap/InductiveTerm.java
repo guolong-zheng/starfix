@@ -2,7 +2,10 @@ package starlib.formula.heap;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import repair.heap.Heap;
+import repair.heap.HeapNode;
 import starlib.formula.Formula;
 import starlib.formula.Utilities;
 import starlib.formula.Variable;
@@ -98,7 +101,7 @@ public class InductiveTerm extends HeapTerm {
 		
 		return newInductiveTerm;
 	}
-	
+
 	@Override
 	public HeapTerm copy() {
 		Variable[] copyVars = new Variable[vars.length];

@@ -148,4 +148,7 @@ public class Variable extends Expression{
 		}
 	}
 
+	public String evaluate() {
+		return name;
+	}
 }

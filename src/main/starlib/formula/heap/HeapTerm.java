@@ -3,7 +3,9 @@ package starlib.formula.heap;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import repair.heap.Heap;
 import starlib.StarVisitor;
 import starlib.formula.Formula;
 import starlib.formula.Variable;
@@ -15,7 +17,7 @@ public abstract class HeapTerm {
 	
 	public abstract HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
 			Map<String,String> existVarSubMap);
-		
+
 	public Variable getRoot() {
 		return vars[0];
 	}

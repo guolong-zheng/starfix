@@ -3,6 +3,7 @@ package repair.checker;
 import repair.concreteFormula.ConcreteFormula;
 import repair.heap.Heap;
 import repair.heap.HeapNode;
+import repair.heap.State;
 import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
 import starlib.formula.PureFormula;
@@ -43,9 +44,9 @@ public class Checker {
         return toVisit.remove();
     }
 
-    public static boolean check(Heap heap) {
+    public static boolean check(Heap heap, State state) {
         boolean res = true;
-        for (Formula f : heap.getState()) {
+        for (Formula f : state.getState()) {
             HeapFormula hp = f.getHeapFormula();
             PureFormula pf = f.getPureFormula();
             if (hp.toString().contains("emp")) {
