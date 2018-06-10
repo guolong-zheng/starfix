@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import repair.heap.ExistVariable;
 import repair.heap.Heap;
 import repair.heap.HeapNode;
 import starlib.formula.Formula;
@@ -58,7 +59,8 @@ public class InductiveTerm extends HeapTerm {
 			// the same old variable should be substituted to the same new variables
 			// should this map be here or in Formula???
 			Map<String,String> existVarSubMap = new HashMap<String,String>();
-			
+
+
 			for (int i = 0; i < length; i++) {
 				// substitute the parameters inside the predicate with current vars
 				newFormulas[i] = formulas[i].substitute(params, vars, existVarSubMap);
@@ -135,5 +137,35 @@ public class InductiveTerm extends HeapTerm {
 	public String toS2SATString() {
 		return vars[0] + "::" + predName + "<" + getParams(1) + ">";
 	}
-	
+
+	public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
+							   Map<String, String> existVarSubMap, Heap heap) {
+		int length = vars.length;
+
+		Variable[] newVars = new Variable[length];
+
+		for (int i = 0; i < length; i++) {
+			Variable oldVar = vars[i];
+
+			int index = Utilities.find(fromVars, oldVar);
+
+			if (index != -1) {
+				newVars[i] = new Variable(toVars[index]);
+			} else if (existVarSubMap == null) {
+				newVars[i] = oldVar;
+			} else {
+				if (existVarSubMap.containsKey(oldVar.getName())) {
+					newVars[i] = new ExistVariable(existVarSubMap.get(oldVar.getName()), oldVar.getType());
+				} else {
+					Variable freshVar = Utilities.freshVar(oldVar);
+					existVarSubMap.put(oldVar.getName(), freshVar.getName());
+					newVars[i] = new ExistVariable(freshVar);
+				}
+			}
+		}
+
+		InductiveTerm newInductiveTerm = new InductiveTerm(predName, newVars);
+
+		return newInductiveTerm;
+	}
 }

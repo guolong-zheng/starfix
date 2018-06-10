@@ -3,6 +3,7 @@ package starlib.formula.heap;
 import java.util.HashMap;
 import java.util.Map;
 
+import repair.heap.ExistVariable;
 import repair.heap.Heap;
 import repair.heap.HeapNode;
 import starlib.StarVisitor;
@@ -64,7 +65,7 @@ public class PointToTerm extends HeapTerm {
 		return newPointToTerm;
 	}
 
-	
+
 	public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
 							   Map<String, String> existVarSubMap, Heap heap) {
 		int length = vars.length;
@@ -83,11 +84,11 @@ public class PointToTerm extends HeapTerm {
 				newVars[i] = oldVar;
 			} else {
 				if (existVarSubMap.containsKey(oldVar.getName())) {
-					newVars[i] = new Variable(existVarSubMap.get(oldVar.getName()), oldVar.getType());
+					newVars[i] = new ExistVariable(existVarSubMap.get(oldVar.getName()), oldVar.getType());
 				} else {
 					Variable freshVar = concreteVars[i];
 					existVarSubMap.put(oldVar.getName(), freshVar.getName());
-					newVars[i] = new Variable(freshVar);
+					newVars[i] = new ExistVariable(freshVar);
 				}
 			}
 		}
@@ -138,6 +139,20 @@ public class PointToTerm extends HeapTerm {
 	@Override
 	public void accept(StarVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	public int equals(PointToTerm pt) {
+		Variable[] compVars = pt.getVars();
+		if (compVars.length != vars.length)
+			return -1;
+		if (!compVars[0].equals(vars[0]))
+			return -2;
+		for (int i = 1; i < vars.length; i++) {
+			if (!vars[i].equals(compVars[i])) {
+				return i;
+			}
+		}
+		return -3;
 	}
 	
 }

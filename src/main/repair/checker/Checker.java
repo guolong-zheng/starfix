@@ -1,6 +1,6 @@
 package repair.checker;
 
-import repair.concreteFormula.ConcreteFormula;
+import repair.heap.ExistVariable;
 import repair.heap.Heap;
 import repair.heap.HeapNode;
 import repair.heap.State;
@@ -8,9 +8,7 @@ import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
 import starlib.formula.PureFormula;
 import starlib.formula.Variable;
-import starlib.formula.expression.*;
 import starlib.formula.heap.HeapTerm;
-import starlib.formula.heap.InductiveTerm;
 import starlib.formula.heap.PointToTerm;
 import starlib.formula.pure.ComparisonTerm;
 import starlib.formula.pure.PureTerm;
@@ -19,33 +17,17 @@ import starlib.precondition.Initializer;
 import java.util.*;
 
 public class Checker {
-    public static Map<String, List<Variable>> visitedVars = new HashMap<>();    //type to v
-    public static Stack<Heap> trackes = new Stack<>();
-    public static Queue<Formula> toVisit = new LinkedList<>();
 
-    public static void check(String dataNode, String pred, Heap state) {
+    public static void repair(String dataNode, String pred, State state) {
         Initializer.initDataNode(dataNode);
         Initializer.initPredicate(pred);
 
-        HeapNode root = state.getRoot();
-        Variable var = new Variable(root.getName(), root.getType());
-        HeapFormula hp = new HeapFormula(new InductiveTerm("cdll", var));
-        ConcreteFormula ps = new ConcreteFormula(hp, new PureFormula());
-
-        ps.unfold(new InductiveTerm("cdll", var), 0);
-
     }
 
-    public static void add(Formula f) {
-        toVisit.add(f);
-    }
-
-    public static Formula next() {
-        return toVisit.remove();
-    }
-
-    public static boolean check(Heap heap, State state) {
+    public static boolean check(State state) {
         boolean res = true;
+        Heap heap = state.getHeap();
+
         for (Formula f : state.getState()) {
             HeapFormula hp = f.getHeapFormula();
             PureFormula pf = f.getPureFormula();
@@ -55,22 +37,27 @@ public class Checker {
                     EvaluateVisitor cv = new EvaluateVisitor();
                     res = res && cv.visit(ct);
                 }
+                if (res) {
+                    return true;
+                }
             } else {
                 for (HeapTerm it : hp.getHeapTerms()) {
                     if (it instanceof PointToTerm) {
                         HeapNode root = heap.getNode(it.getVars()[0].getName());
-                        for (Variable var : it.getVars()) {
-                            HeapNode hn = heap.getNode(var.getName());
-                            if (hn.getName() != var.toString()) {
-                                res = false;
-                                return res;
-                            }
+                        PointToTerm heapNode = root.toPointToTerm();
+                        int index = ((PointToTerm) it).equals(heapNode);
+                        Variable toFix = it.getVars()[index];
+                        if (toFix instanceof ExistVariable) {
+                            ((ExistVariable) toFix).next();
+                            check(state);
+                        } else {
+                            toFix.setName(heapNode.getVars()[index].getName());
+                            check(state);
                         }
                     }
                 }
             }
         }
-        //TODO: checking the heap in a recursive way??
         return res;
     }
 }

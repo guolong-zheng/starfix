@@ -1,6 +1,7 @@
 package repair.heap;
 
 import starlib.formula.Variable;
+import starlib.formula.heap.PointToTerm;
 
 import java.util.Set;
 
@@ -58,5 +59,9 @@ public class HeapNode {
             vars[i] = new Variable(fields[i - 1].getName(), fields[i - 1].getType());
         }
         return vars;
+    }
+
+    public PointToTerm toPointToTerm() {
+        return new PointToTerm(type, toVarArry());
     }
 }

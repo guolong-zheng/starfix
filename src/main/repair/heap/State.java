@@ -42,6 +42,14 @@ public class State {
         index = inductiveTerms.length;
     }
 
+    public Heap getHeap() {
+        return heap;
+    }
+
+    public State getParent() {
+        return parent;
+    }
+
     public Formula[] getState() {
         return state;
     }
@@ -68,7 +76,6 @@ public class State {
         Formula[] newFormulas = new Formula[length];
         //TODO: collecting this existVarSubMap to use for repairing
         Map<String, String> existVarSubMap = new HashMap<String, String>();
-        Set<Variable> boundedVars = new HashSet<>();
 
         for (int i = 0; i < length; i++) {
             newFormulas[i] = formulas[i].substitute(params, it.getVars(), existVarSubMap);
