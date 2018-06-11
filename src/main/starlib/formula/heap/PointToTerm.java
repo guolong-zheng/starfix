@@ -65,7 +65,7 @@ public class PointToTerm extends HeapTerm {
 		return newPointToTerm;
 	}
 
-
+	@Override
 	public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
 							   Map<String, String> existVarSubMap, Heap heap) {
 		int length = vars.length;

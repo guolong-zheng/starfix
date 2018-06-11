@@ -1,7 +1,8 @@
 package starlib.precondition;
 
-import java.util.HashMap;
-import java.util.Map;
+import starlib.formula.Formula;
+
+import java.util.*;
 
 public class PreconditionMap {
 	
@@ -18,7 +19,15 @@ public class PreconditionMap {
 			put(ips[i]);
 		}
 	}
-	
+
+    public static Formula[] getFormulas() {
+        Set<Formula> allFormula = new HashSet<>();
+        for (Precondition prec : preMap.values()) {
+            allFormula.add(prec.getFormula());
+        }
+        return allFormula.toArray(new Formula[allFormula.size()]);
+    }
+
 	public static Precondition find(String methodName) {
 		Precondition pre = preMap.get(methodName);
 		return pre;

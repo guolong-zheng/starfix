@@ -2,6 +2,7 @@ package repair.test;
 
 import repair.checker.Checker;
 import repair.heap.Collector;
+import repair.heap.Heap;
 
 public class Node {
     public Node prev;
@@ -48,6 +49,6 @@ public class Node {
                 "next::Node<cur,next1> * list(header,prev,next,next1,size1) & size1=size-1";
 
 
-        Checker.check(dataNode, pred1 + pred2, Collector.retrieveHeap(N0));
+        Heap heap = Collector.retrieveHeap(N0);
     }
 }

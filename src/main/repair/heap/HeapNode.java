@@ -3,16 +3,16 @@ package repair.heap;
 import starlib.formula.Variable;
 import starlib.formula.heap.PointToTerm;
 
-import java.util.Set;
+import java.util.List;
 
 public class HeapNode {
     protected String type;
     protected String name;
     protected Object var;   //store object value to change field in original program
-    protected Set<String> fieldsByName;
+    protected List<String> fieldsByName;
     protected HeapNode[] fields;
 
-    public HeapNode(String type, String name, Object var, Set<String> fieldsByName) {
+    public HeapNode(String type, String name, Object var, List<String> fieldsByName) {
         this.type = type;
         this.name = name;
         this.var = var;
@@ -53,15 +53,26 @@ public class HeapNode {
     }
 
     public Variable[] toVarArry() {
-        Variable[] vars = new Variable[fields.length + 1];
+        Variable[] vars = new Variable[fieldsByName.size() + 1];
         vars[0] = new Variable(name, type);
-        for (int i = 1; i < fields.length + 1; i++) {
-            vars[i] = new Variable(fields[i - 1].getName(), fields[i - 1].getType());
+        for (int i = 1; i < fieldsByName.size() + 1; i++) {
+            String name = fieldsByName.get(i - 1);
+            vars[i] = new Variable(name);
         }
         return vars;
     }
 
     public PointToTerm toPointToTerm() {
         return new PointToTerm(type, toVarArry());
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(type + " " + " " + name + "-> (");
+        for (String s : fieldsByName) {
+            sb.append(s + ",");
+        }
+        sb.append(")");
+        return sb.toString();
     }
 }

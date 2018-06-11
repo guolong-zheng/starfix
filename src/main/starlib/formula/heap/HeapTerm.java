@@ -18,6 +18,9 @@ public abstract class HeapTerm {
 	public abstract HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
 			Map<String,String> existVarSubMap);
 
+	public abstract HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
+										Map<String, String> existVarSubMap, Heap heap);
+
 	public Variable getRoot() {
 		return vars[0];
 	}

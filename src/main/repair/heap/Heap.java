@@ -19,15 +19,16 @@ public class Heap {
         this.heapNodes = new HashSet<>();
     }
 
-
     public boolean isEmpty() {
         return root == null;
     }
 
     public void addNode(HeapNode heapNode) {
+        heapNodes.add(heapNode);
         if (root == null)
             root = heapNode;
         this.var2node.put(heapNode.getValue(), heapNode);
+        this.name2node.put(heapNode.getName(), heapNode);
     }
 
     public HeapNode getRoot() {
@@ -40,6 +41,14 @@ public class Heap {
 
     public HeapNode findNode(Object var) {
         return var2node.get(var);
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (HeapNode hn : heapNodes) {
+            sb.append(hn.toString() + "\n");
+        }
+        return sb.toString();
     }
 
 }

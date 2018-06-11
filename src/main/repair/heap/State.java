@@ -1,9 +1,15 @@
 package repair.heap;
 
+import repair.checker.EvaluateVisitor;
 import starlib.formula.Formula;
+import starlib.formula.HeapFormula;
+import starlib.formula.PureFormula;
 import starlib.formula.Variable;
 import starlib.formula.heap.HeapTerm;
 import starlib.formula.heap.InductiveTerm;
+import starlib.formula.heap.PointToTerm;
+import starlib.formula.pure.ComparisonTerm;
+import starlib.formula.pure.PureTerm;
 import starlib.predicate.InductivePred;
 import starlib.predicate.InductivePredMap;
 
@@ -26,10 +32,20 @@ public class State {
     Formula[] state;    //store the state of a subheap, a collection of disjunction formulas
     InductiveTerm[] inductiveTerms; //all possible unfolds
     int index;  //which to unfold; when 0 means have unfolded all inductive terms
-    Stack<HeapNode> visited;
+    Stack<Variable> visited; //TODO:store variable or heapNode??
+
+    public State(Heap heap, Formula... fs) {
+        this.heap = heap;
+        this.parent = null;
+        this.state = fs;
+        inductiveTerms = Utility.getInductiveTerms(fs);
+        index = inductiveTerms.length;
+        visited = new Stack<>();
+    }
 
     public State(State st, Formula[] fs) {
         this.parent = st;
+        this.state = fs;
         Set<InductiveTerm> terms = new HashSet<>();
         for (Formula f : fs) {
             HeapTerm[] hts = f.getHeapFormula().getHeapTerms();
@@ -38,7 +54,7 @@ public class State {
                     terms.add((InductiveTerm) ht);
             }
         }
-        inductiveTerms = (InductiveTerm[]) terms.toArray();
+        inductiveTerms = terms.toArray(new InductiveTerm[terms.size()]);
         index = inductiveTerms.length;
     }
 
@@ -56,7 +72,7 @@ public class State {
 
     public State unfold() {
         if (index > 0) {
-            Formula[] fs = unfoldInductiveTerm(inductiveTerms[index]);
+            Formula[] fs = unfoldInductiveTerm(inductiveTerms[index - 1]);
             index--;
             return new State(this, fs);
         }
@@ -74,14 +90,51 @@ public class State {
 
         int length = formulas.length;
         Formula[] newFormulas = new Formula[length];
-        //TODO: collecting this existVarSubMap to use for repairing
         Map<String, String> existVarSubMap = new HashMap<String, String>();
 
         for (int i = 0; i < length; i++) {
-            newFormulas[i] = formulas[i].substitute(params, it.getVars(), existVarSubMap);
+            newFormulas[i] = formulas[i].substitute(params, it.getVars(), existVarSubMap, heap);
         }
         it.setUnfoldedFormulas(newFormulas);
 
         return newFormulas;
+    }
+
+    public boolean check() {
+        boolean res = true;
+
+        for (Formula f : state) {
+            HeapFormula hp = f.getHeapFormula();
+            PureFormula pf = f.getPureFormula();
+            if (hp.toString().contains("emp")) {
+                for (PureTerm pt : pf.getPureTerms()) {
+                    ComparisonTerm ct = (ComparisonTerm) pt;
+                    EvaluateVisitor cv = new EvaluateVisitor();
+                    res = res && cv.visit(ct);
+                }
+                if (res) {
+                    return true;
+                }
+            } else {
+                for (HeapTerm it : hp.getHeapTerms()) {
+                    if (it instanceof PointToTerm) {
+                        HeapNode root = heap.getNode(it.getVars()[0].getName());
+                        PointToTerm heapNode = root.toPointToTerm();
+                        int index = ((PointToTerm) it).equals(heapNode);
+                        Variable toFix = it.getVars()[index];
+                        if (visited.contains(toFix)) {
+                            return res;
+                        } else {
+                            if (toFix instanceof ExistVariable) {
+                                ((ExistVariable) toFix).next();
+                            } else {
+                                toFix.setName(heapNode.getVars()[index].getName());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return res;
     }
 }
