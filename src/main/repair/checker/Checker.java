@@ -1,12 +1,16 @@
 package repair.checker;
 
+import repair.heap.Collector;
 import repair.heap.Heap;
 import repair.heap.State;
 import starlib.precondition.Initializer;
 import starlib.precondition.PreconditionMap;
 
+import java.util.Stack;
+
 
 public class Checker {
+    static Stack<State> track = new Stack<>();
 
     public static void init(String dataNode, String pred, String state, Heap heap) {
         Initializer.initDataNode(dataNode);
@@ -14,15 +18,26 @@ public class Checker {
         Initializer.initPrecondition(state);
 
         State initState = new State(heap, PreconditionMap.getFormulas());
+        track.push(initState);
     }
 
+    public static void search() {
+        while (!track.isEmpty()) {
+            State state = track.peek();
+            if (state.hasNext()) {
+                State newState = state.unfold();
+                if (newState.check()) {
+                    track.push(newState);
+                }
+            } else {
+                track.pop();
+            }
+        }
+    }
 
-    public static void main(String[] args) {
-        String dataNode = "data Node { Node prev; Node next }";
-        String pred1 = "pred cdll(header) == header=null || " +
-                "header::Node<prev,next> * list(header,prev,header,next,size1);";
-        String pred2 = "pred list(header,prev,cur,next,size) == prev=cur & next=header & size=0 ||" +
-                "next::Node<cur,next1> * list(header,prev,next,next1,size1)";
-        String state = "pre dll == cdll(N0) * list(N0)";
+    public static void repair(Object var, String dataNode, String pred, String state) {
+        Heap heap = Collector.retrieveHeap(var);
+        init(dataNode, pred, state, heap);
+        search();
     }
 }

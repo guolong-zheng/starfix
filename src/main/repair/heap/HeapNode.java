@@ -75,4 +75,8 @@ public class HeapNode {
         sb.append(")");
         return sb.toString();
     }
+
+    public void next(int index, String newString) {
+        fieldsByName.set(index, newString);
+    }
 }
