@@ -123,15 +123,16 @@ public class State {
                     return null;
                 }
             } else {
-                for (HeapTerm it : hp.getHeapTerms()) {
-                    if (it instanceof PointToTerm) {
-                        HeapNode root = heap.getNode(it.getVars()[0].getName());
+                for (HeapTerm ht : hp.getHeapTerms()) {
+                    if (ht instanceof PointToTerm) {
+                        HeapNode root = heap.getNode(ht.getVars()[0].getName());
                         PointToTerm heapNode = root.toPointToTerm();
-                        int index = ((PointToTerm) it).equals(heapNode);
-                        Variable toFix = it.getVars()[index];
-                        if (visited.contains(toFix)) {
-                            return error;
+                        int index = ((PointToTerm) ht).equals(heapNode);
+                        Variable toFix = ht.getVars()[index];
+                        if (visited.contains(ht.getRoot())) {
+                            return new Bug(index, (PointToTerm) ht, toFix, true);
                         } else {
+                            //TODO: put this part to fix(Bug error) function
                             if (toFix instanceof ExistVariable) {
                                 ((ExistVariable) toFix).next();
                             } else {
@@ -143,10 +144,19 @@ public class State {
             }
         }
         this.checked = true;
-        return error;
+        return null;
     }
 
+    //TODO: also fix corresponding heapNode and generate HeapFix
     public void fix(Bug error) {
-
+        PointToTerm pointToTerm = error.getPointToTerm();
+        Variable root = pointToTerm.getRoot();
+        HeapNode hn = heap.getNode(root.getName());
+        for (Variable var : pointToTerm.getVars()) {
+            if (var instanceof ExistVariable) {
+                ((ExistVariable) var).next();
+                break;
+            }
+        }
     }
 }

@@ -21,8 +21,8 @@ public class Checker {
         track.push(initState);
     }
 
-    public static void repair(Object var, String dataNode, String pred, String state) {
-        Heap heap = Collector.retrieveHeap(var);
+    public static void repair(Object var, String dataNode, String pred, String state, String name) {
+        Heap heap = Collector.retrieveHeap(var, name);
         init(dataNode, pred, state, heap);
         search();
     }

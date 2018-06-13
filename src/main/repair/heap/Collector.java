@@ -4,7 +4,8 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 public class Collector {
-    public static Heap retrieveHeap(Object root) {
+    //TODO: Link name(for example N0) to root name
+    public static Heap retrieveHeap(Object root, String name) {
         Heap heap = new Heap();
 
         Queue<Object> toVisit = new LinkedList<>();
@@ -18,6 +19,7 @@ public class Collector {
             Class cal = var.getClass();
 
             for (Field field : cal.getFields()) {
+                //TODO: field information are used when fixing data structure in memory
                 //String name = field.getName();
                 String type = field.getType().toString();
                 Object newVar = null;

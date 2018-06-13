@@ -4,7 +4,7 @@ import repair.heap.HeapNode;
 
 import java.lang.reflect.Field;
 
-public class Fix {
+public class HeapFix {
     HeapNode bugNode;
     String fieldName;
     HeapNode fixNode;

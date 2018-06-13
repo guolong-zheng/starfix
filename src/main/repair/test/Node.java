@@ -49,6 +49,6 @@ public class Node {
                 "next::Node<cur,next1> * list(header,prev,next,next1,size1) & size1=size-1";
 
 
-        Heap heap = Collector.retrieveHeap(N0);
+        Heap heap = Collector.retrieveHeap(N0, "N0");
     }
 }
