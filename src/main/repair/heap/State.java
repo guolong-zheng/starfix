@@ -1,5 +1,6 @@
 package repair.heap;
 
+import repair.checker.Bug;
 import repair.checker.EvaluateVisitor;
 import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
@@ -33,6 +34,7 @@ public class State {
     InductiveTerm[] inductiveTerms; //all possible unfolds
     int index;  //which to unfold; when 0 means have unfolded all inductive terms
     Stack<Variable> visited; //TODO:store variable or heapNode??
+    boolean checked;
 
     public State(Heap heap, Formula... fs) {
         this.heap = heap;
@@ -41,6 +43,7 @@ public class State {
         inductiveTerms = Utility.getInductiveTerms(fs);
         index = inductiveTerms.length;
         visited = new Stack<>();
+        checked = false;
     }
 
     public State(State st, Formula[] fs) {
@@ -56,8 +59,12 @@ public class State {
         }
         inductiveTerms = terms.toArray(new InductiveTerm[terms.size()]);
         index = inductiveTerms.length;
+        checked = false;
     }
 
+    public boolean isChecked() {
+        return checked;
+    }
     public Heap getHeap() {
         return heap;
     }
@@ -100,9 +107,9 @@ public class State {
         return newFormulas;
     }
 
-    public boolean check() {
+    public Bug check() {
+        Bug error = new Bug();
         boolean res = true;
-
         for (Formula f : state) {
             HeapFormula hp = f.getHeapFormula();
             PureFormula pf = f.getPureFormula();
@@ -113,7 +120,7 @@ public class State {
                     res = res && cv.visit(ct);
                 }
                 if (res) {
-                    return true;
+                    return null;
                 }
             } else {
                 for (HeapTerm it : hp.getHeapTerms()) {
@@ -123,7 +130,7 @@ public class State {
                         int index = ((PointToTerm) it).equals(heapNode);
                         Variable toFix = it.getVars()[index];
                         if (visited.contains(toFix)) {
-                            return res;
+                            return error;
                         } else {
                             if (toFix instanceof ExistVariable) {
                                 ((ExistVariable) toFix).next();
@@ -135,6 +142,11 @@ public class State {
                 }
             }
         }
-        return res;
+        this.checked = true;
+        return error;
+    }
+
+    public void fix(Bug error) {
+
     }
 }

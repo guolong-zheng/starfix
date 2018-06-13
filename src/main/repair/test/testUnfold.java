@@ -10,6 +10,7 @@ import starlib.formula.Variable;
 import starlib.formula.heap.HeapTerm;
 import starlib.formula.heap.InductiveTerm;
 import starlib.precondition.Initializer;
+import starlib.precondition.PreconditionMap;
 
 import java.util.LinkedList;
 import java.util.List;
