@@ -141,18 +141,14 @@ public class PointToTerm extends HeapTerm {
 		visitor.visit(this);
 	}
 
-	public int equals(PointToTerm pt) {
+	public int compare(PointToTerm pt) {
 		Variable[] compVars = pt.getVars();
-		if (compVars.length != vars.length)
-			return -1;
-		if (!compVars[0].equals(vars[0]))
-			return -2;
 		for (int i = 1; i < vars.length; i++) {
 			if (!vars[i].equals(compVars[i])) {
 				return i;
 			}
 		}
-		return -3;
+		return -1;
 	}
 	
 }

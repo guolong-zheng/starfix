@@ -67,4 +67,8 @@ public class EqNullTerm extends PureTerm {
 		visitor.visit(this);
 	}
 
+	@Override
+	public boolean evaluate() {
+		return this.var.getName().equals("null");
+	}
 }

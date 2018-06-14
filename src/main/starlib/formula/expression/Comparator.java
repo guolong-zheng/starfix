@@ -94,17 +94,4 @@ public enum Comparator {
 			return false;
 		}
 	}
-
-	public boolean evaluate(Expression left, Expression right) {
-		String leftValue = left.evaluate();
-		String rightValue = right.evaluate();
-		switch (this) {
-			case EQ:
-				return left == right;
-			case NE:
-				return left != right;
-			default:
-				return false;
-		}
-	}
 }

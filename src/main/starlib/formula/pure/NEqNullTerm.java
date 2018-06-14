@@ -73,4 +73,8 @@ public class NEqNullTerm extends PureTerm {
 		visitor.visit(this);
 	}
 
+	@Override
+	public boolean evaluate() {
+		return !var.toString().equals("null");
+	}
 }

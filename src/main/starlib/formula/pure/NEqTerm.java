@@ -107,4 +107,8 @@ public class NEqTerm extends PureTerm {
 		visitor.visit(this);
 	}
 
+	@Override
+	public boolean evaluate() {
+		return !var1.toString().equals(var2.toString());
+	}
 }

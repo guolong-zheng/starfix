@@ -35,5 +35,7 @@ public abstract class PureTerm {
 		else
 			return this.toString().equals(other.toString());
 	}
+
+	public abstract boolean evaluate();
 	
 }

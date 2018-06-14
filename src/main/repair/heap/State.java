@@ -1,7 +1,7 @@
 package repair.heap;
 
+import repair.Utility;
 import repair.checker.Bug;
-import repair.checker.EvaluateVisitor;
 import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
 import starlib.formula.PureFormula;
@@ -9,8 +9,6 @@ import starlib.formula.Variable;
 import starlib.formula.heap.HeapTerm;
 import starlib.formula.heap.InductiveTerm;
 import starlib.formula.heap.PointToTerm;
-import starlib.formula.pure.ComparisonTerm;
-import starlib.formula.pure.PureTerm;
 import starlib.predicate.InductivePred;
 import starlib.predicate.InductivePredMap;
 
@@ -28,12 +26,12 @@ import java.util.*;
     s.parent = null means finishing checking.
  */
 public class State {
-    Heap heap;
+    static Heap heap;
     State parent;
     Formula[] state;    //store the state of a subheap, a collection of disjunction formulas
     InductiveTerm[] inductiveTerms; //all possible unfolds
     int index;  //which to unfold; when 0 means have unfolded all inductive terms
-    Stack<Variable> visited; //TODO:store variable or heapNode??
+    Stack<String> visited; //store visited variable names
     boolean checked;
 
     public State(Heap heap, Formula... fs) {
@@ -114,48 +112,71 @@ public class State {
             HeapFormula hp = f.getHeapFormula();
             PureFormula pf = f.getPureFormula();
             if (hp.toString().contains("emp")) {
-                for (PureTerm pt : pf.getPureTerms()) {
-                    ComparisonTerm ct = (ComparisonTerm) pt;
-                    EvaluateVisitor cv = new EvaluateVisitor();
-                    res = res && cv.visit(ct);
-                }
-                if (res) {
+                if (Utility.checkPureFormula(pf))
                     return null;
-                }
             } else {
-                for (HeapTerm ht : hp.getHeapTerms()) {
-                    if (ht instanceof PointToTerm) {
-                        HeapNode root = heap.getNode(ht.getVars()[0].getName());
-                        PointToTerm heapNode = root.toPointToTerm();
-                        int index = ((PointToTerm) ht).equals(heapNode);
-                        Variable toFix = ht.getVars()[index];
-                        if (visited.contains(ht.getRoot())) {
-                            return new Bug(index, (PointToTerm) ht, toFix, true);
-                        } else {
-                            //TODO: put this part to fix(Bug error) function
-                            if (toFix instanceof ExistVariable) {
-                                ((ExistVariable) toFix).next();
-                            } else {
-                                toFix.setName(heapNode.getVars()[index].getName());
-                            }
-                        }
-                    }
-                }
+                checkHeapFormula(hp);
             }
         }
         this.checked = true;
         return null;
     }
 
-    //TODO: also fix corresponding heapNode and generate HeapFix
+    public Bug checkHeapFormula(HeapFormula heapFormula) {
+        for (HeapTerm ht : heapFormula.getHeapTerms()) {
+            if (ht instanceof PointToTerm) {
+                Variable rootVar = ht.getRoot();
+                HeapNode root = heap.getNode(rootVar.getName());
+                PointToTerm heapNode = root.toPointToTerm();
+                int index = ((PointToTerm) ht).compare(heapNode); //change this to boolean??
+                if (index == -1)
+                    continue;
+                Variable toFix = ht.getVars()[index];
+                return new Bug(index, (PointToTerm) ht, toFix, visited.contains(ht.getRoot().getName()));
+                /*
+                if (visited.contains(ht.getRoot().getName())) {
+                    //root variable has been visited before
+                    return new Bug(index, (PointToTerm) ht, toFix, true);
+                } else {
+                    //root variable hasn't been visited before
+                   // return new Bug(index, (PointToTerm) ht, toFix, false);
+                    if (toFix instanceof ExistVariable) {
+                        ((ExistVariable) toFix).next();
+                    } else {
+                        toFix.setName(heapNode.getVars()[index].getName());
+                    }
+                }
+                */
+            }
+        }
+        return null;
+    }
+
+    //TODO: also generate HeapFix
     public void fix(Bug error) {
-        PointToTerm pointToTerm = error.getPointToTerm();
-        Variable root = pointToTerm.getRoot();
-        HeapNode hn = heap.getNode(root.getName());
-        for (Variable var : pointToTerm.getVars()) {
-            if (var instanceof ExistVariable) {
-                ((ExistVariable) var).next();
-                break;
+        if (error.isBackward()) {
+            PointToTerm pointToTerm = error.getPointToTerm();
+            Variable root = pointToTerm.getRoot();
+            HeapNode hn = heap.getNode(root.getName());
+
+            Variable[] vars = pointToTerm.getVars();
+            for (int i = 0; i < vars.length; i++) {
+                if (vars[i] instanceof ExistVariable) {
+                    ((ExistVariable) vars[i]).next();
+                    hn.fieldsByName.set(i, vars[i].getName());
+                    return;
+                }
+            }
+        } else {
+            PointToTerm pointToTerm = error.getPointToTerm();
+            Variable root = pointToTerm.getRoot();
+            HeapNode hn = heap.getNode(root.getName());
+            Variable[] vars = pointToTerm.getVars();
+
+            for (int i = 0; i < vars.length; i++) {
+                if (!vars[i].getName().equals(hn.fieldsByName.get(i))) {
+                    hn.fieldsByName.set(i, vars[i].getName());
+                }
             }
         }
     }

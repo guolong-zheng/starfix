@@ -4,7 +4,7 @@ import starlib.formula.Formula;
 import starlib.precondition.Initializer;
 import starlib.precondition.PreconditionMap;
 
-public class test {
+public class testPrecondition {
     public static void main(String[] args) {
         Initializer.initPrecondition("pre repair == cdll(N0,size && size=4)");
         for (Formula f : PreconditionMap.getFormulas()) {

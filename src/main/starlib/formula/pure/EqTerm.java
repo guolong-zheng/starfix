@@ -106,4 +106,8 @@ public class EqTerm extends PureTerm {
 		visitor.visit(this);
 	}
 
+	@Override
+	public boolean evaluate() {
+		return var1.toString().equals(var2.toString());
+	}
 }

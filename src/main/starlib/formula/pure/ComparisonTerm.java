@@ -105,4 +105,19 @@ public class ComparisonTerm extends PureTerm {
 		visitor.visit(this);
 	}
 
+	//TODO: only consider == and != of string values
+	@Override
+	public boolean evaluate() {
+		String leftValue = exp1.evaluate();
+		String rightValue = exp2.evaluate();
+
+		switch (comp) {
+			case EQ:
+				return leftValue.equals(rightValue);
+			case NE:
+				return !leftValue.equals(rightValue);
+			default:
+				return false;
+		}
+	}
 }
