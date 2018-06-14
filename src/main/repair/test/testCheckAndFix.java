@@ -16,7 +16,7 @@ import java.util.List;
 public class testCheckAndFix {
     public static void main(String[] args) {
         Heap heap = new Heap();
-        List<String> l1 = new LinkedList<String>();
+        List<String> l1 = new LinkedList<>();
         l1.add("N2");
         l1.add("N2");
         heap.addNode(new HeapNode("Node", "N1", null, l1));
@@ -48,5 +48,7 @@ public class testCheckAndFix {
         System.out.println("before fix:\n" + newState.getHeap().toString());
         newState.fix(error);
         System.out.println("after fix:\n" + newState.getHeap().toString());
+
+        System.out.println("error is:" + newState.check());
     }
 }
