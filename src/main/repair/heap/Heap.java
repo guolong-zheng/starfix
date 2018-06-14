@@ -1,7 +1,5 @@
 package repair.heap;
 
-import starlib.formula.Variable;
-
 import java.util.*;
 
 public class Heap {
@@ -9,13 +7,11 @@ public class Heap {
     Set<HeapNode> heapNodes;
     Map<String, HeapNode> name2node;    //map variable name to concrete heap node
     Map<Object, HeapNode> var2node;  //map original variable to concrete heap node
-    Set<Variable> visitedVars;  // all visited variables
 
     public Heap() {
         this.root = null;
         this.var2node = new HashMap<>();
         this.name2node = new HashMap<>();
-        this.visitedVars = new HashSet<>();
         this.heapNodes = new HashSet<>();
     }
 
@@ -50,5 +46,4 @@ public class Heap {
         }
         return sb.toString();
     }
-
 }

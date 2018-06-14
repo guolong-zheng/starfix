@@ -47,17 +47,15 @@ public class State {
     public State(State st, Formula[] fs) {
         this.parent = st;
         this.state = fs;
-        Set<InductiveTerm> terms = new HashSet<>();
-        for (Formula f : fs) {
-            HeapTerm[] hts = f.getHeapFormula().getHeapTerms();
-            for (HeapTerm ht : hts) {
-                if (ht instanceof InductiveTerm)
-                    terms.add((InductiveTerm) ht);
-            }
-        }
-        inductiveTerms = terms.toArray(new InductiveTerm[terms.size()]);
+        inductiveTerms = Utility.getInductiveTerms(fs);
+        visited = new Stack<>();
+        visited.addAll(st.getVisited());
         index = inductiveTerms.length;
         checked = false;
+    }
+
+    public Stack<String> getVisited() {
+        return visited;
     }
 
     public boolean isChecked() {
@@ -106,8 +104,6 @@ public class State {
     }
 
     public Bug check() {
-        Bug error = new Bug();
-        boolean res = true;
         for (Formula f : state) {
             HeapFormula hp = f.getHeapFormula();
             PureFormula pf = f.getPureFormula();
@@ -115,7 +111,8 @@ public class State {
                 if (Utility.checkPureFormula(pf))
                     return null;
             } else {
-                checkHeapFormula(hp);
+                this.checked = true;
+                return checkHeapFormula(hp);
             }
         }
         this.checked = true;
@@ -152,32 +149,30 @@ public class State {
         return null;
     }
 
-    //TODO: also generate HeapFix
     public void fix(Bug error) {
-        if (error.isBackward()) {
-            PointToTerm pointToTerm = error.getPointToTerm();
-            Variable root = pointToTerm.getRoot();
-            HeapNode hn = heap.getNode(root.getName());
+        PointToTerm pointToTerm = error.getPointToTerm();
+        Variable root = pointToTerm.getRoot();
+        HeapNode hn = heap.getNode(root.getName());
+        Variable[] vars = pointToTerm.getVars();
 
-            Variable[] vars = pointToTerm.getVars();
-            for (int i = 0; i < vars.length; i++) {
+        for (int i = 1; i < vars.length; i++) {
+            if (error.isBackward()) {
                 if (vars[i] instanceof ExistVariable) {
+                    //TODO: what to do when explored all possibilities
                     ((ExistVariable) vars[i]).next();
-                    hn.fieldsByName.set(i, vars[i].getName());
-                    return;
+                    hn.fieldsByName.set(i - 1, vars[i].getName());
+                    break;
                 }
-            }
-        } else {
-            PointToTerm pointToTerm = error.getPointToTerm();
-            Variable root = pointToTerm.getRoot();
-            HeapNode hn = heap.getNode(root.getName());
-            Variable[] vars = pointToTerm.getVars();
-
-            for (int i = 0; i < vars.length; i++) {
-                if (!vars[i].getName().equals(hn.fieldsByName.get(i))) {
-                    hn.fieldsByName.set(i, vars[i].getName());
+            } else {
+                if (!(vars[i] instanceof ExistVariable)) {
+                    if (!vars[i].getName().equals(hn.fieldsByName.get(i - 1))) {
+                        hn.fieldsByName.set(i - 1, vars[i].getName());
+                    }
+                } else {
+                    vars[i].setName(hn.fieldsByName.get(i - 1));
                 }
             }
         }
+        return;
     }
 }
