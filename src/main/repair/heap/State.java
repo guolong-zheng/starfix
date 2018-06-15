@@ -164,6 +164,7 @@ public class State {
                     break;
                 }
             } else {
+
                 if (!(vars[i] instanceof ExistVariable)) {
                     if (!vars[i].getName().equals(hn.fieldsByName.get(i - 1))) {
                         hn.fieldsByName.set(i - 1, vars[i].getName());

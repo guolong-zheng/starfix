@@ -19,6 +19,14 @@ public class Heap {
         return root == null;
     }
 
+    public Set<HeapNode> getNodes() {
+        return heapNodes;
+    }
+
+    public Map<String, HeapNode> getName2NodeMap() {
+        return name2node;
+    }
+
     public void addNode(HeapNode heapNode) {
         heapNodes.add(heapNode);
         if (root == null)

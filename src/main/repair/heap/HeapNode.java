@@ -19,6 +19,10 @@ public class HeapNode {
         this.fieldsByName = fieldsByName;
     }
 
+    public List<String> getFieldsValue() {
+        return fieldsByName;
+    }
+
     public String getType() {
         return type;
     }

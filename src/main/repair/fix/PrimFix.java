@@ -1,4 +1,4 @@
-package repair.checker;
+package repair.fix;
 
 import java.lang.reflect.Field;
 

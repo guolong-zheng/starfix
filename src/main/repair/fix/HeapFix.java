@@ -1,4 +1,4 @@
-package repair.checker;
+package repair.fix;
 
 import repair.heap.HeapNode;
 
@@ -8,6 +8,12 @@ public class HeapFix {
     HeapNode bugNode;
     String fieldName;
     HeapNode fixNode;
+
+    public HeapFix(HeapNode bugNode, String fieldName, HeapNode fixNode) {
+        this.bugNode = bugNode;
+        this.fieldName = fieldName;
+        this.fixNode = fixNode;
+    }
 
     public void perform() {
         Object fromObj = bugNode.getValue();
