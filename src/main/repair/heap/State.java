@@ -2,6 +2,7 @@ package repair.heap;
 
 import repair.Utility;
 import repair.checker.Bug;
+import repair.checker.Checker;
 import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
 import starlib.formula.PureFormula;
@@ -87,6 +88,8 @@ public class State {
     }
 
     public Formula[] unfoldInductiveTerm(InductiveTerm it) {
+        System.out.println(Checker.count);
+        System.out.println("unfolding: " + it.toString());
         InductivePred pred = InductivePredMap.find(it.getPredName());
         Formula[] formulas = pred.getFormulas();
         Variable[] params = pred.getParams();
@@ -95,6 +98,8 @@ public class State {
         Formula[] newFormulas = new Formula[length];
         Map<String, String> existVarSubMap = new HashMap<String, String>();
 
+        if (Checker.count == 4)
+            System.out.println();
         for (int i = 0; i < length; i++) {
             newFormulas[i] = formulas[i].substitute(params, it.getVars(), existVarSubMap, heap);
         }
@@ -175,5 +180,13 @@ public class State {
             }
         }
         return;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Formula f : state) {
+            sb.append(f.toString() + "\n");
+        }
+        return sb.toString();
     }
 }

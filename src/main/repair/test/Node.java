@@ -43,12 +43,12 @@ public class Node {
         N3.next = N0;
 
         String dataNode = "data Node { Node prev; Node next }";
-        String pred1 = "pred cdll(header,size) == header=null & size=0 || " +
-                "header::Node<prev,next> * list(header,prev,header,next,size1) & size1=size-1;";
-        String pred2 = "pred list(header,prev,cur,next,size) == prev=cur & next=header & size=0 ||" +
-                "next::Node<cur,next1> * list(header,prev,next,next1,size1) & size1=size-1";
+        String pred1 = "pred cdll(header) == header=null || " +
+                "header::Node<prev,next> * list(header,prev,header,next);";
+        String pred2 = "pred list(header,prev,cur,next) == prev=cur & next=header ||" +
+                "next::Node<cur,next1> * list(header,prev,next,next1)";
+        String state = "pre data == cdll(N0)";
 
-
-        Heap heap = Collector.retrieveHeap(N0, "N0");
+        Checker.repair(N0, dataNode, pred1 + pred2, state, "N0");
     }
 }

@@ -28,13 +28,13 @@ public class Collector {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-                fields.add(newVar.toString());
+                fields.add(newVar.toString().substring(newVar.toString().length() - 2));
 
                 if (!isPrim(type) && visited.add(newVar)) {
                     toVisit.add(newVar);
                 }
             }
-            heap.addNode(new HeapNode(cal.getTypeName(), var.toString(), var, fields));
+            heap.addNode(new HeapNode(cal.getTypeName(), var.toString().substring(var.toString().length() - 2), var, fields));
         }
 
         return heap;

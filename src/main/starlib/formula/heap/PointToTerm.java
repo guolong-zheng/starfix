@@ -69,13 +69,19 @@ public class PointToTerm extends HeapTerm {
 	public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
 							   Map<String, String> existVarSubMap, Heap heap) {
 		int length = vars.length;
+		/*
+		System.out.println("sub map:");
+		for(int i = 0; i < fromVars.length; i++){
+			System.out.println(fromVars[i] + "->" + toVars[i]);
+		}*/
 
 		Variable[] newVars = new Variable[length];
-		Variable[] concreteVars = heap.getNode(toVars[0].getName()).toVarArry();
+		//TODO: check if this 'root rule' applies to all
+		Variable root = toVars[Utilities.find(fromVars, vars[0])];
+		Variable[] concreteVars = heap.getNode(root.getName()).toVarArry();
 
 		for (int i = 0; i < length; i++) {
 			Variable oldVar = vars[i];
-
 			int index = Utilities.find(fromVars, oldVar);
 
 			if (index != -1) {
