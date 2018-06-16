@@ -45,11 +45,12 @@ public class Checker {
         System.out.println("original heap: " + heap.toString());
         init(dataNode, pred, state, heap, name);
         search();
+        System.out.println("fixed heap: " + heap.toString());
     }
 
     public static void search() {
 
-        while (!track.isEmpty() && count < 10) {
+        while (!track.isEmpty() && count < 100) {
             State state = track.peek();
             System.out.println(count++ + " : " + state.toString());
             if (state.isChecked()) {
@@ -66,8 +67,13 @@ public class Checker {
                     if (error.isBackward()) {
                         track.pop();
                         state = track.peek();
+                        System.out.println("backward");
                     }
+                    System.out.println("fixing " + state.toString());
                     state.fix(error);
+                    System.out.println("fixed " + state.toString());
+                } else {
+                    state.updateVisited();
                 }
             }
         }

@@ -6,6 +6,7 @@ import java.util.Map;
 import repair.heap.ExistVariable;
 import repair.heap.Heap;
 import repair.heap.HeapNode;
+import repair.heap.State;
 import starlib.StarVisitor;
 import starlib.data.DataNode;
 import starlib.data.DataNodeMap;
@@ -67,8 +68,9 @@ public class PointToTerm extends HeapTerm {
 
 	@Override
 	public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
-							   Map<String, String> existVarSubMap, Heap heap) {
+							   Map<String, String> existVarSubMap, State state) {
 		int length = vars.length;
+		Heap heap = state.getHeap();
 		/*
 		System.out.println("sub map:");
 		for(int i = 0; i < fromVars.length; i++){
@@ -90,11 +92,11 @@ public class PointToTerm extends HeapTerm {
 				newVars[i] = oldVar;
 			} else {
 				if (existVarSubMap.containsKey(oldVar.getName())) {
-					newVars[i] = new ExistVariable(existVarSubMap.get(oldVar.getName()), oldVar.getType());
+					newVars[i] = new ExistVariable(existVarSubMap.get(oldVar.getName()), oldVar.getType(), state.getVisited());
 				} else {
 					Variable freshVar = concreteVars[i];
 					existVarSubMap.put(oldVar.getName(), freshVar.getName());
-					newVars[i] = new ExistVariable(freshVar);
+					newVars[i] = new ExistVariable(freshVar, state.getVisited());
 				}
 			}
 		}

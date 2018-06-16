@@ -4,11 +4,18 @@ import starlib.formula.Variable;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
+import java.util.Stack;
 
 public class ExistVariable extends Variable {
 
-    Queue<Variable> potentialVars;  //TODO: store in one public place as an array and use index to control access,
+    Queue<String> potentialVars;  //TODO: store in one public place as an array and use index to control access,
     // to save memory and access time
+
+    public ExistVariable(String name, String type, Stack<String> visited) {
+        super(name, type);
+        potentialVars = new LinkedList<>(visited);
+    }
 
     public ExistVariable(String name, String type) {
         super(name, type);
@@ -18,11 +25,12 @@ public class ExistVariable extends Variable {
         super(name);
     }
 
-    public ExistVariable(Variable var) {
+    public ExistVariable(Variable var, Stack<String> visited) {
         super(var);
+        potentialVars = new LinkedList<>(visited);
     }
 
-    public ExistVariable(String name, Queue<Variable> potentialVars) {
+    public ExistVariable(String name, Stack<String> potentialVars) {
         super(name);
         this.potentialVars = new LinkedList<>();
         this.potentialVars.addAll(potentialVars);
@@ -36,7 +44,7 @@ public class ExistVariable extends Variable {
             else
                 this.setName("null");
         } else
-            this.setName(potentialVars.remove().toString());
+            this.setName(potentialVars.remove());
 
         return true;
     }

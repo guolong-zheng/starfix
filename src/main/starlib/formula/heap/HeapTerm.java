@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import repair.heap.Heap;
+import repair.heap.State;
 import starlib.StarVisitor;
 import starlib.formula.Formula;
 import starlib.formula.Variable;
@@ -19,7 +20,7 @@ public abstract class HeapTerm {
 			Map<String,String> existVarSubMap);
 
 	public abstract HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
-										Map<String, String> existVarSubMap, Heap heap);
+										Map<String, String> existVarSubMap, State state);
 
 	public Variable getRoot() {
 		return vars[0];

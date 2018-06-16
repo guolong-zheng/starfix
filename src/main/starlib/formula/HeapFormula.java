@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import repair.heap.Heap;
+import repair.heap.State;
 import starlib.StarVisitor;
 import starlib.formula.heap.HeapTerm;
 
@@ -37,12 +38,12 @@ public class HeapFormula {
 	}
 
 	public HeapFormula substitute(Variable[] fromVars, Variable[] toVars,
-								  Map<String, String> existVarSubMap, Heap heap) {
+								  Map<String, String> existVarSubMap, State state) {
 		int length = heapTerms.length;
 		HeapTerm[] newHeapTerms = new HeapTerm[length];
 
 		for (int i = 0; i < length; i++) {
-			newHeapTerms[i] = heapTerms[i].substitute(fromVars, toVars, existVarSubMap, heap);
+			newHeapTerms[i] = heapTerms[i].substitute(fromVars, toVars, existVarSubMap, state);
 		}
 
 		HeapFormula newHeapFormula = new HeapFormula(newHeapTerms);

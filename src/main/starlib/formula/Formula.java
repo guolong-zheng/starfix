@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import repair.heap.Heap;
+import repair.heap.State;
 import starlib.StarVisitor;
 import starlib.data.DataNode;
 import starlib.data.DataNodeMap;
@@ -126,8 +127,8 @@ public class Formula {
 	}
 
 	public Formula substitute(Variable[] fromVars, Variable[] toVars,
-							  Map<String, String> existVarSubMap, Heap heap) {
-		HeapFormula newHeapFormula = heapFormula.substitute(fromVars, toVars, existVarSubMap, heap);
+							  Map<String, String> existVarSubMap, State state) {
+		HeapFormula newHeapFormula = heapFormula.substitute(fromVars, toVars, existVarSubMap, state);
 		PureFormula newPureFormula = pureFormula.substitute(fromVars, toVars, existVarSubMap);
 
 		Formula newFormula = new Formula(newHeapFormula, newPureFormula);

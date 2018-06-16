@@ -7,6 +7,7 @@ import java.util.Set;
 import repair.heap.ExistVariable;
 import repair.heap.Heap;
 import repair.heap.HeapNode;
+import repair.heap.State;
 import starlib.formula.Formula;
 import starlib.formula.Utilities;
 import starlib.formula.Variable;
@@ -139,7 +140,7 @@ public class InductiveTerm extends HeapTerm {
 	}
 
 	public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
-							   Map<String, String> existVarSubMap, Heap heap) {
+							   Map<String, String> existVarSubMap, State state) {
 		int length = vars.length;
 
 		Variable[] newVars = new Variable[length];
@@ -155,11 +156,11 @@ public class InductiveTerm extends HeapTerm {
 				newVars[i] = oldVar;
 			} else {
 				if (existVarSubMap.containsKey(oldVar.getName())) {
-					newVars[i] = new ExistVariable(existVarSubMap.get(oldVar.getName()), oldVar.getType());
+					newVars[i] = new ExistVariable(existVarSubMap.get(oldVar.getName()), oldVar.getType(), state.getVisited());
 				} else {
 					Variable freshVar = Utilities.freshVar(oldVar);
 					existVarSubMap.put(oldVar.getName(), freshVar.getName());
-					newVars[i] = new ExistVariable(freshVar);
+					newVars[i] = new ExistVariable(freshVar, state.getVisited());
 				}
 			}
 		}

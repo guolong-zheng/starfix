@@ -98,10 +98,8 @@ public class State {
         Formula[] newFormulas = new Formula[length];
         Map<String, String> existVarSubMap = new HashMap<String, String>();
 
-        if (Checker.count == 4)
-            System.out.println();
         for (int i = 0; i < length; i++) {
-            newFormulas[i] = formulas[i].substitute(params, it.getVars(), existVarSubMap, heap);
+            newFormulas[i] = formulas[i].substitute(params, it.getVars(), existVarSubMap, this);
         }
         it.setUnfoldedFormulas(newFormulas);
 
@@ -134,6 +132,8 @@ public class State {
                 if (index == -1)
                     continue;
                 Variable toFix = ht.getVars()[index];
+                for (String name : visited)
+                    System.out.println("visited " + name);
                 return new Bug(index, (PointToTerm) ht, toFix, visited.contains(ht.getRoot().getName()));
                 /*
                 if (visited.contains(ht.getRoot().getName())) {
@@ -155,6 +155,7 @@ public class State {
     }
 
     public void fix(Bug error) {
+        //System.out.println("the error is:" + error.toString());
         PointToTerm pointToTerm = error.getPointToTerm();
         Variable root = pointToTerm.getRoot();
         HeapNode hn = heap.getNode(root.getName());
@@ -164,6 +165,7 @@ public class State {
             if (error.isBackward()) {
                 if (vars[i] instanceof ExistVariable) {
                     //TODO: what to do when explored all possibilities
+
                     ((ExistVariable) vars[i]).next();
                     hn.fieldsByName.set(i - 1, vars[i].getName());
                     break;
@@ -188,5 +190,16 @@ public class State {
             sb.append(f.toString() + "\n");
         }
         return sb.toString();
+    }
+
+    public void updateVisited() {
+        for (Formula f : state) {
+            HeapFormula hf = f.getHeapFormula();
+            for (HeapTerm ht : hf.getHeapTerms()) {
+                if (ht instanceof PointToTerm) {
+                    visited.add(ht.getVars()[0].getName());
+                }
+            }
+        }
     }
 }
