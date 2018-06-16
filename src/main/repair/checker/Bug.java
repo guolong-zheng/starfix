@@ -8,6 +8,11 @@ public class Bug {
     PointToTerm pointToTerm;
     int index;
     boolean backward;
+    public boolean stop;
+
+    public Bug() {
+        this.stop = true;
+    }
 
     public Bug(int index, PointToTerm pointToTerm, Variable var, boolean backward) {
         this.index = index;

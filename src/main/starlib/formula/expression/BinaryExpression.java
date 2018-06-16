@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import repair.heap.State;
 import starlib.formula.Variable;
 
 public class BinaryExpression extends Expression {
@@ -55,7 +56,17 @@ public class BinaryExpression extends Expression {
 		Expression newExp1 = exp1.substitute(fromVars, toVars, existVarSubMap);
 		Expression newExp2 = exp2.substitute(fromVars, toVars, existVarSubMap);
 		BinaryExpression newBinaryExp = new BinaryExpression(op, newExp1, newExp2);
-		
+
+		return newBinaryExp;
+	}
+
+	@Override
+	public Expression substitute(Variable[] fromVars, Variable[] toVars,
+								 Map<String, Variable> existVarSubMap, State state) {
+		Expression newExp1 = exp1.substitute(fromVars, toVars, existVarSubMap, state);
+		Expression newExp2 = exp2.substitute(fromVars, toVars, existVarSubMap, state);
+		BinaryExpression newBinaryExp = new BinaryExpression(op, newExp1, newExp2);
+
 		return newBinaryExp;
 	}
 	

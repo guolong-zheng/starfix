@@ -88,7 +88,6 @@ public class State {
     }
 
     public Formula[] unfoldInductiveTerm(InductiveTerm it) {
-        System.out.println(Checker.count);
         System.out.println("unfolding: " + it.toString());
         InductivePred pred = InductivePredMap.find(it.getPredName());
         Formula[] formulas = pred.getFormulas();
@@ -96,7 +95,7 @@ public class State {
 
         int length = formulas.length;
         Formula[] newFormulas = new Formula[length];
-        Map<String, String> existVarSubMap = new HashMap<String, String>();
+        Map<String, Variable> existVarSubMap = new HashMap<>();
 
         for (int i = 0; i < length; i++) {
             newFormulas[i] = formulas[i].substitute(params, it.getVars(), existVarSubMap, this);
@@ -111,8 +110,10 @@ public class State {
             HeapFormula hp = f.getHeapFormula();
             PureFormula pf = f.getPureFormula();
             if (hp.toString().contains("emp")) {
-                if (Utility.checkPureFormula(pf))
-                    return null;
+                if (Utility.checkPureFormula(pf)) {
+                    this.checked = true;
+                    return new Bug();
+                }
             } else {
                 this.checked = true;
                 return checkHeapFormula(hp);
@@ -154,6 +155,26 @@ public class State {
         return null;
     }
 
+    public void rollback() {
+        this.index++;
+    }
+
+    public void fix() {
+        PointToTerm[] pts = Utility.getPointToTerms(state);
+        for (PointToTerm pt : pts) {
+            Variable[] vars = pt.getVars();
+            HeapNode hn = heap.getNode(vars[0].getName());
+            for (int i = 1; i < vars.length; i++) {
+                if (vars[i] instanceof ExistVariable) {
+                    System.out.println("exist var " + vars[i].toString());
+                    ((ExistVariable) vars[i]).next();
+                    hn.fieldsByName.set(i - 1, vars[i].getName());
+                    break;
+                }
+            }
+        }
+    }
+
     public void fix(Bug error) {
         //System.out.println("the error is:" + error.toString());
         PointToTerm pointToTerm = error.getPointToTerm();
@@ -165,13 +186,12 @@ public class State {
             if (error.isBackward()) {
                 if (vars[i] instanceof ExistVariable) {
                     //TODO: what to do when explored all possibilities
-
+                    System.out.println("exist var " + vars[i].toString());
                     ((ExistVariable) vars[i]).next();
                     hn.fieldsByName.set(i - 1, vars[i].getName());
                     break;
                 }
             } else {
-
                 if (!(vars[i] instanceof ExistVariable)) {
                     if (!vars[i].getName().equals(hn.fieldsByName.get(i - 1))) {
                         hn.fieldsByName.set(i - 1, vars[i].getName());
@@ -187,7 +207,7 @@ public class State {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (Formula f : state) {
-            sb.append(f.toString() + "\n");
+            sb.append("[" + f.toString() + "]; ");
         }
         return sb.toString();
     }

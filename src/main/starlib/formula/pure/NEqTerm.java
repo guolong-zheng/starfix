@@ -3,6 +3,7 @@ package starlib.formula.pure;
 import java.util.HashMap;
 import java.util.Map;
 
+import repair.heap.State;
 import starlib.StarVisitor;
 import starlib.formula.Utilities;
 import starlib.formula.Variable;
@@ -68,7 +69,51 @@ public class NEqTerm extends PureTerm {
 				newVar2 = new Variable(freshVar);
 			}
 		}
-		
+
+		NEqTerm newNEqTerm = new NEqTerm(newVar1, newVar2);
+		return newNEqTerm;
+	}
+
+	@Override
+	public PureTerm substitute(Variable[] fromVars, Variable[] toVars,
+							   Map<String, Variable> existVarSubMap, State state) {
+		Variable oldVar1 = var1;
+		Variable oldVar2 = var2;
+
+		int index1 = Utilities.find(fromVars, oldVar1);
+		int index2 = Utilities.find(fromVars, oldVar2);
+
+		Variable newVar1 = null;
+		Variable newVar2 = null;
+
+		if (index1 != -1) {
+			newVar1 = new Variable(toVars[index1]);
+		} else if (existVarSubMap == null) {
+			newVar1 = oldVar1;
+		} else {
+			if (existVarSubMap.containsKey(oldVar1.getName())) {
+				newVar1 = existVarSubMap.get(oldVar1.getName());
+			} else {
+				Variable freshVar = Utilities.freshVar(oldVar1);
+				newVar1 = new Variable(freshVar);
+				existVarSubMap.put(oldVar1.getName(), newVar1);
+			}
+		}
+
+		if (index2 != -1) {
+			newVar2 = new Variable(toVars[index2]);
+		} else if (existVarSubMap == null) {
+			newVar2 = oldVar2;
+		} else {
+			if (existVarSubMap.containsKey(oldVar2.getName())) {
+				newVar2 = existVarSubMap.get(oldVar2.getName());
+			} else {
+				Variable freshVar = Utilities.freshVar(oldVar2);
+				newVar2 = new Variable(freshVar);
+				existVarSubMap.put(oldVar2.getName(), newVar2);
+			}
+		}
+
 		NEqTerm newNEqTerm = new NEqTerm(newVar1, newVar2);
 		return newNEqTerm;
 	}

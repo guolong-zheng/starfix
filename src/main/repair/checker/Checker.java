@@ -45,14 +45,13 @@ public class Checker {
         System.out.println("original heap: " + heap.toString());
         init(dataNode, pred, state, heap, name);
         search();
-        System.out.println("fixed heap: " + heap.toString());
+        System.out.println("fixed heap:" + heap.toString());
     }
 
     public static void search() {
-
         while (!track.isEmpty() && count < 100) {
             State state = track.peek();
-            System.out.println(count++ + " : " + state.toString());
+            System.out.println(state.isChecked() + " at iteration " + count++ + " : " + state.toString());
             if (state.isChecked()) {
                 if (state.hasNext()) {
                     State newState = state.unfold();
@@ -63,19 +62,27 @@ public class Checker {
             } else {
                 Bug error = state.check();
                 if (error != null) {
-                    System.out.println("error: " + error.toString());
+                    if (error.stop == true) {
+                        track.pop();
+                        continue;
+                    }
+                    System.out.println("found error: " + error.toString());
                     if (error.isBackward()) {
                         track.pop();
                         state = track.peek();
-                        System.out.println("backward");
+                        state.rollback();
+                        state.fix();
+                        System.out.println("backwarded");
+                    } else {
+                        System.out.println("***fixing*** " + state.toString());
+                        state.fix(error);
+                        System.out.println("***fixed*** " + state.toString());
                     }
-                    System.out.println("fixing " + state.toString());
-                    state.fix(error);
-                    System.out.println("fixed " + state.toString());
                 } else {
                     state.updateVisited();
                 }
             }
+            System.out.println();
         }
     }
 }

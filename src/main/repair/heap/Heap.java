@@ -7,12 +7,14 @@ public class Heap {
     Set<HeapNode> heapNodes;
     Map<String, HeapNode> name2node;    //map variable name to concrete heap node
     Map<Object, HeapNode> var2node;  //map original variable to concrete heap node
+    public static Set<String> allVars;
 
     public Heap() {
         this.root = null;
         this.var2node = new HashMap<>();
         this.name2node = new HashMap<>();
         this.heapNodes = new HashSet<>();
+        this.allVars = new HashSet<>();
     }
 
     public boolean isEmpty() {
@@ -33,8 +35,12 @@ public class Heap {
             root = heapNode;
         this.var2node.put(heapNode.getValue(), heapNode);
         this.name2node.put(heapNode.getName(), heapNode);
+        this.allVars.add(heapNode.getName());
     }
 
+    public Set<String> getVars() {
+        return this.allVars;
+    }
     public HeapNode getRoot() {
         return this.root;
     }

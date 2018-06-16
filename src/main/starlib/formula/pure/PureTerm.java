@@ -3,6 +3,7 @@ package starlib.formula.pure;
 import java.util.HashMap;
 import java.util.Map;
 
+import repair.heap.State;
 import starlib.StarVisitor;
 import starlib.formula.Variable;
 import starlib.formula.heap.HeapTerm;
@@ -11,7 +12,10 @@ public abstract class PureTerm {
 	
 	public abstract PureTerm substitute(Variable[] fromVars, Variable[] toVars,
 			Map<String,String> existVarSubMap);
-	
+
+	public abstract PureTerm substitute(Variable[] fromVars, Variable[] toVars,
+										Map<String, Variable> existVarSubMap, State state);
+
 	public PureTerm copy() {
 		return this;
 	}

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import repair.heap.State;
 import starlib.StarVisitor;
 import starlib.formula.expression.Comparator;
 import starlib.formula.expression.Expression;
@@ -106,7 +107,8 @@ public class PureFormula {
 		}
 		System.out.println("\n>>>>> End alias map");
 	}
-	
+
+
 	public PureFormula substitute(Variable[] fromVars, Variable[] toVars,
 			Map<String,String> existVarSubMap) {
 		int length = pureTerms.length;
@@ -117,7 +119,21 @@ public class PureFormula {
 		}
 		
 		PureFormula newPureFormula = new PureFormula(newPureTerms);
-		
+
+		return newPureFormula;
+	}
+
+	public PureFormula substitute(Variable[] fromVars, Variable[] toVars,
+								  Map<String, Variable> existVarSubMap, State state) {
+		int length = pureTerms.length;
+		PureTerm[] newPureTerms = new PureTerm[length];
+
+		for (int i = 0; i < length; i++) {
+			newPureTerms[i] = pureTerms[i].substitute(fromVars, toVars, existVarSubMap, state);
+		}
+
+		PureFormula newPureFormula = new PureFormula(newPureTerms);
+
 		return newPureFormula;
 	}
 	

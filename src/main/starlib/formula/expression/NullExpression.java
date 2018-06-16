@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import repair.heap.State;
 import starlib.formula.Variable;
 
 public class NullExpression extends Expression{
@@ -31,6 +32,11 @@ public class NullExpression extends Expression{
 
 	@Override
 	public Expression substitute(Variable[] fromVars, Variable[] toVars, Map<String, String> existVarSubMap) {
+		return INSTANCE;
+	}
+
+	@Override
+	public Expression substitute(Variable[] fromVars, Variable[] toVars, Map<String, Variable> existVarSubMap, State state) {
 		return INSTANCE;
 	}
 	

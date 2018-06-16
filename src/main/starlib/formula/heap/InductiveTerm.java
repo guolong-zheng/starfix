@@ -139,6 +139,8 @@ public class InductiveTerm extends HeapTerm {
 		return vars[0] + "::" + predName + "<" + getParams(1) + ">";
 	}
 
+	/*
+    @Override
 	public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
 							   Map<String, String> existVarSubMap, State state) {
 		int length = vars.length;
@@ -156,12 +158,45 @@ public class InductiveTerm extends HeapTerm {
 				newVars[i] = oldVar;
 			} else {
 				if (existVarSubMap.containsKey(oldVar.getName())) {
-					newVars[i] = new ExistVariable(existVarSubMap.get(oldVar.getName()), oldVar.getType(), state.getVisited());
+					newVars[i] = new ExistVariable(existVarSubMap.get(oldVar.getName()), oldVar.getType(), state.getHeap().getVars());
 				} else {
 					Variable freshVar = Utilities.freshVar(oldVar);
 					existVarSubMap.put(oldVar.getName(), freshVar.getName());
-					newVars[i] = new ExistVariable(freshVar, state.getVisited());
+					newVars[i] = new ExistVariable(freshVar, state.getHeap().getVars());
 				}
+			}
+		}
+
+		InductiveTerm newInductiveTerm = new InductiveTerm(predName, newVars);
+
+		return newInductiveTerm;
+	}
+	*/
+
+    @Override
+    public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
+                               Map<String, Variable> existVarSubMap, State state) {
+        int length = vars.length;
+
+        Variable[] newVars = new Variable[length];
+
+        for (int i = 0; i < length; i++) {
+            Variable oldVar = vars[i];
+
+            int index = Utilities.find(fromVars, oldVar);
+
+            if (index != -1) {
+                newVars[i] = new Variable(toVars[index]);
+            } else if (existVarSubMap == null) {
+                newVars[i] = oldVar;
+            } else {
+                if (existVarSubMap.containsKey(oldVar.getName())) {
+                    newVars[i] = existVarSubMap.get(oldVar.getName());
+                } else {
+                    Variable freshVar = Utilities.freshVar(oldVar);
+                    newVars[i] = new ExistVariable(freshVar, state.getHeap().getVars());
+                    existVarSubMap.put(oldVar.getName(), newVars[i]);
+                }
 			}
 		}
 

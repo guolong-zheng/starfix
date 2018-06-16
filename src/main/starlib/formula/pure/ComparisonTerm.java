@@ -3,6 +3,7 @@ package starlib.formula.pure;
 import java.util.HashMap;
 import java.util.Map;
 
+import repair.heap.State;
 import starlib.StarVisitor;
 import starlib.formula.Variable;
 import starlib.formula.expression.Comparator;
@@ -41,7 +42,18 @@ public class ComparisonTerm extends PureTerm {
 		Expression newExp2 = exp2.substitute(fromVars, toVars, existVarSubMap);
 		
 		ComparisonTerm newTerm = new ComparisonTerm(comp, newExp1, newExp2);
-		
+
+		return newTerm;
+	}
+
+	@Override
+	public PureTerm substitute(Variable[] fromVars, Variable[] toVars,
+							   Map<String, Variable> existVarSubMap, State state) {
+		Expression newExp1 = exp1.substitute(fromVars, toVars, existVarSubMap, state);
+		Expression newExp2 = exp2.substitute(fromVars, toVars, existVarSubMap, state);
+
+		ComparisonTerm newTerm = new ComparisonTerm(comp, newExp1, newExp2);
+
 		return newTerm;
 	}
 	

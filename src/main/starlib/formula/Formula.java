@@ -126,6 +126,7 @@ public class Formula {
 		return newFormula;
 	}
 
+	/*
 	public Formula substitute(Variable[] fromVars, Variable[] toVars,
 							  Map<String, String> existVarSubMap, State state) {
 		HeapFormula newHeapFormula = heapFormula.substitute(fromVars, toVars, existVarSubMap, state);
@@ -135,7 +136,19 @@ public class Formula {
 
 		return newFormula;
 	}
-	
+	*/
+	public Formula substitute(Variable[] fromVars, Variable[] toVars,
+							  Map<String, Variable> existVarSubMap, State state) {
+		HeapFormula newHeapFormula = heapFormula.substitute(fromVars, toVars, existVarSubMap, state);
+		PureFormula newPureFormula = pureFormula.substitute(fromVars, toVars, existVarSubMap, state);
+
+		Formula newFormula = new Formula(newHeapFormula, newPureFormula);
+
+		return newFormula;
+	}
+
+
+
 	public Formula copy() {
 		HeapFormula newHeapFormula = heapFormula.copy();
 		PureFormula newPureFormula = pureFormula.copy();

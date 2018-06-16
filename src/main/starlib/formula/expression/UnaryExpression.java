@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import repair.heap.State;
 import starlib.formula.Variable;
 
 public class UnaryExpression extends Expression {
@@ -33,7 +34,16 @@ public class UnaryExpression extends Expression {
 			Map<String,String> existVarSubMap) {
 		Expression newExp = exp.substitute(fromVars, toVars, existVarSubMap);
 		UnaryExpression newUnaryExp = new UnaryExpression(op, newExp);
-		
+
+		return newUnaryExp;
+	}
+
+	@Override
+	public Expression substitute(Variable[] fromVars, Variable[] toVars,
+								 Map<String, Variable> existVarSubMap, State state) {
+		Expression newExp = exp.substitute(fromVars, toVars, existVarSubMap, state);
+		UnaryExpression newUnaryExp = new UnaryExpression(op, newExp);
+
 		return newUnaryExp;
 	}
 	

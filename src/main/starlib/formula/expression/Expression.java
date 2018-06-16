@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import repair.heap.State;
 import starlib.formula.Variable;
 
 public abstract class Expression {
@@ -21,6 +22,9 @@ public abstract class Expression {
 	
 	public abstract Expression substitute(Variable[] fromVars, Variable[] toVars,
 			Map<String,String> existVarSubMap);
+
+	public abstract Expression substitute(Variable[] fromVars, Variable[] toVars,
+										  Map<String, Variable> existVarSubMap, State state);
 	
 	public abstract Expression copy();
 	

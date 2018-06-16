@@ -37,8 +37,23 @@ public class HeapFormula {
 		return newHeapFormula;
 	}
 
+	/*
+		public HeapFormula substitute(Variable[] fromVars, Variable[] toVars,
+                                      Map<String, String> existVarSubMap, State state) {
+            int length = heapTerms.length;
+            HeapTerm[] newHeapTerms = new HeapTerm[length];
+
+            for (int i = 0; i < length; i++) {
+                newHeapTerms[i] = heapTerms[i].substitute(fromVars, toVars, existVarSubMap, state);
+            }
+
+            HeapFormula newHeapFormula = new HeapFormula(newHeapTerms);
+
+            return newHeapFormula;
+        }
+    */
 	public HeapFormula substitute(Variable[] fromVars, Variable[] toVars,
-								  Map<String, String> existVarSubMap, State state) {
+								  Map<String, Variable> existVarSubMap, State state) {
 		int length = heapTerms.length;
 		HeapTerm[] newHeapTerms = new HeapTerm[length];
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import repair.heap.State;
 import starlib.formula.Utilities;
 import starlib.formula.Variable;
 
@@ -63,7 +64,34 @@ public class VariableExpression extends Expression {
 				newVar = new Variable(freshVar);
 			}
 		}
-		
+
+		VariableExpression newExpr = new VariableExpression(newVar);
+		return newExpr;
+	}
+
+	@Override
+	public Expression substitute(Variable[] fromVars, Variable[] toVars,
+								 Map<String, Variable> existVarSubMap, State state) {
+		Variable oldVar = var;
+
+		int index = Utilities.find(fromVars, oldVar);
+
+		Variable newVar = null;
+
+		if (index != -1) {
+			newVar = new Variable(toVars[index]);
+		} else if (existVarSubMap == null) {
+			newVar = oldVar;
+		} else {
+			if (existVarSubMap.containsKey(oldVar.getName())) {
+				newVar = existVarSubMap.get(oldVar.getName());
+			} else {
+				Variable freshVar = Utilities.freshVar(oldVar);
+				newVar = new Variable(freshVar);
+				existVarSubMap.put(oldVar.getName(), newVar);
+			}
+		}
+
 		VariableExpression newExpr = new VariableExpression(newVar);
 		return newExpr;
 	}

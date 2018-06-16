@@ -66,12 +66,49 @@ public class PointToTerm extends HeapTerm {
 		return newPointToTerm;
 	}
 
-	@Override
+	/*
+    @Override
 	public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
 							   Map<String, String> existVarSubMap, State state) {
 		int length = vars.length;
 		Heap heap = state.getHeap();
-		/*
+
+		Variable[] newVars = new Variable[length];
+		//TODO: check if this 'root rule' applies to all
+		Variable root = toVars[Utilities.find(fromVars, vars[0])];
+		Variable[] concreteVars = heap.getNode(root.getName()).toVarArry();
+
+		for (int i = 0; i < length; i++) {
+			Variable oldVar = vars[i];
+			int index = Utilities.find(fromVars, oldVar);
+
+			if (index != -1) {
+				newVars[i] = new Variable(toVars[index]);
+			} else if (existVarSubMap == null) {
+				newVars[i] = oldVar;
+			} else {
+				if (existVarSubMap.containsKey(oldVar.getName())) {
+					newVars[i] = new ExistVariable(existVarSubMap.get(oldVar.getName()), oldVar.getType(), heap.getVars());
+				} else {
+					Variable freshVar = concreteVars[i];
+					existVarSubMap.put(oldVar.getName(), freshVar.getName());
+					newVars[i] = new ExistVariable(freshVar, heap.getVars());
+				}
+			}
+		}
+
+		PointToTerm newPointToTerm = new PointToTerm(type, newVars);
+
+		return newPointToTerm;
+	}
+	*/
+
+    @Override
+    public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
+                               Map<String, Variable> existVarSubMap, State state) {
+        int length = vars.length;
+        Heap heap = state.getHeap();
+        /*
 		System.out.println("sub map:");
 		for(int i = 0; i < fromVars.length; i++){
 			System.out.println(fromVars[i] + "->" + toVars[i]);
@@ -92,12 +129,12 @@ public class PointToTerm extends HeapTerm {
 				newVars[i] = oldVar;
 			} else {
 				if (existVarSubMap.containsKey(oldVar.getName())) {
-					newVars[i] = new ExistVariable(existVarSubMap.get(oldVar.getName()), oldVar.getType(), state.getVisited());
-				} else {
+                    newVars[i] = existVarSubMap.get(oldVar.getName());
+                } else {
 					Variable freshVar = concreteVars[i];
-					existVarSubMap.put(oldVar.getName(), freshVar.getName());
-					newVars[i] = new ExistVariable(freshVar, state.getVisited());
-				}
+                    newVars[i] = new ExistVariable(freshVar, heap.getVars());
+                    existVarSubMap.put(oldVar.getName(), newVars[i]);
+                }
 			}
 		}
 
