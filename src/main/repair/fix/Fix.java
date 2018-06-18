@@ -13,6 +13,15 @@ public class Fix {
     Heap toHeap;
     Set<HeapFix> fixes;
 
+    public Fix(Heap origHeap) {
+        this.origHeap = origHeap.copy();
+        this.fixes = new HashSet<>();
+    }
+
+    public void setToHeap(Heap toHeap) {
+        this.toHeap = toHeap.copy();
+    }
+
     public Fix(Heap origHeap, Heap toHeap) {
         this.origHeap = origHeap;
         this.toHeap = toHeap;
@@ -21,7 +30,6 @@ public class Fix {
 
     //TODO: change design of HeapNode to store field name
     public void generate() {
-        //Set<HeapNode> toNode = toHeap.getNodes();
         Map<String, HeapNode> name2node = toHeap.getName2NodeMap();
         for (HeapNode node : origHeap.getNodes()) {
             String name = node.getName();

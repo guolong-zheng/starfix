@@ -1,8 +1,6 @@
-package repair.test;
+package repair.examples;
 
 import repair.checker.Checker;
-import repair.heap.Collector;
-import repair.heap.Heap;
 
 public class Node {
     public Node prev;
