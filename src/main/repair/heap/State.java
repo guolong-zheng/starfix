@@ -31,6 +31,7 @@ public class State {
     State parent;
     Formula[] state;    //store the state of a subheap, a collection of disjunction formulas
     InductiveTerm[] inductiveTerms; //all possible unfolds
+    Set<String>[] visitedVars;
     int index;  //which to unfold; when 0 means have unfolded all inductive terms
     Stack<String> visited; //store visited variable names
     boolean checked;
@@ -79,8 +80,39 @@ public class State {
             Formula[] fs = unfoldInductiveTerm(inductiveTerms[index - 1]);
             index--;
             return new State(this, fs);
+        } else {  //after unfolded all inductive terms, check if there is any overlaps between visited variables
+
         }
         return null;
+    }
+
+    public State unfold(String name) {
+        if (index > 0) {
+            Formula[] fs = unfoldInductiveTerm(inductiveTerms[index - 1]);
+            index--;
+            return new State(this, fs);
+        } else {
+
+        }
+        return null;
+    }
+
+    public Formula[] unfoldInductiveTerm(InductiveTerm it, String name) {
+        System.out.println("unfolding: " + it.toString());
+        InductivePred pred = InductivePredMap.find(it.getPredName());
+        Formula[] formulas = pred.getFormulas();
+        Variable[] params = pred.getParams();
+
+        int length = formulas.length;
+        Formula[] newFormulas = new Formula[length];
+        Map<String, Variable> existVarSubMap = new HashMap<>();
+
+        for (int i = 0; i < length; i++) {
+            newFormulas[i] = formulas[i].substitute(params, it.getVars(), existVarSubMap, this);
+        }
+        it.setUnfoldedFormulas(newFormulas);
+
+        return newFormulas;
     }
 
     public boolean hasNext() {
