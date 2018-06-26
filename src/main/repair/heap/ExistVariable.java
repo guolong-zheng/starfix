@@ -56,4 +56,11 @@ public class ExistVariable extends Variable {
 
         return true;
     }
+
+    public ExistVariable copy() {
+        ExistVariable newVar = (ExistVariable) super.copy();
+        newVar.potentialVars = new LinkedList<>();
+        newVar.potentialVars.addAll(this.potentialVars);
+        return newVar;
+    }
 }

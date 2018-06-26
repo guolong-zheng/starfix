@@ -63,6 +63,10 @@ public class Heap {
 
     public Heap copy() {
         Heap newHeap = new Heap();
+        newHeap.root = this.root.copy();
+        for (HeapNode hn : this.heapNodes) {
+            newHeap.heapNodes.add(hn.copy());
+        }
 
         return newHeap;
     }

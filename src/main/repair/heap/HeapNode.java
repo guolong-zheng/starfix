@@ -3,6 +3,7 @@ package repair.heap;
 import starlib.formula.Variable;
 import starlib.formula.heap.PointToTerm;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class HeapNode {
@@ -12,11 +13,18 @@ public class HeapNode {
     protected List<String> fieldsByName;
     protected HeapNode[] fields;
 
+    public HeapNode(String type, String name, Object var) {
+        this.type = type;
+        this.name = name;
+        this.var = var;
+    }
+
     public HeapNode(String type, String name, Object var, List<String> fieldsByName) {
         this.type = type;
         this.name = name;
         this.var = var;
-        this.fieldsByName = fieldsByName;
+        this.fieldsByName = new LinkedList<>();
+        this.fieldsByName.addAll(fieldsByName);
     }
 
     public List<String> getFieldsValue() {
@@ -82,5 +90,13 @@ public class HeapNode {
 
     public void next(int index, String newString) {
         fieldsByName.set(index, newString);
+    }
+
+    public HeapNode copy() {
+        HeapNode newHn = new HeapNode(this.type, this.name, this.var);
+        newHn.fieldsByName = new LinkedList<>();
+        newHn.fieldsByName.addAll(this.fieldsByName);
+        System.arraycopy(this.fields, 0, newHn.fields, 0, this.fields.length);
+        return newHn;
     }
 }
