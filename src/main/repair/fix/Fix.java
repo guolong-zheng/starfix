@@ -12,6 +12,7 @@ public class Fix {
     Heap origHeap;
     Heap toHeap;
     Set<HeapFix> fixes;
+    int priority;
 
     public Fix(Heap origHeap) {
         this.origHeap = origHeap.copy();
