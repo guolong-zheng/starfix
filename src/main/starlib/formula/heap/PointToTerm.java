@@ -117,6 +117,9 @@ public class PointToTerm extends HeapTerm {
 		Variable[] newVars = new Variable[length];
 		//TODO: check if this 'root rule' applies to all
 		Variable root = toVars[Utilities.find(fromVars, vars[0])];
+		if (root.getName().equals("null")) {
+			return null;
+		}
 		Variable[] concreteVars = heap.getNode(root.getName()).toVarArry();
 
 		for (int i = 0; i < length; i++) {

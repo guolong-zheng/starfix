@@ -3,8 +3,24 @@ package repair.examples;
 import repair.checker.Checker;
 
 public class Tree {
-    Tree left;
-    Tree right;
+    public Tree left;
+    public Tree right;
+
+    public Tree getLeft() {
+        return left;
+    }
+
+    public Tree getRight() {
+        return right;
+    }
+
+    public void setLeft(Tree left) {
+        this.left = left;
+    }
+
+    public void setRight(Tree right) {
+        this.right = right;
+    }
 
     public static void main(String[] args) {
         Tree a = new Tree();

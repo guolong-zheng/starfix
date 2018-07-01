@@ -41,7 +41,7 @@ public class Checker {
     }
 
     public static void repair(Object var, String dataNode, String pred, String state, String name) {
-        Heap heap = Collector.retrieveHeap(var, name);
+        Heap heap = Collector.retrieveHeap(var);
         System.out.println("original heap: " + heap.toString());
         init(dataNode, pred, state, heap, name);
         search();

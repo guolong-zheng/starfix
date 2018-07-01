@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Collector {
     //TODO: Link name(for example N0) to root name
-    public static Heap retrieveHeap(Object root, String name) {
+    public static Heap retrieveHeap(Object root) {
         Heap heap = new Heap();
 
         Queue<Object> toVisit = new LinkedList<>();
@@ -28,10 +28,14 @@ public class Collector {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-                fields.add(newVar.toString().substring(newVar.toString().length() - 2));
+                if (newVar == null)
+                    fields.add("null");
+                else {
+                    fields.add(newVar.toString().substring(newVar.toString().length() - 2));
 
-                if (!isPrim(type) && visited.add(newVar)) {
-                    toVisit.add(newVar);
+                    if (!isPrim(type) && visited.add(newVar)) {
+                        toVisit.add(newVar);
+                    }
                 }
             }
             heap.addNode(new HeapNode(cal.getTypeName(), var.toString().substring(var.toString().length() - 2), var, fields));

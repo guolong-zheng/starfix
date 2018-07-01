@@ -13,6 +13,14 @@ public class HeapNode {
     protected List<String> fieldsByName;
     protected HeapNode[] fields;
 
+
+    public HeapNode() {
+        this.type = "any";
+        this.name = "null";
+        this.var = null;
+    }
+
+
     public HeapNode(String type, String name, Object var) {
         this.type = type;
         this.name = name;
