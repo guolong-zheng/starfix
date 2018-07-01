@@ -157,6 +157,10 @@ public class State {
 
     public Bug checkHeapFormula(HeapFormula heapFormula) {
         for (HeapTerm ht : heapFormula.getHeapTerms()) {
+            if (ht == null) {
+                System.out.println("root is null");
+                return new Bug();
+            }
             if (ht instanceof PointToTerm) {
                 Variable rootVar = ht.getRoot();
                 HeapNode root = heap.getNode(rootVar.getName());

@@ -6,12 +6,18 @@ import starlib.formula.heap.PointToTerm;
 public class Bug {
     Variable var;
     PointToTerm pointToTerm;
+    boolean res;
     int index;
     boolean backward;
     public boolean stop;
 
     public Bug() {
         this.stop = true;
+    }
+
+    public Bug(boolean res) {
+        this.stop = true;
+        this.res = false;
     }
 
     public Bug(int index, PointToTerm pointToTerm, Variable var, boolean backward) {
