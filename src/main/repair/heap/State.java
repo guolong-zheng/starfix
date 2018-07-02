@@ -2,7 +2,6 @@ package repair.heap;
 
 import repair.Utility;
 import repair.checker.Bug;
-import repair.checker.Checker;
 import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
 import starlib.formula.PureFormula;
@@ -31,6 +30,7 @@ public class State {
     State parent;
     Formula[] state;    //store the state of a subheap, a collection of disjunction formulas
     InductiveTerm[] inductiveTerms; //all possible unfolds
+    PointToTerm[] pointToTerms; //all point to terms, used to keep track of all visited nodes
     Set<String>[] visitedVars;
     int index;  //which to unfold; when 0 means have unfolded all inductive terms
     Stack<String> visited; //store visited variable names
@@ -238,6 +238,18 @@ public class State {
             }
         }
         return;
+    }
+
+    //check the * separation, returns the repeated variable name
+    public String checkStarSep() {
+        Set<String> vars = new HashSet<>();
+        for (PointToTerm pt : this.pointToTerms) {
+            Variable var = pt.getRoot();
+            if (!vars.add(var.toString())) {
+                return var.toString();
+            }
+        }
+        return null;
     }
 
     public String toString() {

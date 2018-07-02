@@ -61,6 +61,10 @@ public class Heap {
         return sb.toString();
     }
 
+    public void revert() {
+        //TODO: how to revert a heap
+    }
+
     public Heap copy() {
         Heap newHeap = new Heap();
         newHeap.root = this.root.copy();
