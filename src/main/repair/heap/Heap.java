@@ -5,8 +5,8 @@ import java.util.*;
 public class Heap {
     HeapNode root;  //root of current heap
     Set<HeapNode> heapNodes;
-    Map<String, HeapNode> name2node;    //map variable name to concrete heap node
-    Map<Object, HeapNode> var2node;  //map original variable to concrete heap node
+    public static Map<String, HeapNode> name2node;    //map variable name to concrete heap node
+    public static Map<Object, HeapNode> var2node;  //map original variable to concrete heap node
     public static Set<String> allVars = new HashSet<>();
 
     public Heap() {
@@ -62,7 +62,8 @@ public class Heap {
     }
 
     public void revert() {
-        //TODO: how to revert a heap
+        //TODO: how to revert a heap, or each state corresponding to one unique heap, then no need to revert heap, only need to
+        // revert state, then needed work: copy heap to a new state; make change to current heap instead of change to a global one;
     }
 
     public Heap copy() {

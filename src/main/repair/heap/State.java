@@ -26,7 +26,7 @@ import java.util.*;
     s.parent = null means finishing checking.
  */
 public class State {
-    static Heap heap;
+    Heap heap;
     State parent;
     Formula[] state;    //store the state of a subheap, a collection of disjunction formulas
     InductiveTerm[] inductiveTerms; //all possible unfolds
@@ -37,7 +37,7 @@ public class State {
     boolean checked;
 
     public State(Heap heap, Formula... fs) {
-        this.heap = heap;
+        this.heap = heap.copy();
         this.parent = null;
         this.state = fs;
         inductiveTerms = Utility.getInductiveTerms(fs);

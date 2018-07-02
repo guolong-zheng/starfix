@@ -4,6 +4,10 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 public class Collector {
+
+    public static Map<String, HeapNode> name2node;    //map variable name to concrete heap node
+    public static Map<Object, HeapNode> var2node;  //map original variable to concrete heap node
+
     //TODO: Link name(for example N0) to root name
     public static Heap retrieveHeap(Object root) {
         Heap heap = new Heap();
