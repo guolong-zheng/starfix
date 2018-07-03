@@ -1,5 +1,6 @@
 package repair.checker;
 
+import repair.fix.Fix;
 import repair.heap.Collector;
 import repair.heap.Heap;
 import repair.heap.State;
@@ -10,11 +11,13 @@ import starlib.formula.heap.HeapTerm;
 import starlib.precondition.Initializer;
 import starlib.precondition.PreconditionMap;
 
-import java.util.Stack;
+import java.util.*;
 
 
 public class Checker {
-    static Stack<State> track = new Stack<>();
+    public static Stack<State> track = new Stack<>();
+    public static Set<Fix> fixSet = new HashSet<>();
+    public static Map<String, State> var2state = new HashMap<>();
     public static int count = 0;
 
     public static void init(String dataNode, String pred, String state, Heap heap, String name) {
@@ -48,6 +51,47 @@ public class Checker {
         System.out.println("fixed heap:" + heap.toString());
     }
 
+    public static void search() {
+        while (!track.isEmpty()) {
+            State state = track.peek();
+            Bug error = state.check();
+            if (error == null) {
+                forward();
+            } else {
+                fix(error);
+            }
+        }
+    }
+
+    public static void forward() {
+        State state = track.pop();
+        if (state.isFinal()) {
+            Fix newFix = new Fix(state.getHeap());
+            fixSet.add(newFix);
+        } else {
+            state.unfold();
+        }
+    }
+
+    public static void fix(Bug error) {
+        if (error.isBackward()) {
+            backward(error.getVar().toString());
+        }
+        State state = track.pop();
+        state.fix(error);
+    }
+
+    public static void backward(String name) {
+        State aimState = var2state.get(name);
+        while (!track.isEmpty()) {
+            if (track.peek() != aimState) {
+                track.pop();
+            } else
+                break;
+        }
+        track.pop();
+    }
+    /*
     public static void search() {
         while (!track.isEmpty() && count < 100) {
             State state = track.peek();
@@ -85,4 +129,5 @@ public class Checker {
             System.out.println();
         }
     }
+    */
 }

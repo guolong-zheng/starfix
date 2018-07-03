@@ -2,7 +2,7 @@ package repair.heap;
 
 import repair.Utility;
 import repair.checker.Bug;
-import repair.checker.SearchState;
+import repair.checker.Checker;
 import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
 import starlib.formula.PureFormula;
@@ -114,7 +114,7 @@ public class State {
             Formula newFormula = new Formula(newHeapFormula, newPureFormula);
 
             State newState = new State(this, newFormula);
-            SearchState.track.push(newState);
+            Checker.track.push(newState);
         }
     }
 

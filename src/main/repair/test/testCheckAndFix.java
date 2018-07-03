@@ -1,6 +1,7 @@
 package repair.test;
 
 import repair.checker.Bug;
+import repair.checker.Checker;
 import repair.heap.Heap;
 import repair.heap.HeapNode;
 import repair.heap.State;
@@ -37,11 +38,12 @@ public class testCheckAndFix {
         Formula f = new Formula();
         f.heapFormula = new HeapFormula(it);
         State s = new State(heap, f);
-        State newState = s.unfold();
+        s.unfold();
+        State newState = Checker.track.pop();
         System.out.println("state after unfold:");
-        for (Formula foru : newState.getState()) {
-            System.out.println(foru.toString());
-        }
+        Formula foru = newState.getState();
+        System.out.println(foru.toString());
+
 
         Bug error = newState.check();
         System.out.println("error trace:" + error.toString());

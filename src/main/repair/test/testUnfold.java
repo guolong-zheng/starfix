@@ -1,5 +1,6 @@
 package repair.test;
 
+import repair.checker.Checker;
 import repair.heap.ExistVariable;
 import repair.heap.Heap;
 import repair.heap.HeapNode;
@@ -31,22 +32,24 @@ public class testUnfold {
         f.heapFormula = new HeapFormula(it);
         State s = new State(heap, f);
 
-        State newState = s.unfold();
+        s.unfold();
+        for (State newState : Checker.track) {
 
-        for (Formula t : newState.getState()) {
+            Formula t = newState.getState();
             System.out.println(t.toString());
-        }
 
-        for (Formula t : newState.getState()) {
-            HeapFormula hf = t.getHeapFormula();
-            for (HeapTerm ht : hf.getHeapTerms()) {
-                for (Variable v : ht.getVars()) {
-                    if (v.getName().equals("N2") || v.getName().equals("N3")) {
-                        assert (v instanceof ExistVariable);
+            /*
+            for (Formula t : newState.getState()) {
+                HeapFormula hf = t.getHeapFormula();
+                for (HeapTerm ht : hf.getHeapTerms()) {
+                    for (Variable v : ht.getVars()) {
+                        if (v.getName().equals("N2") || v.getName().equals("N3")) {
+                            assert (v instanceof ExistVariable);
+                        }
                     }
                 }
             }
+            */
         }
-
     }
 }
