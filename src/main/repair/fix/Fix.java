@@ -9,24 +9,15 @@ import java.util.Map;
 import java.util.Set;
 
 public class Fix {
-    Heap origHeap;
+    public static Heap origHeap;
     Heap toHeap;
     Set<HeapFix> fixes;
     int priority;
 
-    public Fix(Heap origHeap) {
-        this.origHeap = origHeap.copy();
-        this.fixes = new HashSet<>();
-    }
-
-    public void setToHeap(Heap toHeap) {
-        this.toHeap = toHeap.copy();
-    }
-
-    public Fix(Heap origHeap, Heap toHeap) {
-        this.origHeap = origHeap;
+    public Fix(Heap toHeap) {
         this.toHeap = toHeap;
         this.fixes = new HashSet<>();
+        this.priority = 0;
     }
 
     //TODO: change design of HeapNode to store field name

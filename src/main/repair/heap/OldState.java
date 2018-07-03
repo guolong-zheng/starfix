@@ -2,7 +2,6 @@ package repair.heap;
 
 import repair.Utility;
 import repair.checker.Bug;
-import repair.checker.SearchState;
 import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
 import starlib.formula.PureFormula;
@@ -10,7 +9,6 @@ import starlib.formula.Variable;
 import starlib.formula.heap.HeapTerm;
 import starlib.formula.heap.InductiveTerm;
 import starlib.formula.heap.PointToTerm;
-import starlib.formula.pure.PureTerm;
 import starlib.predicate.InductivePred;
 import starlib.predicate.InductivePredMap;
 
@@ -27,37 +25,33 @@ import java.util.*;
     s.index = 0 means all inductive terms have been checked and s is SAT roll back to its parents.
     s.parent = null means finishing checking.
  */
-public class State {
+
+/*
+public class OldState {
     Heap heap;
     State parent;
-    Formula state;    //store the state of a subheap, a collection of disjunction formulas
+    Formula[] state;    //store the state of a subheap, a collection of disjunction formulas
     InductiveTerm[] inductiveTerms; //all possible unfolds
     PointToTerm[] pointToTerms; //all point to terms, used to keep track of all visited nodes
     Set<String>[] visitedVars;
     int index;  //which to unfold; when 0 means have unfolded all inductive terms
     Stack<String> visited; //store visited variable names
-    Stack<String> unvisited; //store all unvisited variable names
     boolean checked;
 
-    //used to initial first state
-    public State(Heap heap, Formula formula) {
+    public OldState(Heap heap, Formula... fs) {
         this.heap = heap.copy();
         this.parent = null;
-        this.state = formula;
-        inductiveTerms = Utility.getInductiveTerms(formula);
-        pointToTerms = Utility.getPointToTerms(formula);
+        this.state = fs;
+        inductiveTerms = Utility.getInductiveTerms(fs);
         index = inductiveTerms.length;
         visited = new Stack<>();
         checked = false;
     }
 
-    //used to expand state
-    public State(State st, Formula formula) {
-        this.state = formula;
+    public OldState(State st, Formula[] fs) {
         this.parent = st;
-        this.heap = st.getHeap().copy();
-        inductiveTerms = Utility.getInductiveTerms(formula);
-        pointToTerms = Utility.getPointToTerms(formula);
+        this.state = fs;
+        inductiveTerms = Utility.getInductiveTerms(fs);
         visited = new Stack<>();
         visited.addAll(st.getVisited());
         index = inductiveTerms.length;
@@ -71,51 +65,60 @@ public class State {
     public boolean isChecked() {
         return checked;
     }
-
     public Heap getHeap() {
         return heap;
     }
 
-    public Formula getState() {
+    public State getParent() {
+        return parent;
+    }
+
+    public Formula[] getState() {
         return state;
     }
 
-    public void unfold() {
-        InductiveTerm it = inductiveTerms[index];
-        HeapFormula heapFormula = state.getHeapFormula();
-        PureFormula pureFormula = state.getPureFormula();
-        Formula[] formulas = unfoldInductiveTerm(it);
+    public State unfold() {
+        if (index > 0) {
+            Formula[] fs = unfoldInductiveTerm(inductiveTerms[index - 1]);
+            index--;
+            return new State(this, fs);
+        } else {  //after unfolded all inductive terms, check if there is any overlaps between visited variables
 
-        for (Formula f : formulas) {
-            int heapSize = f.heapFormula.getHeapTerms().length + state.heapFormula.getHeapTerms().length - 1;
-            int pureSize = f.pureFormula.getPureTerms().length + state.pureFormula.getPureTerms().length;
-
-            HeapTerm[] newHeapTerms = new HeapTerm[heapSize];
-            PureTerm[] newPureTerms = new PureTerm[pureSize];
-
-            int curr = 0;
-            for (int i = 0; i < heapFormula.getHeapTerms().length; i++) {
-                if (!heapFormula.getHeapTerms()[i].equals(it)) {
-                    newHeapTerms[curr] = heapFormula.getHeapTerms()[i];
-                    curr++;
-                }
-            }
-
-            System.arraycopy(f.heapFormula.getHeapTerms(), 0,
-                    newHeapTerms, heapFormula.getHeapTerms().length - 1, f.heapFormula.getHeapTerms().length);
-
-            System.arraycopy(pureFormula.getPureTerms(), 0,
-                    newPureTerms, 0, pureFormula.getPureTerms().length);
-            System.arraycopy(f.pureFormula.getPureTerms(), 0,
-                    newPureTerms, pureFormula.getPureTerms().length, f.pureFormula.getPureTerms().length);
-
-            HeapFormula newHeapFormula = new HeapFormula(newHeapTerms);
-            PureFormula newPureFormula = new PureFormula(newPureTerms);
-            Formula newFormula = new Formula(newHeapFormula, newPureFormula);
-
-            State newState = new State(this, newFormula);
-            SearchState.track.push(newState);
         }
+        return null;
+    }
+
+    public State unfold(String name) {
+        if (index > 0) {
+            Formula[] fs = unfoldInductiveTerm(inductiveTerms[index - 1]);
+            index--;
+            return new State(this, fs);
+        } else {
+
+        }
+        return null;
+    }
+
+    public Formula[] unfoldInductiveTerm(InductiveTerm it, String name) {
+        System.out.println("unfolding: " + it.toString());
+        InductivePred pred = InductivePredMap.find(it.getPredName());
+        Formula[] formulas = pred.getFormulas();
+        Variable[] params = pred.getParams();
+
+        int length = formulas.length;
+        Formula[] newFormulas = new Formula[length];
+        Map<String, Variable> existVarSubMap = new HashMap<>();
+
+        for (int i = 0; i < length; i++) {
+            newFormulas[i] = formulas[i].substitute(params, it.getVars(), existVarSubMap, this);
+        }
+        it.setUnfoldedFormulas(newFormulas);
+
+        return newFormulas;
+    }
+
+    public boolean hasNext() {
+        return index > 0;
     }
 
     public Formula[] unfoldInductiveTerm(InductiveTerm it) {
@@ -137,17 +140,19 @@ public class State {
     }
 
     public Bug check() {
-        HeapFormula hp = state.getHeapFormula();
-        PureFormula pf = state.getPureFormula();
-        if (hp.toString().contains("emp")) {
-            if (Utility.checkPureFormula(pf)) {
-                this.checked = true;
-                return new Bug();
+        for (Formula f : state) {
+            HeapFormula hp = f.getHeapFormula();
+            PureFormula pf = f.getPureFormula();
+            if (hp.toString().contains("emp")) {
+                if (Utility.checkPureFormula(pf)) {
+                    this.checked = true;
+                    return new Bug();
                 }
-        } else {
-            this.checked = true;
-            return checkHeapFormula(hp);
+            } else {
+                this.checked = true;
+                return checkHeapFormula(hp);
             }
+        }
         this.checked = true;
         return null;
     }
@@ -182,7 +187,7 @@ public class State {
                         toFix.setName(heapNode.getVars()[index].getName());
                     }
                 }
-                */
+
             }
         }
         return null;
@@ -249,17 +254,24 @@ public class State {
         return null;
     }
 
-    public boolean isFinal() {
-        return inductiveTerms.length > 0;
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Formula f : state) {
+            sb.append("[" + f.toString() + "]; ");
+        }
+        return sb.toString();
     }
 
     public void updateVisited() {
-        HeapFormula hf = state.getHeapFormula();
-        for (HeapTerm ht : hf.getHeapTerms()) {
-            if (ht instanceof PointToTerm) {
-                visited.add(ht.getVars()[0].getName());
+        for (Formula f : state) {
+            HeapFormula hf = f.getHeapFormula();
+            for (HeapTerm ht : hf.getHeapTerms()) {
+                if (ht instanceof PointToTerm) {
+                    visited.add(ht.getVars()[0].getName());
+                }
             }
         }
-        }
+    }
 }
 
+*/

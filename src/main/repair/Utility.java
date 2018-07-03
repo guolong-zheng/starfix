@@ -29,6 +29,28 @@ public class Utility {
         return terms.toArray(new InductiveTerm[terms.size()]);
     }
 
+    public static InductiveTerm[] getInductiveTerms(Formula f) {
+        Set<InductiveTerm> terms = new HashSet<>();
+        HeapTerm[] hts = f.getHeapFormula().getHeapTerms();
+        for (HeapTerm ht : hts) {
+            if (ht instanceof InductiveTerm)
+                terms.add((InductiveTerm) ht);
+        }
+
+        return terms.toArray(new InductiveTerm[terms.size()]);
+    }
+
+    public static PointToTerm[] getPointToTerms(Formula f) {
+        Set<PointToTerm> terms = new HashSet<>();
+        HeapTerm[] hts = f.getHeapFormula().getHeapTerms();
+        for (HeapTerm ht : hts) {
+            if (ht instanceof PointToTerm)
+                terms.add((PointToTerm) ht);
+        }
+
+        return terms.toArray(new PointToTerm[terms.size()]);
+    }
+
     public static Set<String> getVariable(Formula[] fs) {
         Set<String> vars = new HashSet<>();
         PointToTerm[] pts = getPointToTerms(fs);

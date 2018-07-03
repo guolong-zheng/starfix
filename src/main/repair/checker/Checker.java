@@ -36,7 +36,7 @@ public class Checker {
             }
         }
 
-        State initState = new State(heap, PreconditionMap.getFormulas());
+        State initState = new State(heap, PreconditionMap.getFormulas()[0]);
         track.push(initState);
     }
 
