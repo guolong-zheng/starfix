@@ -104,7 +104,7 @@ public class HeapNode {
         HeapNode newHn = new HeapNode(this.type, this.name, this.var);
         newHn.fieldsByName = new LinkedList<>();
         newHn.fieldsByName.addAll(this.fieldsByName);
-        System.arraycopy(this.fields, 0, newHn.fields, 0, this.fields.length);
+//        System.arraycopy(this.fields, 0, newHn.fields, 0, this.fields.length);
         return newHn;
     }
 }

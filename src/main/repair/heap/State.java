@@ -32,7 +32,7 @@ public class State {
     State parent;
     Formula state;    //store the state of a subheap, a collection of disjunction formulas
     InductiveTerm[] inductiveTerms; //all possible unfolds
-    PointToTerm[] pointToTerms; //all point to terms, used to keep track of all visited nodes
+    PointToTerm[] pointToTerms; //point to terms that get unfolded in this state
     Set<String>[] visitedVars;
     int index;  //which to unfold; when 0 means have unfolded all inductive terms
     Stack<String> visited; //store visited variable names
@@ -52,16 +52,20 @@ public class State {
     }
 
     //used to expand state
-    public State(State st, Formula formula) {
+    public State(State st, Formula formula, PointToTerm[] pts) {
         this.state = formula;
         this.parent = st;
         this.heap = st.getHeap().copy();
         inductiveTerms = Utility.getInductiveTerms(formula);
-        pointToTerms = Utility.getPointToTerms(formula);
+        pointToTerms = pts;
         visited = new Stack<>();
         visited.addAll(st.getVisited());
         index = inductiveTerms.length;
         checked = false;
+    }
+
+    public State getParent() {
+        return this.parent;
     }
 
     public Stack<String> getVisited() {
@@ -70,6 +74,10 @@ public class State {
 
     public boolean isChecked() {
         return checked;
+    }
+
+    public PointToTerm[] getPointToTerms() {
+        return this.pointToTerms;
     }
 
     public Heap getHeap() {
@@ -81,12 +89,13 @@ public class State {
     }
 
     public void unfold() {
-        InductiveTerm it = inductiveTerms[index];
+        InductiveTerm it = inductiveTerms[0];
         HeapFormula heapFormula = state.getHeapFormula();
         PureFormula pureFormula = state.getPureFormula();
         Formula[] formulas = unfoldInductiveTerm(it);
 
         for (Formula f : formulas) {
+            PointToTerm[] pts = Utility.getPointToTerms(f);
             int heapSize = f.heapFormula.getHeapTerms().length + state.heapFormula.getHeapTerms().length - 1;
             int pureSize = f.pureFormula.getPureTerms().length + state.pureFormula.getPureTerms().length;
 
@@ -113,7 +122,7 @@ public class State {
             PureFormula newPureFormula = new PureFormula(newPureTerms);
             Formula newFormula = new Formula(newHeapFormula, newPureFormula);
 
-            State newState = new State(this, newFormula);
+            State newState = new State(this, newFormula, pts);
             Checker.track.push(newState);
         }
     }

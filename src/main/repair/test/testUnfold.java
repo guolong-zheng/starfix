@@ -31,7 +31,6 @@ public class testUnfold {
         Formula f = new Formula();
         f.heapFormula = new HeapFormula(it);
         State s = new State(heap, f);
-
         s.unfold();
         for (State newState : Checker.track) {
 

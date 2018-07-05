@@ -5,16 +5,13 @@ import java.util.*;
 public class Heap {
     HeapNode root;  //root of current heap
     Set<HeapNode> heapNodes;
-    public static Map<String, HeapNode> name2node;    //map variable name to concrete heap node
-    public static Map<Object, HeapNode> var2node;  //map original variable to concrete heap node
+    public static Map<String, HeapNode> name2node = new HashMap<>();    //map variable name to concrete heap node
+    public static Map<Object, HeapNode> var2node = new HashMap<>();  //map original variable to concrete heap node
     public static Set<String> allVars = new HashSet<>();
 
     public Heap() {
         this.root = null;
-        this.var2node = new HashMap<>();
-        this.name2node = new HashMap<>();
         this.heapNodes = new HashSet<>();
-        //this.allVars = new HashSet<>();
     }
 
     public boolean isEmpty() {

@@ -120,6 +120,7 @@ public class PointToTerm extends HeapTerm {
 		if (root.getName().equals("null")) {
 			return null;
 		}
+
 		Variable[] concreteVars = heap.getNode(root.getName()).toVarArry();
 
 		for (int i = 0; i < length; i++) {

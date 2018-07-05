@@ -8,6 +8,7 @@ import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
 import starlib.formula.Variable;
 import starlib.formula.heap.HeapTerm;
+import starlib.formula.heap.PointToTerm;
 import starlib.precondition.Initializer;
 import starlib.precondition.PreconditionMap;
 
@@ -58,6 +59,7 @@ public class Checker {
             if (error == null) {
                 forward();
             } else {
+                System.out.println(state.getState().toString());
                 fix(error);
             }
         }
@@ -65,7 +67,7 @@ public class Checker {
 
     public static void forward() {
         State state = track.pop();
-        if (state.isFinal()) {
+        if (!state.isFinal()) {
             Fix newFix = new Fix(state.getHeap());
             fixSet.add(newFix);
         } else {
@@ -74,22 +76,32 @@ public class Checker {
     }
 
     public static void fix(Bug error) {
+        State state;
         if (error.isBackward()) {
-            backward(error.getVar().toString());
+            state = backward(error.getVar().toString());
+        } else {
+            state = track.pop();
         }
-        State state = track.pop();
+        System.out.println("error is " + error.toString());
+        System.out.println("corresponding is " + state.getState().toString());
+        System.out.println("its parent is " + state.getParent().getState().toString());
         state.fix(error);
+        System.out.println("after fix " + state.getState().toString());
     }
 
-    public static void backward(String name) {
-        State aimState = var2state.get(name);
-        while (!track.isEmpty()) {
-            if (track.peek() != aimState) {
-                track.pop();
-            } else
-                break;
+    public static State backward(String name) {
+        System.out.println("name is " + name);
+        State state = track.pop();
+        while (state.getParent() != null) {
+            PointToTerm[] pts = state.getPointToTerms();
+            for (PointToTerm pt : pts) {
+                if (pt.getRoot().getName().equals(name)) {
+                    return state.getParent();
+                }
+            }
+            state = state.getParent();
         }
-        track.pop();
+        return state;
     }
     /*
     public static void search() {
