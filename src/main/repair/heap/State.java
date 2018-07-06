@@ -154,9 +154,12 @@ public class State {
 
         this.checked = true;
 
-        if (!Utility.checkPureFormula(pf))
+        if (!Utility.checkPureFormula(pf)) {
+            System.out.println(pf.toString());
             return new Bug(Status.STOP);
+        }
         else {
+            System.out.println("checking " + hp.toString());
             return checkHeapFormula(hp);
         }
     }
@@ -164,11 +167,12 @@ public class State {
     public Bug checkHeapFormula(HeapFormula heapFormula) {
         for (HeapTerm ht : heapFormula.getHeapTerms()) {
             if (ht == null) {
+                System.out.println("encountering null");
                 return new Bug(Status.STOP);
             }
             if (ht instanceof PointToTerm) {
                 Variable rootVar = ht.getRoot();
-                if (!visited.add(rootVar.getName())) {
+                if (!visitedVars.add(rootVar.getName())) {
                     return new Bug(rootVar, Status.BACKWARD);
                 }
                 HeapNode root = heap.getNode(rootVar.getName());
@@ -199,33 +203,55 @@ public class State {
         }
     }
 
-    public void fix(Bug error) {
-        //System.out.println("the error is:" + error.toString());
+
+    public void backfix(Bug error) {
+        String name = error.getVar().getName();
+        for (PointToTerm pt : pointToTerms) {
+            Variable[] vars = pt.getVars();
+            for (int i = 0; i < vars.length; i++) {
+                if (vars[i].getName().equals(name) && vars[i] instanceof ExistVariable) {
+                    ((ExistVariable) vars[i]).next();
+                    HeapNode hn = heap.getNode(pt.getRoot().getName());
+                    hn.fieldsByName.set(i - 1, vars[i].getName());
+                    break;
+                }
+            }
+        }
+    }
+
+    public void stayfix(Bug error) {
         PointToTerm pointToTerm = error.getPointToTerm();
         Variable root = pointToTerm.getRoot();
         HeapNode hn = heap.getNode(root.getName());
         Variable[] vars = pointToTerm.getVars();
 
         for (int i = 1; i < vars.length; i++) {
-            if (error.isBackward()) {
-                if (vars[i] instanceof ExistVariable) {
-                    //TODO: what to do when explored all possibilities
-                    System.out.println("exist var " + vars[i].toString());
-                    ((ExistVariable) vars[i]).next();
+            if (!(vars[i] instanceof ExistVariable)) {
+                if (!vars[i].getName().equals(hn.fieldsByName.get(i - 1))) {
                     hn.fieldsByName.set(i - 1, vars[i].getName());
-                    break;
                 }
             } else {
-                if (!(vars[i] instanceof ExistVariable)) {
-                    if (!vars[i].getName().equals(hn.fieldsByName.get(i - 1))) {
-                        hn.fieldsByName.set(i - 1, vars[i].getName());
-                    }
-                } else {
-                    vars[i].setName(hn.fieldsByName.get(i - 1));
-                }
+                vars[i].setName(hn.fieldsByName.get(i - 1));
             }
         }
-        return;
+    }
+
+    public boolean isFinal() {
+        HeapFormula hp = state.getHeapFormula();
+        for (HeapTerm ht : hp.getHeapTerms()) {
+            if (ht instanceof InductiveTerm)
+                return false;
+        }
+        return true;
+    }
+
+    public void updateVisited() {
+        HeapFormula hf = state.getHeapFormula();
+        for (HeapTerm ht : hf.getHeapTerms()) {
+            if (ht instanceof PointToTerm) {
+                visited.add(ht.getVars()[0].getName());
+            }
+        }
     }
 
     //check the * separation, returns the repeated variable name
@@ -240,17 +266,5 @@ public class State {
         return null;
     }
 
-    public boolean isFinal() {
-        return inductiveTerms.length > 0;
-    }
-
-    public void updateVisited() {
-        HeapFormula hf = state.getHeapFormula();
-        for (HeapTerm ht : hf.getHeapTerms()) {
-            if (ht instanceof PointToTerm) {
-                visited.add(ht.getVars()[0].getName());
-            }
-        }
-        }
 }
 

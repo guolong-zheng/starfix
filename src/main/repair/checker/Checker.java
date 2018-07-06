@@ -56,26 +56,20 @@ public class Checker {
         while (!track.isEmpty()) {
             State state = track.peek();
             Bug error = state.check();
-            switch (error.status) {
-                case STOP:
-                    track.pop();
-                    break;
-                case STAY:
-                    state = track.pop();
-                    break;
-                case BACKWARD:
-                    backward(error.getVar().getName());
-                    break;
-                case PASS:
-                    forward();
-                    continue;
-            }
+
+            if (error.status == Status.STOP) {
+                System.out.println("abandoned state: " + state.getState().toString());
+                track.pop();
+            } else if (error.status == Status.PASS)
+                forward();
+            else
+                fix(error);
         }
     }
 
     public static void forward() {
         State state = track.pop();
-        if (!state.isFinal()) {
+        if (state.isFinal()) {
             Fix newFix = new Fix(state.getHeap());
             fixSet.add(newFix);
         } else {
@@ -87,18 +81,15 @@ public class Checker {
         State state;
         if (error.isBackward()) {
             state = backward(error.getVar().toString());
+            state.backfix(error);
         } else {
             state = track.pop();
+            state.stayfix(error);
         }
-        System.out.println("error is " + error.toString());
-        System.out.println("corresponding is " + state.getState().toString());
-        System.out.println("its parent is " + state.getParent().getState().toString());
-        state.fix(error);
-        System.out.println("after fix " + state.getState().toString());
+        track.push(state);
     }
 
     public static State backward(String name) {
-        System.out.println("name is " + name);
         State state = track.pop();
         while (state.getParent() != null) {
             PointToTerm[] pts = state.getPointToTerms();
@@ -111,43 +102,4 @@ public class Checker {
         }
         return state;
     }
-    /*
-    public static void search() {
-        while (!track.isEmpty() && count < 100) {
-            State state = track.peek();
-            System.out.println(state.isChecked() + " at iteration " + count++ + " : " + state.toString());
-            if (state.isChecked()) {
-                if (state.hasNext()) {
-                    State newState = state.unfold();
-                    track.push(newState);
-                } else {
-                    track.pop();
-                }
-            } else {
-                Bug error = state.check();
-                if (error != null) {
-                    if (error.stop == true) {
-                        track.pop();
-                        continue;
-                    }
-                    System.out.println("found error: " + error.toString());
-                    if (error.isBackward()) {
-                        track.pop();
-                        state = track.peek();
-                        state.rollback();
-                        state.fix();
-                        System.out.println("backwarded");
-                    } else {
-                        System.out.println("***fixing*** " + state.toString());
-                        state.fix(error);
-                        System.out.println("***fixed*** " + state.toString());
-                    }
-                } else {
-                    state.updateVisited();
-                }
-            }
-            System.out.println();
-        }
-    }
-    */
 }

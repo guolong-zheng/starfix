@@ -44,9 +44,10 @@ public class Bug {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(var.toString() + " ");
-        sb.append(pointToTerm.toString() + " ");
-        sb.append(index + " ");
+        sb.append("wrong variable[" + var.toString() + "] ");
+        if (pointToTerm != null)
+            sb.append("correspoding term[" + pointToTerm.toString() + "] ");
+        //sb.append(index + " ");
         return sb.toString();
     }
 }

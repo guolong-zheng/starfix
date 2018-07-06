@@ -48,7 +48,7 @@ public class testCheckAndFix {
         Bug error = newState.check();
         System.out.println("error trace:" + error.toString());
         System.out.println("before fix:\n" + newState.getHeap().toString());
-        newState.fix(error);
+        newState.stayfix(error);
         System.out.println("after fix:\n" + newState.getHeap().toString());
 
         System.out.println("error is:" + newState.check());
