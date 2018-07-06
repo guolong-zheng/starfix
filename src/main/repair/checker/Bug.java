@@ -4,31 +4,30 @@ import starlib.formula.Variable;
 import starlib.formula.heap.PointToTerm;
 
 public class Bug {
+
+    Status status;
     Variable var;
     PointToTerm pointToTerm;
-    boolean res;
     int index;
-    boolean backward;
-    public boolean stop;
 
-    public Bug() {
-        this.stop = true;
+    public Bug(Status status) {
+        this.status = status;
     }
 
-    public Bug(boolean res) {
-        this.stop = true;
-        this.res = false;
+    public Bug(Variable var, Status status) {
+        this.var = var;
+        this.status = status;
     }
 
-    public Bug(int index, PointToTerm pointToTerm, Variable var, boolean backward) {
+    public Bug(int index, PointToTerm pointToTerm, Variable var, Status status) {
         this.index = index;
         this.pointToTerm = pointToTerm;
         this.var = var;
-        this.backward = backward;
+        this.status = status;
     }
 
     public boolean isBackward() {
-        return backward;
+        return status == Status.BACKWARD;
     }
 
     public PointToTerm getPointToTerm() {
@@ -48,7 +47,6 @@ public class Bug {
         sb.append(var.toString() + " ");
         sb.append(pointToTerm.toString() + " ");
         sb.append(index + " ");
-        sb.append(backward);
         return sb.toString();
     }
 }

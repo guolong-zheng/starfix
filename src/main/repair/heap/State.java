@@ -3,6 +3,7 @@ package repair.heap;
 import repair.Utility;
 import repair.checker.Bug;
 import repair.checker.Checker;
+import repair.checker.Status;
 import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
 import starlib.formula.PureFormula;
@@ -33,7 +34,7 @@ public class State {
     Formula state;    //store the state of a subheap, a collection of disjunction formulas
     InductiveTerm[] inductiveTerms; //all possible unfolds
     PointToTerm[] pointToTerms; //point to terms that get unfolded in this state
-    Set<String>[] visitedVars;
+    Set<String> visitedVars;
     int index;  //which to unfold; when 0 means have unfolded all inductive terms
     Stack<String> visited; //store visited variable names
     Stack<String> unvisited; //store all unvisited variable names
@@ -47,6 +48,7 @@ public class State {
         inductiveTerms = Utility.getInductiveTerms(formula);
         pointToTerms = Utility.getPointToTerms(formula);
         index = inductiveTerms.length;
+        visitedVars = new HashSet<>();
         visited = new Stack<>();
         checked = false;
     }
@@ -58,6 +60,7 @@ public class State {
         this.heap = st.getHeap().copy();
         inductiveTerms = Utility.getInductiveTerms(formula);
         pointToTerms = pts;
+        visitedVars = new HashSet<>();
         visited = new Stack<>();
         visited.addAll(st.getVisited());
         index = inductiveTerms.length;
@@ -148,57 +151,36 @@ public class State {
     public Bug check() {
         HeapFormula hp = state.getHeapFormula();
         PureFormula pf = state.getPureFormula();
-        if (hp.toString().contains("emp")) {
-            if (Utility.checkPureFormula(pf)) {
-                this.checked = true;
-                return new Bug();
-                }
-        } else {
-            this.checked = true;
-            return checkHeapFormula(hp);
-            }
+
         this.checked = true;
-        return null;
+
+        if (!Utility.checkPureFormula(pf))
+            return new Bug(Status.STOP);
+        else {
+            return checkHeapFormula(hp);
+        }
     }
 
     public Bug checkHeapFormula(HeapFormula heapFormula) {
         for (HeapTerm ht : heapFormula.getHeapTerms()) {
             if (ht == null) {
-                System.out.println("root is null");
-                return new Bug();
+                return new Bug(Status.STOP);
             }
             if (ht instanceof PointToTerm) {
                 Variable rootVar = ht.getRoot();
+                if (!visited.add(rootVar.getName())) {
+                    return new Bug(rootVar, Status.BACKWARD);
+                }
                 HeapNode root = heap.getNode(rootVar.getName());
                 PointToTerm heapNode = root.toPointToTerm();
                 int index = ((PointToTerm) ht).compare(heapNode); //change this to boolean??
                 if (index == -1)
                     continue;
                 Variable toFix = ht.getVars()[index];
-                for (String name : visited)
-                    System.out.println("visited " + name);
-                return new Bug(index, (PointToTerm) ht, toFix, visited.contains(ht.getRoot().getName()));
-                /*
-                if (visited.contains(ht.getRoot().getName())) {
-                    //root variable has been visited before
-                    return new Bug(index, (PointToTerm) ht, toFix, true);
-                } else {
-                    //root variable hasn't been visited before
-                   // return new Bug(index, (PointToTerm) ht, toFix, false);
-                    if (toFix instanceof ExistVariable) {
-                        ((ExistVariable) toFix).next();
-                    } else {
-                        toFix.setName(heapNode.getVars()[index].getName());
-                    }
-                }
-                */
+                return new Bug(index, (PointToTerm) ht, toFix, Status.STAY);
             }
         }
-        return null;
-    }
-
-    public void rollback() {
-        this.index++;
+        return new Bug(Status.PASS);
     }
 
     public void fix() {

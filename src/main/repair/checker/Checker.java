@@ -56,11 +56,19 @@ public class Checker {
         while (!track.isEmpty()) {
             State state = track.peek();
             Bug error = state.check();
-            if (error == null) {
-                forward();
-            } else {
-                System.out.println(state.getState().toString());
-                fix(error);
+            switch (error.status) {
+                case STOP:
+                    track.pop();
+                    break;
+                case STAY:
+                    state = track.pop();
+                    break;
+                case BACKWARD:
+                    backward(error.getVar().getName());
+                    break;
+                case PASS:
+                    forward();
+                    continue;
             }
         }
     }
