@@ -20,6 +20,10 @@ public class Fix {
         this.priority = 0;
     }
 
+    public String toString() {
+        return toHeap.toString();
+    }
+
     //TODO: change design of HeapNode to store field name
     public void generate() {
         Map<String, HeapNode> name2node = toHeap.getName2NodeMap();

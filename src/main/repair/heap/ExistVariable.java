@@ -12,9 +12,9 @@ public class ExistVariable extends Variable {
     Queue<String> potentialVars;  //TODO: store in one public place as an array and use index to control access,
     // to save memory and access time
 
-    public ExistVariable(String name, String type, Set<String> visited) {
+    public ExistVariable(String name, String type, Set<String> allVars, Set<String> visited) {
         super(name, type);
-        potentialVars = new LinkedList<>(visited);
+        potentialVars = new LinkedList<>();
     }
 
     public ExistVariable(String name, String type) {
@@ -25,9 +25,15 @@ public class ExistVariable extends Variable {
         super(name);
     }
 
-    public ExistVariable(Variable var, Set<String> visited) {
+    public ExistVariable(Variable var, Set<String> allVars, Set<String> visited) {
         super(var);
-        potentialVars = new LinkedList<>(visited);
+        potentialVars = new LinkedList<>();
+        potentialVars.add("null");
+        for (String s : allVars) {
+            if (!visited.contains(s)) {
+                potentialVars.add(s);
+            }
+        }
     }
 
     public ExistVariable(String name, Set<String> potentialVars) {
@@ -37,21 +43,23 @@ public class ExistVariable extends Variable {
     }
 
     public boolean next() {
+        System.out.print("selecting from : ");
         for (String s : potentialVars) {
-            System.out.println("possibility : " + s);
+            System.out.print(s + " ");
         }
-
+        System.out.println();
         if (potentialVars.isEmpty()) {
-            if (this.getName().equals("null"))
+            if (this.getValue().equals("null"))
                 // has explored all possibilities
                 return false;
-            else
-                this.setName("null");
+            else {
+                System.out.println("set [" + this.getName() + "] form " + this.getValue() + " to [null]");
+                this.setValue("null");
+            }
         } else {
-            String newName = potentialVars.remove();
-            System.out.println("new name" + newName + " this name: " + this.getName());
-            this.setName(newName);
-            System.out.println(this.getName());
+            String newValue = potentialVars.remove();
+            System.out.println("set [" + this.getName() + "] form " + this.getValue() + " to [" + newValue + "]");
+            this.setValue(newValue);
         }
 
         return true;

@@ -1,5 +1,6 @@
 package repair.heap;
 
+import starlib.formula.Utilities;
 import starlib.formula.Variable;
 import starlib.formula.heap.PointToTerm;
 
@@ -74,13 +75,24 @@ public class HeapNode {
 
     public Variable[] toVarArry() {
         Variable[] vars = new Variable[fieldsByName.size() + 1];
-        vars[0] = new Variable(name, type);
+        vars[0] = new Variable(name, type, name);
         for (int i = 1; i < fieldsByName.size() + 1; i++) {
-            String name = fieldsByName.get(i - 1);
-            vars[i] = new Variable(name);
+            String fieldValue = fieldsByName.get(i - 1);
+            vars[i] = new Variable(type + "_i", type, fieldValue);
         }
         return vars;
     }
+
+    public String[] toValueArry() {
+        String[] values = new String[fieldsByName.size() + 1];
+        values[0] = name;
+        for (int i = 1; i < fieldsByName.size() + 1; i++) {
+            String name = fieldsByName.get(i - 1);
+            values[i] = name;
+        }
+        return values;
+    }
+
 
     public PointToTerm toPointToTerm() {
         return new PointToTerm(type, toVarArry());

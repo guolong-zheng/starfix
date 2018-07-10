@@ -21,6 +21,7 @@ public class Utilities {
 		
 		return -1;
 	}
+
 //	
 //	public static boolean contains(List<Variable> vars, Variable var) {
 //		int length = vars.size();
@@ -44,8 +45,26 @@ public class Utilities {
 		}
 		
 		String freshName = freshName(oldName);
-		
-		return new Variable(freshName, oldVar.getType());
+
+		return new Variable(freshName, oldVar.getType(), oldVar.getValue());
+	}
+
+	public static Variable freshVar(String type, String value) {
+		String freshName = freshName("pt_var");
+		return new Variable(freshName, type, value);
+	}
+
+	public static Variable freshVar(Variable oldVar, String value) {
+		String oldName = oldVar.getName();
+		if (oldName.equals("_")) return oldVar;
+
+		if (oldName.matches(".*_\\d+")) {
+			oldName = oldName.substring(0, oldName.lastIndexOf('_'));
+		}
+
+		String freshName = freshName(oldName);
+
+		return new Variable(freshName, oldVar.getType(), value);
 	}
 	
 	private static String freshName(String oldName) {

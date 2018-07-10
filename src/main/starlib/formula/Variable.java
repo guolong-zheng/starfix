@@ -16,6 +16,8 @@ public class Variable extends Expression{
 	private String name;
 	
 	private String type;
+
+	private String value;
 	
 	private Set<Variable> lazyGetVars;
 
@@ -32,10 +34,19 @@ public class Variable extends Expression{
 		this.lazyGetVars = new HashSet<Variable>();
 		this.lazyGetVars.add(this);
 	}
+
+	public Variable(String name, String type, String value) {
+		this.name = name;
+		this.type = type;
+		this.value = value;
+		this.lazyGetVars = new HashSet<Variable>();
+		this.lazyGetVars.add(this);
+	}
 	
 	public Variable(Variable var) {
 		this.name = var.getName();
 		this.type = var.getType();
+		this.value = var.getValue();
 		this.lazyGetVars = new HashSet<Variable>();
 		this.lazyGetVars.add(this);
 	}
@@ -47,6 +58,10 @@ public class Variable extends Expression{
 	public String getType() {
 		return type;
 	}
+
+	public String getValue() {
+		return value;
+	}
 	
 	public void setName(String name) {
 		this.name = name;
@@ -54,6 +69,10 @@ public class Variable extends Expression{
 	
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 	
 	public boolean hasType() {
@@ -69,8 +88,7 @@ public class Variable extends Expression{
 			return false;
 	}
 	
-	
-	
+
 	@Override
 	public String toString() {
 		return name;
@@ -160,7 +178,7 @@ public class Variable extends Expression{
 	
 	@Override
 	public Expression copy() {
-		return new Variable(name, type);
+		return new Variable(name, type, value);
 	}
 
 	@Override
@@ -172,6 +190,6 @@ public class Variable extends Expression{
 	}
 
 	public String evaluate() {
-		return name;
+		return this.value;
 	}
 }

@@ -62,6 +62,6 @@ public class NullExpression extends Expression{
 
 	@Override
 	public String evaluate() {
-		return null;
-	}
+        return "null";
+    }
 }

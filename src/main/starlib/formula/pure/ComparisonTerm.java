@@ -8,6 +8,7 @@ import starlib.StarVisitor;
 import starlib.formula.Variable;
 import starlib.formula.expression.Comparator;
 import starlib.formula.expression.Expression;
+import starlib.formula.expression.NullExpression;
 
 public class ComparisonTerm extends PureTerm {
 	
@@ -122,7 +123,6 @@ public class ComparisonTerm extends PureTerm {
 	public boolean evaluate() {
 		String leftValue = exp1.evaluate();
 		String rightValue = exp2.evaluate();
-
 		switch (comp) {
 			case EQ:
 				return leftValue.equals(rightValue);

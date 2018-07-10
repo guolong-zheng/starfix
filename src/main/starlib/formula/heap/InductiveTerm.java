@@ -194,8 +194,8 @@ public class InductiveTerm extends HeapTerm {
                     newVars[i] = existVarSubMap.get(oldVar.getName());
                 } else {
                     Variable freshVar = Utilities.freshVar(oldVar);
-                    newVars[i] = new ExistVariable(freshVar, state.getHeap().getVars());
-                    existVarSubMap.put(oldVar.getName(), newVars[i]);
+					newVars[i] = new ExistVariable(freshVar, state.getHeap().getVars(), state.getVisitedVars());
+					existVarSubMap.put(oldVar.getName(), newVars[i]);
                 }
 			}
 		}

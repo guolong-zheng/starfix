@@ -43,6 +43,10 @@ public class Heap {
     }
 
     public HeapNode getNode(String name) {
+//        for(HeapNode hn : heapNodes)
+//            if(hn.getName().equals(name))
+//                return hn;
+//        return null;
         return name2node.get(name);
     }
 
