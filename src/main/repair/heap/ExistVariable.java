@@ -29,6 +29,7 @@ public class ExistVariable extends Variable {
         super(var);
         potentialVars = new LinkedList<>();
         potentialVars.add("null");
+        visited.add(var.getValue());
         for (String s : allVars) {
             if (!visited.contains(s)) {
                 potentialVars.add(s);

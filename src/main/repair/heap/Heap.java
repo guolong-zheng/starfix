@@ -43,11 +43,11 @@ public class Heap {
     }
 
     public HeapNode getNode(String name) {
-//        for(HeapNode hn : heapNodes)
-//            if(hn.getName().equals(name))
-//                return hn;
-//        return null;
-        return name2node.get(name);
+        for (HeapNode hn : heapNodes)
+            if (hn.getName().equals(name))
+                return hn;
+        return null;
+//        return name2node.get(name);
     }
 
     public HeapNode findNode(Object var) {
@@ -62,10 +62,6 @@ public class Heap {
         return sb.toString();
     }
 
-    public void revert() {
-        //TODO: how to revert a heap, or each state corresponding to one unique heap, then no need to revert heap, only need to
-        // revert state, then needed work: copy heap to a new state; make change to current heap instead of change to a global one;
-    }
 
     public Heap copy() {
         Heap newHeap = new Heap();
@@ -73,7 +69,6 @@ public class Heap {
         for (HeapNode hn : this.heapNodes) {
             newHeap.heapNodes.add(hn.copy());
         }
-
         return newHeap;
     }
 }

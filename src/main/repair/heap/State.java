@@ -136,9 +136,6 @@ public class State {
             System.out.println("unfold got:" + newFormula.toString());
             State newState = new State(this, newFormula, pts);
             newState.updateVisitedVars();
-//            for(String s : newState.getVisitedVars()){
-//                System.out.println(s);
-//            }
             Checker.track.push(newState);
         }
     }
@@ -208,6 +205,12 @@ public class State {
                 if (vars[i].getValue().equals(value) && vars[i] instanceof ExistVariable) {
                     if (!((ExistVariable) vars[i]).next())
                         return false;
+                    for (HeapTerm ht : state.getHeapFormula().getHeapTerms()) {
+                        for (Variable var : ht.getVars()) {
+                            if (var.getName().equals(vars[i].getName()))
+                                var.setValue(vars[i].getValue());
+                        }
+                    }
                     HeapNode hn = heap.getNode(pt.getRoot().getValue());
                     hn.fieldsByName.set(i - 1, vars[i].getValue());
                     System.out.println("heap node " + hn.toString());
@@ -221,18 +224,18 @@ public class State {
     }
 
     public void stayfix(Bug error) {
-        System.out.println("fixing");
+        System.out.println("fixing " + error.toString());
         PointToTerm pointToTerm = error.getPointToTerm();
         Variable root = pointToTerm.getRoot();
         HeapNode hn = heap.getNode(root.getValue());
         Variable[] vars = pointToTerm.getVars();
         for (int i = 1; i < vars.length; i++) {
             if (!(vars[i] instanceof ExistVariable)) {
-                if (!vars[i].getName().equals(hn.fieldsByName.get(i - 1))) {
-                    hn.fieldsByName.set(i - 1, vars[i].getName());
+                if (!vars[i].getValue().equals(hn.fieldsByName.get(i - 1))) {
+                    hn.fieldsByName.set(i - 1, vars[i].getValue());
                 }
             } else {
-                vars[i].setName(hn.fieldsByName.get(i - 1));
+                vars[i].setValue(hn.fieldsByName.get(i - 1));
             }
         }
     }

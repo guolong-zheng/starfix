@@ -14,14 +14,6 @@ public class HeapNode {
     protected List<String> fieldsByName;
     protected HeapNode[] fields;
 
-
-    public HeapNode() {
-        this.type = "any";
-        this.name = "null";
-        this.var = null;
-    }
-
-
     public HeapNode(String type, String name, Object var) {
         this.type = type;
         this.name = name;
@@ -100,7 +92,7 @@ public class HeapNode {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(type + " " + " " + name + "-> (");
+        sb.append(name + "-> (");
         for (String s : fieldsByName) {
             sb.append(s + ",");
         }
@@ -115,8 +107,8 @@ public class HeapNode {
     public HeapNode copy() {
         HeapNode newHn = new HeapNode(this.type, this.name, this.var);
         newHn.fieldsByName = new LinkedList<>();
-        newHn.fieldsByName.addAll(this.fieldsByName);
-//        System.arraycopy(this.fields, 0, newHn.fields, 0, this.fields.length);
+        for (String s : this.fieldsByName)
+            newHn.fieldsByName.add(s);
         return newHn;
     }
 }

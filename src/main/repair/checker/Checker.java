@@ -61,6 +61,8 @@ public class Checker {
             System.out.println("checking " + state.getState().toString());
             Bug error = state.check();
 
+            System.out.println(error.status);
+
             if (error.status == Status.STOP) {
                 System.out.println("abandoned state: " + state.getState().toString());
                 track.pop();
@@ -100,14 +102,14 @@ public class Checker {
         }
     }
 
-    public static Set<State> backward(String value) {
+    public static Set<State> backward(String toFix) {
         Set<State> states = new HashSet<>();
         State state = track.pop();
         while (state.getParent() != null) {
             PointToTerm[] pts = state.getPointToTerms();
             for (PointToTerm pt : pts) {
                 for (Variable var : pt.getVars()) {
-                    if (var.getValue().equals(value) && var instanceof ExistVariable)
+                    if (var.getValue().equals(toFix) && var instanceof ExistVariable)
                         states.add(state);
                 }
             }
