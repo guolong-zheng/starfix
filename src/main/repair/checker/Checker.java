@@ -25,7 +25,6 @@ public class Checker {
         Initializer.initDataNode(dataNode);
         Initializer.initPredicate(pred);
         Initializer.initPrecondition(state);
-        //Fix.origHeap = heap;
 
         for (Formula f : PreconditionMap.getFormulas()) {
             HeapFormula hf = f.getHeapFormula();
@@ -49,6 +48,7 @@ public class Checker {
         init(dataNode, pred, state, heap, name);
         search();
 
+        System.out.println("All fixed heaps: ");
         for (Fix fix : fixSet) {
             System.out.println(fix.toString());
         }
