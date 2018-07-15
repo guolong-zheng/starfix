@@ -39,7 +39,7 @@ public class testCheckAndFix {
         f.heapFormula = new HeapFormula(it);
         State s = new State(heap, f);
         s.unfold();
-        State newState = Checker.track.pop();
+        State newState = Checker.track.remove();
         System.out.println("state after unfold:");
         Formula foru = newState.getState();
         System.out.println(foru.toString());

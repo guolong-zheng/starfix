@@ -17,7 +17,7 @@ import java.util.*;
 
 
 public class Checker {
-    public static Stack<State> track = new Stack<>();
+    public static Queue<State> track = new LinkedList<>();
     public static Set<Fix> fixSet = new HashSet<>();
     public static int count = 0;
 
@@ -40,7 +40,7 @@ public class Checker {
         }
 
         State initState = new State(heap, PreconditionMap.getFormulas()[0]);
-        track.push(initState);
+        track.add(initState);
     }
 
     public static void repair(Object var, String dataNode, String pred, String state, String name) {
@@ -57,27 +57,24 @@ public class Checker {
     public static void search() {
         while (!track.isEmpty() && count < 100) {
             System.out.println("------Iteration " + count++ + "------");
-            State state = track.peek();
+            State state = track.remove();
             System.out.println("checking " + state.getState().toString());
             Bug error = state.check();
-
-            System.out.println(error.status);
+            System.out.println("error status: " + error.status);
 
             if (error.status == Status.STOP) {
                 System.out.println("abandoned state: " + state.getState().toString());
-                track.pop();
             } else if (error.status == Status.PASS) {
-                forward();
+                forward(state);
             }
             else
-                fix(error);
+                fix(state, error);
 
             System.out.println("-----------------------\n");
         }
     }
 
-    public static void forward() {
-        State state = track.pop();
+    public static void forward(State state) {
         if (state.isFinal()) {
             System.out.println("fixed state " + state.getState().toString());
             Fix newFix = new Fix(state.getHeap());
@@ -87,29 +84,78 @@ public class Checker {
         }
     }
 
-    public static void fix(Bug error) {
-        if (error.isBackward()) {
-            Set<State> states = backward(error.getVar().getValue());
-            for (State state : states) {
-                System.out.println("backward to " + state.getState().toString());
-                if (state.backfix(error))
-                    track.push(state);
+    public static void fix(State origState, Bug error) {
+        if (error.status == Status.MISMATCH || error.status == Status.NULL_ROOT) {
+            State st = mismatch_backward(origState, error);
+            if (st != null) {
+                System.out.println("backward to " + st.getState().toString());
+                st.backfix(error);
+                track.add(st);
             }
-        } else {
-            State state = track.pop();
-            state.stayfix(error);
-            track.push(state);
+        } else if (error.status == Status.DUPLICATE) {
+            State state_1 = mismatch_backward(origState, error);
+            if (state_1 != null) {
+                System.out.println("backward to " + state_1.getState().toString());
+                state_1.backfix(error);
+                track.add(state_1);
+
+                State state_2 = dup_backward(state_1, error);
+                if (state_2 != null) {
+                    System.out.println("backward to " + state_2.getState().toString());
+                    state_2.backfix(error);
+                    track.add(state_2);
+                }
+            }
+        } else if (error.status == Status.STAY) {
+            origState.stayfix(error);
+            track.add(origState);
         }
+    }
+
+    public static State mismatch_backward(State origState, Bug error) {
+        State state = origState;
+        String toFix = error.getVar().getName();
+        while (state != null) {
+            PointToTerm[] pts = state.getPointToTerms();
+            for (PointToTerm pt : pts) {
+                Variable[] vars = pt.getVars();
+                for (int i = 1; i < vars.length; i++) {
+                    if (vars[i].getName().equals(toFix))
+                        return state;
+                }
+            }
+            state = state.getParent();
+        }
+
+        return null;
+    }
+
+    public static State dup_backward(State origState, Bug error) {
+        State state = origState;
+        String toFix = error.getVar().getValue();
+        while (state != null) {
+            PointToTerm[] pts = state.getPointToTerms();
+            for (PointToTerm pt : pts) {
+                Variable[] vars = pt.getVars();
+                for (int i = 1; i < vars.length; i++) {
+                    if (vars[i].getValue().equals(toFix) && vars[i] instanceof ExistVariable)
+                        return state;
+                }
+            }
+            state = state.getParent();
+        }
+
+        return null;
     }
 
     public static Set<State> backward(String toFix) {
         Set<State> states = new HashSet<>();
-        State state = track.pop();
+        State state = track.remove();
         while (state.getParent() != null) {
             PointToTerm[] pts = state.getPointToTerms();
             for (PointToTerm pt : pts) {
                 for (Variable var : pt.getVars()) {
-                    if (var.getValue().equals(toFix) && var instanceof ExistVariable)
+                    if (!var.equals(pt.getRoot()) && var.getValue().equals(toFix) && var instanceof ExistVariable)
                         states.add(state);
                 }
             }

@@ -109,7 +109,11 @@ public class InductiveTerm extends HeapTerm {
 	public HeapTerm copy() {
 		Variable[] copyVars = new Variable[vars.length];
 		for (int i = 0; i < vars.length; i++) {
-			copyVars[i] = new Variable(vars[i].getName(), vars[i].getType());
+			//copyVars[i] = new Variable(vars[i].getName(), vars[i].getType());
+			if (vars[i] instanceof ExistVariable)
+				copyVars[i] = new ExistVariable((ExistVariable) vars[i]);
+			else
+				copyVars[i] = new Variable(vars[i]);
 		}
 		
 		String copyPredName = predName;
@@ -186,8 +190,11 @@ public class InductiveTerm extends HeapTerm {
             int index = Utilities.find(fromVars, oldVar);
 
             if (index != -1) {
-                newVars[i] = new Variable(toVars[index]);
-            } else if (existVarSubMap == null) {
+//				if(toVars[index] instanceof ExistVariable)
+//					newVars[i] = new ExistVariable(toVars[index], state.getHeap().getVars(), state.getVisitedVars());
+//				else
+				newVars[i] = new Variable(toVars[index]);
+			} else if (existVarSubMap == null) {
                 newVars[i] = oldVar;
             } else {
                 if (existVarSubMap.containsKey(oldVar.getName())) {

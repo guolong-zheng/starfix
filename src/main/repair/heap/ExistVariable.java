@@ -5,7 +5,6 @@ import starlib.formula.Variable;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
-import java.util.Stack;
 
 public class ExistVariable extends Variable {
 
@@ -25,16 +24,31 @@ public class ExistVariable extends Variable {
         super(name);
     }
 
+    public ExistVariable(ExistVariable var) {
+        super(var);
+        potentialVars = new LinkedList<>();
+        for (String s : var.potentialVars) {
+            potentialVars.add(s);
+        }
+    }
+
     public ExistVariable(Variable var, Set<String> allVars, Set<String> visited) {
         super(var);
         potentialVars = new LinkedList<>();
         potentialVars.add("null");
-        visited.add(var.getValue());
+        //visited.add(var.getValue());
+        for (String s : allVars) {
+            if (!s.equals(var.getValue())) {
+                potentialVars.add(s);
+            }
+        }
+        /*
         for (String s : allVars) {
             if (!visited.contains(s)) {
                 potentialVars.add(s);
             }
         }
+        */
     }
 
     public ExistVariable(String name, Set<String> potentialVars) {
@@ -43,7 +57,12 @@ public class ExistVariable extends Variable {
         this.potentialVars.addAll(potentialVars);
     }
 
+    public boolean isChanged() {
+        return this.changed;
+    }
+
     public boolean next() {
+        this.changed = true;
         System.out.print("selecting from : ");
         for (String s : potentialVars) {
             System.out.print(s + " ");

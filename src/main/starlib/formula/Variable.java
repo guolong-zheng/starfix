@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import repair.heap.ExistVariable;
 import repair.heap.State;
 import starlib.formula.expression.Expression;
 import starlib.formula.expression.NullExpression;
@@ -18,7 +19,9 @@ public class Variable extends Expression{
 	private String type;
 
 	private String value;
-	
+
+	public boolean changed;
+
 	private Set<Variable> lazyGetVars;
 
 	public Variable(String name) {
@@ -31,6 +34,7 @@ public class Variable extends Expression{
 	public Variable(String name, String type) {
 		this.name = name;
 		this.type = type;
+		this.changed = false;
 		this.lazyGetVars = new HashSet<Variable>();
 		this.lazyGetVars.add(this);
 	}
@@ -39,6 +43,7 @@ public class Variable extends Expression{
 		this.name = name;
 		this.type = type;
 		this.value = value;
+		this.changed = false;
 		this.lazyGetVars = new HashSet<Variable>();
 		this.lazyGetVars.add(this);
 	}
@@ -47,10 +52,15 @@ public class Variable extends Expression{
 		this.name = var.getName();
 		this.type = var.getType();
 		this.value = var.getValue();
+		this.changed = var.hasChanged();
 		this.lazyGetVars = new HashSet<Variable>();
 		this.lazyGetVars.add(this);
 	}
-	
+
+	public boolean hasChanged() {
+		return this.changed;
+	}
+
 	public String getName() {
 		return name;
 	}

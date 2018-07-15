@@ -116,7 +116,7 @@ public class State {
             int curr = 0;
             for (int i = 0; i < heapFormula.getHeapTerms().length; i++) {
                 if (!heapFormula.getHeapTerms()[i].equals(it)) {
-                    newHeapTerms[curr] = heapFormula.getHeapTerms()[i];
+                    newHeapTerms[curr] = heapFormula.getHeapTerms()[i].copy();
                     curr++;
                 }
             }
@@ -136,7 +136,7 @@ public class State {
             System.out.println("unfold got:" + newFormula.toString());
             State newState = new State(this, newFormula, pts);
             newState.updateVisitedVars();
-            Checker.track.push(newState);
+            Checker.track.add(newState);
         }
     }
 
@@ -167,6 +167,7 @@ public class State {
             return new Bug(Status.STOP);
         }
         else {
+            System.out.println("stasifing pure formula [" + pf.toString() + "]");
             return checkHeapFormula(hp);
         }
     }
@@ -176,11 +177,14 @@ public class State {
             if (ht instanceof PointToTerm) {
                 Variable rootVar = ht.getRoot();
                 if (rootVar.getValue().equals("null")) {
-                    return new Bug(Status.STOP);
+                    if (rootVar.hasChanged())
+                        return new Bug(rootVar, Status.NULL_ROOT);
+                    else
+                        return new Bug(Status.STOP);
                 }
                 if (!visited.add(rootVar.getValue())) {
                     visited.clear();
-                    return new Bug(rootVar, Status.BACKWARD);
+                    return new Bug(rootVar, Status.DUPLICATE);
                 }
                 HeapNode root = heap.getNode(rootVar.getValue());
                 PointToTerm heapNode = root.toPointToTerm();
@@ -189,7 +193,10 @@ public class State {
                     continue;
                 Variable toFix = ht.getVars()[index];
                 visited.clear();
-                return new Bug(index, (PointToTerm) ht, toFix, Status.STAY);
+                if (toFix instanceof ExistVariable)
+                    return new Bug(index, (PointToTerm) ht, toFix, Status.MISMATCH);
+                else
+                    return new Bug(index, (PointToTerm) ht, toFix, Status.STAY);
             }
         }
         visited.clear();
@@ -198,7 +205,7 @@ public class State {
 
     public boolean backfix(Bug error) {
         String value = error.getVar().getValue();
-        System.out.println("fixing value " + value);
+        System.out.println("fixing variable " + error.getVar().getName() + " with value " + value);
         for (PointToTerm pt : pointToTerms) {
             Variable[] vars = pt.getVars();
             for (int i = 0; i < vars.length; i++) {
