@@ -187,7 +187,7 @@ public class PointToTerm extends HeapTerm {
 	
 	@Override
 	public String toString() {
-        return vars[0] + "[" + vars[0].getValue() + "]" + "->" + type + "(" + getParams(1) + ")";
+        return vars[0] + "->" + type + "(" + getParams(1) + ")";
     }
 	
 	public String toS2SATString() {

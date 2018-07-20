@@ -77,7 +77,7 @@ public class Checker {
     public static void forward(State state) {
         if (state.isFinal()) {
             System.out.println("fixed state " + state.getState().toString());
-            Fix newFix = new Fix(state.getHeap());
+            Fix newFix = new Fix(state);
             fixSet.add(newFix);
         } else {
             state.unfold();

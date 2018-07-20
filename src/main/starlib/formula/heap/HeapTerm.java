@@ -65,12 +65,14 @@ public abstract class HeapTerm {
 				
 		StringBuilder params = new StringBuilder();
 		for (int i = start; i < length - 1; i++) {
-			params.append(vars[i] + "[" + vars[i].getValue() + "]" + ",");
-		}
+            params.append(vars[i] + ",");
+            //params.append(vars[i] + "[" + vars[i].getValue() + "]" + ",");
+        }
 		
 		if (length > start) {
-			params.append(vars[length - 1] + "[" + vars[length - 1].getValue() + "]");
-		}
+            //params.append(vars[length - 1] + "[" + vars[length - 1].getValue() + "]");
+            params.append(vars[length - 1]);
+        }
 		return params.toString();
 	}
 }

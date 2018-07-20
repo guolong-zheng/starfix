@@ -1,6 +1,7 @@
 package repair;
 
 import repair.checker.Bug;
+import repair.heap.HeapNode;
 import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
 import starlib.formula.PureFormula;
@@ -14,6 +15,8 @@ import starlib.formula.pure.ComparisonTerm;
 import starlib.formula.pure.PureTerm;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class Utility {
@@ -27,6 +30,16 @@ public class Utility {
             }
         }
         return terms.toArray(new InductiveTerm[terms.size()]);
+    }
+
+    public static HeapNode toHeapNode(HeapTerm ht) {
+        Variable root = ht.getRoot();
+        Variable[] vars = ht.getVars();
+        List<String> fields = new LinkedList<>();
+        for (int i = 1; i < vars.length; i++) {
+            fields.add(vars[i].getValue());
+        }
+        return new HeapNode(root.getType(), root.getValue(), root, fields);
     }
 
     public static InductiveTerm[] getInductiveTerms(Formula f) {

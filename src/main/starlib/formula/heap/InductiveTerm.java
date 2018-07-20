@@ -109,7 +109,6 @@ public class InductiveTerm extends HeapTerm {
 	public HeapTerm copy() {
 		Variable[] copyVars = new Variable[vars.length];
 		for (int i = 0; i < vars.length; i++) {
-			//copyVars[i] = new Variable(vars[i].getName(), vars[i].getType());
 			if (vars[i] instanceof ExistVariable)
 				copyVars[i] = new ExistVariable((ExistVariable) vars[i]);
 			else
@@ -117,7 +116,6 @@ public class InductiveTerm extends HeapTerm {
 		}
 		
 		String copyPredName = predName;
-		
 		Formula[] copyUnfoldedFormulas = null;
 		
 		if (unfoldedFormulas != null) {
@@ -142,40 +140,6 @@ public class InductiveTerm extends HeapTerm {
 	public String toS2SATString() {
 		return vars[0] + "::" + predName + "<" + getParams(1) + ">";
 	}
-
-	/*
-    @Override
-	public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
-							   Map<String, String> existVarSubMap, State state) {
-		int length = vars.length;
-
-		Variable[] newVars = new Variable[length];
-
-		for (int i = 0; i < length; i++) {
-			Variable oldVar = vars[i];
-
-			int index = Utilities.find(fromVars, oldVar);
-
-			if (index != -1) {
-				newVars[i] = new Variable(toVars[index]);
-			} else if (existVarSubMap == null) {
-				newVars[i] = oldVar;
-			} else {
-				if (existVarSubMap.containsKey(oldVar.getName())) {
-					newVars[i] = new ExistVariable(existVarSubMap.get(oldVar.getName()), oldVar.getType(), state.getHeap().getVars());
-				} else {
-					Variable freshVar = Utilities.freshVar(oldVar);
-					existVarSubMap.put(oldVar.getName(), freshVar.getName());
-					newVars[i] = new ExistVariable(freshVar, state.getHeap().getVars());
-				}
-			}
-		}
-
-		InductiveTerm newInductiveTerm = new InductiveTerm(predName, newVars);
-
-		return newInductiveTerm;
-	}
-	*/
 
     @Override
     public HeapTerm substitute(Variable[] fromVars, Variable[] toVars,
