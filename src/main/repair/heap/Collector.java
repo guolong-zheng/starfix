@@ -16,7 +16,7 @@ public class Collector {
 
     //TODO: Link name(for example N0) to root name
     public static Heap retrieveHeap(Object root) {
-        getClassInfo(root);
+        //getClassInfo(root);
 
         Heap heap = new Heap();
         Queue<Object> toVisit = new LinkedList<>();

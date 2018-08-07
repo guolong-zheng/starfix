@@ -161,6 +161,7 @@ public class TestGenerator {
                 test.append("import " + imp + ";\n");
             }
         }
+
         test.append("import org.junit.Test;\n");
         test.append("import gov.nasa.jpf.util.test.TestJPF;\n");
         test.append("\n");

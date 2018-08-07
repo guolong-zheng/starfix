@@ -1,21 +1,33 @@
 package repair.examples;
 
+import starlib.data.DataNode;
+import starlib.data.DataNodeMap;
 import starlib.formula.Formula;
+import starlib.formula.Variable;
 import starlib.formula.heap.HeapTerm;
 import starlib.formula.heap.InductiveTerm;
 import starlib.precondition.Initializer;
 import starlib.precondition.PreconditionMap;
+import starlib.solver.Solver;
+import testgene.ClassInfo;
+import testgene.Config;
+import testgene.FieldInfo;
+import testgene.MethodInfo;
+import testgene.testsuites.TestGenerator;
+
+import java.lang.reflect.Field;
 
 public class GenerateTest {
     public static void main(String[] args) {
         int size = 3;
         String pred = "pred tree(x) == x=null || x::Tree<left, right> * tree(left) * tree(right)";
-        String prec = "pre prec == tree(x) * tree(y)";
+        String prec = "pre prec == tree(x)";
         String dn = "data Tree { Tree left; Tree right }";
 
         Initializer.initPredicate(pred);
         Initializer.initPrecondition(prec);
         Initializer.initDataNode(dn);
+        getClassInfo();
 
         Formula f = PreconditionMap.getFormulas()[0];
 
@@ -45,7 +57,11 @@ public class GenerateTest {
             }
         }
 
-        System.out.println(f.toS2SATString());
+        System.out.println(f);
+        System.out.println(Solver.checkSat(f));
+        TestGenerator.addModel(Solver.getModel());
+        System.out.println(Solver.getModel());
+        //TestGenerator.generateTests();
     }
 
     public static boolean isBaseCase(Formula f) {
@@ -55,5 +71,20 @@ public class GenerateTest {
             }
         }
         return true;
+    }
+
+    public static void getClassInfo() {
+        DataNode dn = DataNodeMap.getAll()[0];
+        Variable[] fields = dn.getFields();
+        FieldInfo[] fieldInfos = new FieldInfo[fields.length];
+        for (int i = 0; i < fieldInfos.length; i++) {
+            fieldInfos[i] = new FieldInfo(fields[i].getName(), fields[i].getType());
+        }
+
+        ClassInfo clsInfo = new ClassInfo(dn.getType(), fieldInfos);
+        MethodInfo methodInfo = new MethodInfo(dn.getType());
+
+        TestGenerator.setClassAndMethodInfo(clsInfo, methodInfo, new Config());
+        return;
     }
 }
