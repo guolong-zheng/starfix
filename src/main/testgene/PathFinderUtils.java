@@ -13,11 +13,13 @@ public class PathFinderUtils {
         FieldInfo[] staFields = ci.getDeclaredStaticFields();
         HashMap<String, String> knownTypeVars = new HashMap<String, String>();
 
-        for (LocalVarInfo arg : args) {
-            String name = arg.getName();
-            if (!name.equals("this")) {
-                String type = arg.getType();
-                knownTypeVars.put(name, type);
+        if (args != null) {
+            for (LocalVarInfo arg : args) {
+                String name = arg.getName();
+                if (!name.equals("this")) {
+                    String type = arg.getType();
+                    knownTypeVars.put(name, type);
+                }
             }
         }
 
@@ -27,10 +29,12 @@ public class PathFinderUtils {
             knownTypeVars.put(name, type);
         }
 
-        for (FieldInfo field : staFields) {
-            String name = clsName + "_" + field.getName();
-            String type = field.getType();
-            knownTypeVars.put(name, type);
+        if (staFields != null) {
+            for (FieldInfo field : staFields) {
+                String name = clsName + "_" + field.getName();
+                String type = field.getType();
+                knownTypeVars.put(name, type);
+            }
         }
 
         return knownTypeVars;
@@ -78,6 +82,7 @@ public class PathFinderUtils {
         }
 
         try {
+            System.out.println(path);
             PrintWriter pw = new PrintWriter(path + "/" + fileName, "UTF-8");
             pw.println(test.toString());
 

@@ -115,14 +115,15 @@ public class TestGenerator {
             }
         }
 
-        for (FieldInfo field : staFields) {
-            if (field.isFinal() || field.isPrivate() || field.isProtected()) {
-                String name = clsName + "_" + field.getName();
-                String type = PathFinderUtils.toJavaType(field.getType());
+        if (staFields != null)
+            for (FieldInfo field : staFields) {
+                if (field.isFinal() || field.isPrivate() || field.isProtected()) {
+                    String name = clsName + "_" + field.getName();
+                    String type = PathFinderUtils.toJavaType(field.getType());
 
-                initVars.add(new Variable(name, type));
+                    initVars.add(new Variable(name, type));
+                }
             }
-        }
 
         TestGenVisitor jpfGen = new TestGenVisitor(knownTypeVars, initVars, objName, clsName, insFields, staFields, test);
         jpfGen.visit(f);
@@ -136,10 +137,11 @@ public class TestGenerator {
             test.append("\t\t" + objName + "." + mi.getName() + "(");
 
         String s = "";
-        for (LocalVarInfo arg : args) {
-            if (!arg.getName().equals("this"))
-                s += arg.getName() + ",";
-        }
+        if (args != null)
+            for (LocalVarInfo arg : args) {
+                if (!arg.getName().equals("this"))
+                    s += arg.getName() + ",";
+            }
 
         if (!s.isEmpty())
             s = s.substring(0, s.length() - 1);

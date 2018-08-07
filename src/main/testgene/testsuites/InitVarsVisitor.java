@@ -41,12 +41,13 @@ public class InitVarsVisitor extends StarVisitor {
         }
 
         this.classVars = new HashSet<String>();
-        for (FieldInfo fi : staFields) {
-            String name = clsName + "_" + fi.getName();
-            classVars.add(name);
-            if (fi.isFinal())
-                finalVars.add(name);
-        }
+        if (staFields != null)
+            for (FieldInfo fi : staFields) {
+                String name = clsName + "_" + fi.getName();
+                classVars.add(name);
+                if (fi.isFinal())
+                    finalVars.add(name);
+            }
     }
 
     public InitVarsVisitor(InitVarsVisitor that) {

@@ -19,7 +19,7 @@ import java.lang.reflect.Field;
 
 public class GenerateTest {
     public static void main(String[] args) {
-        int size = 3;
+        int size = 2;
         String pred = "pred tree(x) == x=null || x::Tree<left, right> * tree(left) * tree(right)";
         String prec = "pre prec == tree(x)";
         String dn = "data Tree { Tree left; Tree right }";
@@ -61,7 +61,7 @@ public class GenerateTest {
         System.out.println(Solver.checkSat(f));
         TestGenerator.addModel(Solver.getModel());
         System.out.println(Solver.getModel());
-        //TestGenerator.generateTests();
+        TestGenerator.generateTests();
     }
 
     public static boolean isBaseCase(Formula f) {
