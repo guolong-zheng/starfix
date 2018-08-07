@@ -96,4 +96,8 @@ public class Utility {
         return res;
     }
 
+    public static void generateTest() {
+
+    }
+
 }

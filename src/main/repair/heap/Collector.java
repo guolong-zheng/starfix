@@ -1,5 +1,11 @@
 package repair.heap;
 
+import testgene.ClassInfo;
+import testgene.Config;
+import testgene.FieldInfo;
+import testgene.MethodInfo;
+import testgene.testsuites.TestGenerator;
+
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -10,8 +16,9 @@ public class Collector {
 
     //TODO: Link name(for example N0) to root name
     public static Heap retrieveHeap(Object root) {
-        Heap heap = new Heap();
+        getClassInfo(root);
 
+        Heap heap = new Heap();
         Queue<Object> toVisit = new LinkedList<>();
         Set<Object> visited = new HashSet<>();
         toVisit.add(root);
@@ -46,6 +53,21 @@ public class Collector {
         }
 
         return heap;
+    }
+
+    public static void getClassInfo(Object root) {
+        Class cls = root.getClass();
+        Field[] fields = cls.getFields();
+        FieldInfo[] fieldInfos = new FieldInfo[fields.length];
+        for (int i = 0; i < fields.length; i++) {
+            fieldInfos[i] = new FieldInfo(fields[i].getName(), fields[i].getType().toString());
+        }
+
+        ClassInfo clsInfo = new ClassInfo(cls.getName(), fieldInfos);
+        MethodInfo methodInfo = new MethodInfo(cls.getName());
+
+        TestGenerator.setClassAndMethodInfo(clsInfo, methodInfo, new Config());
+        return;
     }
 
     public static boolean isPrim(String type) {
