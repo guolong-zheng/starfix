@@ -57,7 +57,7 @@ public class GenerateTest {
             }
         }
 
-        System.out.println(f);
+        System.out.println(f + " " + f.depth);
         System.out.println(Solver.checkSat(f));
         TestGenerator.addModel(Solver.getModel());
         System.out.println(Solver.getModel());
