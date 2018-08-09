@@ -15,7 +15,10 @@ import testgene.FieldInfo;
 import testgene.MethodInfo;
 import testgene.testsuites.TestGenerator;
 
+import java.io.*;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GenerateTest {
     public static void main(String[] args) {
@@ -62,6 +65,8 @@ public class GenerateTest {
         TestGenerator.addModel(Solver.getModel());
         System.out.println(Solver.getModel());
         TestGenerator.generateTests();
+        String testFile = "test_tmp";
+        // mutate(testFile, 5);
     }
 
     public static boolean isBaseCase(Formula f) {
@@ -87,4 +92,39 @@ public class GenerateTest {
         TestGenerator.setClassAndMethodInfo(clsInfo, methodInfo, new Config());
         return;
     }
+
+    public static void mutate(String testFile, int size) {
+        List<String> allVars = new ArrayList<>();
+        int linenum = 0;
+
+        BufferedReader br = null;
+        FileReader fr = null;
+
+        try {
+            fr = new FileReader(testFile);
+            br = new BufferedReader(fr);
+
+            String currentLine = br.readLine();
+            while (currentLine != null) {
+                linenum++;
+                if (currentLine.contains("new ")) {
+                    String var = currentLine.split("\\s+")[1];
+                    allVars.add(var);
+                }
+                currentLine = br.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+                fr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

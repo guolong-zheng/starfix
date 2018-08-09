@@ -68,11 +68,13 @@ public class TestGenerator {
         String objName = "obj";
         String clsName = ci.getSimpleName();
 
-        test.append("\t@Test\n");
-        test.append("\tpublic void test_" + mi.getName() + index++ + "() throws Exception {\n");
+//        test.append("\t@Test\n");
+//        test.append("\tpublic void test_" + mi.getName() + index++ + "() throws Exception {\n");
 
-        if (!mi.isStatic())
-            test.append("\t\t" + clsName + " " + objName + " = new " + clsName + "();\n");
+        test.append("public static void main (){\n");
+
+//        if (!mi.isStatic())
+//            test.append("\t\t" + clsName + " " + objName + " = new " + clsName + "();\n");
 
         LocalVarInfo[] args = mi.getArgumentLocalVars();
         FieldInfo[] insFields = ci.getInstanceFields();
@@ -131,22 +133,22 @@ public class TestGenerator {
 //		if (!mi.isStatic())
 //			test.append("\t\tSystem.out.println(Utilities.repOK(" + objName + "));\n");
 
-        if (mi.isStatic())
-            test.append("\t\t" + clsName + "." + mi.getName() + "(");
-        else
-            test.append("\t\t" + objName + "." + mi.getName() + "(");
-
-        String s = "";
-        if (args != null)
-            for (LocalVarInfo arg : args) {
-                if (!arg.getName().equals("this"))
-                    s += arg.getName() + ",";
-            }
-
-        if (!s.isEmpty())
-            s = s.substring(0, s.length() - 1);
-
-        test.append(s + ");\n");
+//        if (mi.isStatic())
+//            test.append("\t\t" + clsName + "." + mi.getName() + "(");
+//        else
+//            test.append("\t\t" + objName + "." + mi.getName() + "(");
+//
+//        String s = "";
+//        if (args != null)
+//            for (LocalVarInfo arg : args) {
+//                if (!arg.getName().equals("this"))
+//                    s += arg.getName() + ",";
+//            }
+//
+//        if (!s.isEmpty())
+//            s = s.substring(0, s.length() - 1);
+//
+//        test.append(s + ");\n");
 
         test.append("\t}\n\n");
     }
@@ -164,11 +166,11 @@ public class TestGenerator {
             }
         }
 
-        test.append("import org.junit.Test;\n");
-        test.append("import gov.nasa.jpf.util.test.TestJPF;\n");
+        //test.append("import org.junit.Test;\n");
+        //test.append("import gov.nasa.jpf.util.test.TestJPF;\n");
         test.append("\n");
 
-        test.append("public class " + ci.getSimpleName() + "_" + mi.getName() + "1 extends TestJPF {\n\n");
+        test.append("public class " + ci.getSimpleName() + "_" + mi.getName() + "1{\n\n"); // "1 extends TestJPF {\n\n");
 
         addInitTest(test);
     }
