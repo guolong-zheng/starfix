@@ -3,6 +3,7 @@ package testgene.testsuites;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import starlib.formula.Formula;
 import starlib.formula.HeapFormula;
@@ -15,16 +16,19 @@ import testgene.PathFinderUtils;
 public class TestGenVisitor extends InitVarsVisitor {
 
     protected StringBuffer test;
+    protected Set<String> allVars;
 
     public TestGenVisitor(HashMap<String, String> knownTypeVars, HashSet<Variable> initVars,
-                          String objName, String clsName, FieldInfo[] insFields, FieldInfo[] staFields, StringBuffer test) {
+                          String objName, String clsName, FieldInfo[] insFields, FieldInfo[] staFields, StringBuffer test, Set<String> allVars) {
         super(knownTypeVars, initVars, objName, clsName, insFields, staFields);
         this.test = test;
+        this.allVars = allVars;
     }
 
     public TestGenVisitor(TestGenVisitor that) {
         super(that);
         this.test = that.test;
+        this.allVars = that.allVars;
     }
 
     @Override

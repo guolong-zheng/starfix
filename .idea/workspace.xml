@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bb5f2eac-20aa-4f7f-8ae3-169df794eb17" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/repair/examples/GenerateTest.java" afterPath="$PROJECT_DIR$/src/main/repair/examples/GenerateTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/testgene/Config.java" afterPath="$PROJECT_DIR$/src/main/testgene/Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/testgene/PathFinderUtils.java" afterPath="$PROJECT_DIR$/src/main/testgene/PathFinderUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/testgene/testsuites/InitVarsVisitor.java" afterPath="$PROJECT_DIR$/src/main/testgene/testsuites/InitVarsVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/testgene/testsuites/TestGenVisitor.java" afterPath="$PROJECT_DIR$/src/main/testgene/testsuites/TestGenVisitor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/testgene/testsuites/TestGenerator.java" afterPath="$PROJECT_DIR$/src/main/testgene/testsuites/TestGenerator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_tmp/Tree_Tree1.java" afterPath="$PROJECT_DIR$/test_tmp/Tree_Tree1.java" />
     </list>
     <ignored path="starlib.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,44 +28,9 @@
       <file leaf-file-name="GenerateTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/repair/examples/GenerateTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="63" column="8" lean-forward="false" selection-start-line="63" selection-start-column="8" selection-end-line="63" selection-end-column="8" />
+            <state relative-caret-position="630">
+              <caret line="68" column="10" lean-forward="false" selection-start-line="68" selection-start-column="10" selection-end-line="68" selection-end-column="10" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PathFinderUtils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/testgene/PathFinderUtils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="539">
-              <caret line="84" column="35" lean-forward="false" selection-start-line="84" selection-start-column="35" selection-end-line="84" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tree_Tree1.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/test_tmp/Tree_Tree1.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="38" lean-forward="true" selection-start-line="1" selection-start-column="38" selection-end-line="1" selection-end-column="38" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Config.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/testgene/Config.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="10" column="45" lean-forward="false" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
-              <folding>
-                <element signature="e#232#233#0" expanded="true" />
-                <element signature="e#290#291#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -76,8 +38,51 @@
       <file leaf-file-name="TestGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/TestGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="139" column="23" lean-forward="false" selection-start-line="139" selection-start-column="23" selection-end-line="139" selection-end-column="23" />
+            <state relative-caret-position="252">
+              <caret line="132" column="134" lean-forward="false" selection-start-line="132" selection-start-column="134" selection-end-line="132" selection-end-column="134" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Tree_Tree1.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_tmp/Tree_Tree1.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConTestGenVisitor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/ConTestGenVisitor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="14" column="8" lean-forward="false" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+              <folding>
+                <element signature="e#421#422#0" expanded="true" />
+                <element signature="e#448#449#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NoConTestGenVisitor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/NoConTestGenVisitor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="11" column="44" lean-forward="false" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestGenVisitor.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/TestGenVisitor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -86,28 +91,8 @@
       <file leaf-file-name="InitVarsVisitor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/InitVarsVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="43" column="28" lean-forward="false" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GlobalVariables.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/starlib/GlobalVariables.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" column="35" lean-forward="false" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Model.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/starlib/solver/Model.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="594">
+              <caret line="43" column="29" lean-forward="false" selection-start-line="43" selection-start-column="29" selection-end-line="43" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -133,7 +118,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/starlib/formula/expression/VariableExpression.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/formula/pure/EqNullTerm.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/formula/pure/EqTerm.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/formula/pure/NEqNullTerm.java" />
@@ -170,7 +154,6 @@
         <option value="$PROJECT_DIR$/src/main/repair/heap/Config.java" />
         <option value="$PROJECT_DIR$/src/main/repair/heap/MethodInfo.java" />
         <option value="$PROJECT_DIR$/src/main/repair/heap/ClassInfo.java" />
-        <option value="$PROJECT_DIR$/src/main/testgene/testsuites/TestGenVisitor.java" />
         <option value="$PROJECT_DIR$/src/main/testgene/LocalVarInfo.java" />
         <option value="$PROJECT_DIR$/src/main/testgene/FieldInfo.java" />
         <option value="$PROJECT_DIR$/src/main/testgene/ClassInfo.java" />
@@ -179,16 +162,19 @@
         <option value="$PROJECT_DIR$/src/main/repair/heap/Collector.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/solver/Solver.java" />
         <option value="$PROJECT_DIR$/src/main/starlib/GlobalVariables.java" />
-        <option value="$PROJECT_DIR$/src/main/repair/examples/GenerateTest.java" />
         <option value="$PROJECT_DIR$/src/main/testgene/testsuites/InitVarsVisitor.java" />
-        <option value="$PROJECT_DIR$/src/main/testgene/testsuites/TestGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/testgene/Config.java" />
         <option value="$PROJECT_DIR$/src/main/testgene/PathFinderUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/repair/examples/GenerateTest.java" />
+        <option value="$PROJECT_DIR$/test_tmp/Tree_Tree1.java" />
+        <option value="$PROJECT_DIR$/src/main/testgene/testsuites/TestGenerator.java" />
+        <option value="$PROJECT_DIR$/src/main/testgene/testsuites/TestGenVisitor.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
+    <option name="x" value="75" />
+    <option name="y" value="34" />
     <option name="width" value="1440" />
     <option name="height" value="1281" />
   </component>
@@ -243,7 +229,23 @@
               <item name="starfix" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="repair" type="462c0819:PsiDirectoryNode" />
+              <item name="examples" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="starfix" type="b2602c69:ProjectViewProjectNode" />
+              <item name="starfix" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="testgene" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="starfix" type="b2602c69:ProjectViewProjectNode" />
+              <item name="starfix" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="testgene" type="462c0819:PsiDirectoryNode" />
+              <item name="testsuites" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="starfix" type="b2602c69:ProjectViewProjectNode" />
@@ -934,11 +936,25 @@
       <option name="project" value="LOCAL" />
       <updated>1533677322498</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="fix bug">
+      <created>1533679434273</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1533679434273</updated>
+    </task>
+    <task id="LOCAL-00044" summary="fix bug">
+      <created>1533828661968</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1533828661968</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="1281" extended-state="0" />
+    <frame x="75" y="34" width="1440" height="1281" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1008,9 +1024,9 @@
     <MESSAGE value="refactor" />
     <MESSAGE value="fix bug, todo: solve infinite loop problem" />
     <MESSAGE value="add printout info" />
-    <MESSAGE value="fix bug" />
     <MESSAGE value="add test generator" />
-    <option name="LAST_COMMIT_MESSAGE" value="add test generator" />
+    <MESSAGE value="fix bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1024,13 +1040,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/starlib/formula/expression/BinaryExpression.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="93" column="26" lean-forward="false" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/starlib/formula/expression/Expression.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
@@ -1190,10 +1199,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/repair/heap/Config.java" />
     <entry file="file://$PROJECT_DIR$/src/main/testgene/NoErrorProperty.java" />
     <entry file="file://$PROJECT_DIR$/src/main/testgene/LocalVarInfo.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/ConTestGenVisitor.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/NoConTestGenVisitor.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/SetFieldsTestGenVisitor.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/TestGenVisitor.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/src.zip!/java/lang/reflect/Field.java" />
     <entry file="file://$PROJECT_DIR$/src/main/repair/heap/ClassInfo.java" />
     <entry file="file://$PROJECT_DIR$/src/main/testgene/FieldInfo.java" />
@@ -1261,38 +1266,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/InitVarsVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="43" column="28" lean-forward="false" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/TestGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="139" column="23" lean-forward="false" selection-start-line="139" selection-start-column="23" selection-end-line="139" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/testgene/Config.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="10" column="45" lean-forward="false" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
           <folding>
-            <element signature="e#232#233#0" expanded="true" />
-            <element signature="e#290#291#0" expanded="true" />
+            <element signature="e#233#234#0" expanded="true" />
+            <element signature="e#291#292#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/repair/examples/GenerateTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="63" column="8" lean-forward="false" selection-start-line="63" selection-start-column="8" selection-end-line="63" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1304,13 +1285,78 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar:///usr/lib/jvm/java-8-oracle/jre/lib/rt.jar!/com/sun/accessibility/internal/resources/accessibility.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="19" lean-forward="false" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/SetFieldsTestGenVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test_tmp/Tree_Tree1.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="38" lean-forward="true" selection-start-line="1" selection-start-column="38" selection-end-line="1" selection-end-column="38" />
+        <state relative-caret-position="270">
+          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/repair/examples/GenerateTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="68" column="10" lean-forward="false" selection-start-line="68" selection-start-column="10" selection-end-line="68" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/InitVarsVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="43" column="29" lean-forward="false" selection-start-line="43" selection-start-column="29" selection-end-line="43" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/NoConTestGenVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="11" column="44" lean-forward="false" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/TestGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="132" column="134" lean-forward="false" selection-start-line="132" selection-start-column="134" selection-end-line="132" selection-end-column="134" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/ConTestGenVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="14" column="8" lean-forward="false" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#421#422#0" expanded="true" />
+            <element signature="e#448#449#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/testgene/testsuites/TestGenVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

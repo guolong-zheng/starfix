@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import starlib.formula.Formula;
 import starlib.formula.Variable;
@@ -27,6 +28,8 @@ public class TestGenerator {
     private static int index = 1;
 
     private static boolean first = true;
+
+    public static Set<String> allVariables = new HashSet<>();
 
     public static void setClassAndMethodInfo(ClassInfo ci, MethodInfo mi, Config conf) {
         if (first) {
@@ -127,7 +130,7 @@ public class TestGenerator {
                 }
             }
 
-        TestGenVisitor jpfGen = new TestGenVisitor(knownTypeVars, initVars, objName, clsName, insFields, staFields, test);
+        TestGenVisitor jpfGen = new TestGenVisitor(knownTypeVars, initVars, objName, clsName, insFields, staFields, test, allVariables);
         jpfGen.visit(f);
 
 //		if (!mi.isStatic())
