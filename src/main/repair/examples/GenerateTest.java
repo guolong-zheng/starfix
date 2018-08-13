@@ -23,7 +23,7 @@ import java.util.List;
 public class GenerateTest {
 
     public static void main(String[] args) {
-        int size = 2;
+        int size = 3;
         String pred = "pred tree(x) == x=null || x::Tree<left, right> * tree(left) * tree(right)";
         String prec = "pre prec == tree(x)";
         String dn = "data Tree { Tree left; Tree right }";
@@ -62,8 +62,8 @@ public class GenerateTest {
             }
         }
 
-
-        Solver.checkSat(f);
+        System.out.println(f.toString());
+        System.out.println(Solver.checkSat(f));
         TestGenerator.addModel(Solver.getModel());
         System.out.println(Solver.getModel());
         TestGenerator.generateTests();
@@ -97,40 +97,6 @@ public class GenerateTest {
 
         TestGenerator.setClassAndMethodInfo(clsInfo, methodInfo, new Config());
         return;
-    }
-
-    public static void mutate(String testFile, int size) {
-        List<String> allVars = new ArrayList<>();
-        int linenum = 0;
-
-        BufferedReader br = null;
-        FileReader fr = null;
-
-        try {
-            fr = new FileReader(testFile);
-            br = new BufferedReader(fr);
-
-            String currentLine = br.readLine();
-            while (currentLine != null) {
-                linenum++;
-                if (currentLine.contains("new ")) {
-                    String var = currentLine.split("\\s+")[1];
-                    allVars.add(var);
-                }
-                currentLine = br.readLine();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                br.close();
-                fr.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 }

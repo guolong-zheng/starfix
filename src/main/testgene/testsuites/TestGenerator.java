@@ -229,6 +229,7 @@ public class TestGenerator {
     }
 
     public static void mutate(StringBuffer test) {
+        int size;
 
     }
 

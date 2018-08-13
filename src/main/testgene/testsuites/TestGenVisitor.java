@@ -40,7 +40,7 @@ public class TestGenVisitor extends InitVarsVisitor {
         pureFormula.accept(con);
         pureFormula.accept(ncon);
 
-        genDefaultVars();
+        //genDefaultVars();
 
         heapFormula.accept(setFields);
     }
