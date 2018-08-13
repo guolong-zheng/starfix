@@ -16,19 +16,16 @@ import testgene.PathFinderUtils;
 public class TestGenVisitor extends InitVarsVisitor {
 
     protected StringBuffer test;
-    protected Set<String> allVars;
 
     public TestGenVisitor(HashMap<String, String> knownTypeVars, HashSet<Variable> initVars,
-                          String objName, String clsName, FieldInfo[] insFields, FieldInfo[] staFields, StringBuffer test, Set<String> allVars) {
+                          String objName, String clsName, FieldInfo[] insFields, FieldInfo[] staFields, StringBuffer test) {
         super(knownTypeVars, initVars, objName, clsName, insFields, staFields);
         this.test = test;
-        this.allVars = allVars;
     }
 
     public TestGenVisitor(TestGenVisitor that) {
         super(that);
         this.test = that.test;
-        this.allVars = that.allVars;
     }
 
     @Override
@@ -39,7 +36,6 @@ public class TestGenVisitor extends InitVarsVisitor {
 
         HeapFormula heapFormula = formula.getHeapFormula();
         PureFormula pureFormula = formula.getPureFormula();
-
         heapFormula.accept(con);
         pureFormula.accept(con);
         pureFormula.accept(ncon);
@@ -70,7 +66,7 @@ public class TestGenVisitor extends InitVarsVisitor {
                     String val = type.equals("boolean") ? "false" : "0";
                     test.append(makeDeclAndInit(var, val));
                 } else {
-                    test.append(makeDeclAndInit(var, "null"));
+                    //test.append(makeDeclAndInit(var, "null"));
                 }
             }
         }
@@ -92,14 +88,12 @@ public class TestGenVisitor extends InitVarsVisitor {
      */
     public String makeDeclaration(Variable var) {
         String name = var.getName();
-
         if (isInstanceVariable(var))
             name = name.replace("this_", objName + ".");
         else if (isClassVariable(var))
             name = name.replace(clsName + "_", clsName + ".");
         else
             name = PathFinderUtils.toJavaType(var.getType()) + " " + name;
-
         return name;
     }
 

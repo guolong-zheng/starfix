@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import starlib.data.DataNode;
+import starlib.data.DataNodeMap;
 import starlib.formula.Formula;
 import starlib.formula.Variable;
 import starlib.formula.expression.Comparator;
@@ -23,13 +25,17 @@ public class TestGenerator {
 
     private static Config conf;
 
+    private static String pred;
+    private static String dataNode;
+    private static String formula;
+
     private static HashSet<String> models = new HashSet<String>();
 
     private static int index = 1;
 
     private static boolean first = true;
 
-    public static Set<String> allVariables = new HashSet<>();
+    public static HashSet<String> allVars = new HashSet<>();
 
     public static void setClassAndMethodInfo(ClassInfo ci, MethodInfo mi, Config conf) {
         if (first) {
@@ -38,6 +44,12 @@ public class TestGenerator {
             TestGenerator.conf = conf;
             first = false;
         }
+    }
+
+    public static void setPredicates(String pred, String dataNode, String formula) {
+        TestGenerator.pred = pred;
+        TestGenerator.dataNode = dataNode;
+        TestGenerator.formula = formula;
     }
 
     public static void reset() {
@@ -74,7 +86,7 @@ public class TestGenerator {
 //        test.append("\t@Test\n");
 //        test.append("\tpublic void test_" + mi.getName() + index++ + "() throws Exception {\n");
 
-        test.append("public static void main (){\n");
+        test.append("\n\tpublic static void main (){\n");
 
 //        if (!mi.isStatic())
 //            test.append("\t\t" + clsName + " " + objName + " = new " + clsName + "();\n");
@@ -130,7 +142,7 @@ public class TestGenerator {
                 }
             }
 
-        TestGenVisitor jpfGen = new TestGenVisitor(knownTypeVars, initVars, objName, clsName, insFields, staFields, test, allVariables);
+        TestGenVisitor jpfGen = new TestGenVisitor(knownTypeVars, initVars, objName, clsName, insFields, staFields, test);
         jpfGen.visit(f);
 
 //		if (!mi.isStatic())
@@ -153,6 +165,15 @@ public class TestGenerator {
 //
 //        test.append(s + ");\n");
 
+        for (Variable var : initVars)
+            allVars.add(var.toString());
+
+        mutate(test);
+
+        test.append("\t\tChecker.repair(x" + ", \"" + TestGenerator.dataNode +
+                "\", \"" + TestGenerator.pred + "\", \"" + TestGenerator.formula +
+                "\", \"x\"" + ");\n");
+
         test.append("\t}\n\n");
     }
 
@@ -173,8 +194,8 @@ public class TestGenerator {
         //test.append("import gov.nasa.jpf.util.test.TestJPF;\n");
         test.append("\n");
 
-        test.append("public class " + ci.getSimpleName() + "_" + mi.getName() + "1{\n\n"); // "1 extends TestJPF {\n\n");
-
+        test.append("public class " + ci.getSimpleName() + "{\n\n"); // "1 extends TestJPF {\n\n");
+        addClassDeclare(test);
         addInitTest(test);
     }
 
@@ -197,6 +218,18 @@ public class TestGenerator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void addClassDeclare(StringBuffer test) {
+        DataNode dn = DataNodeMap.getAll()[0];
+        Variable[] fields = dn.getFields();
+        for (Variable var : fields) {
+            test.append("\t" + var.getType() + " " + var.getName() + ";\n");
+        }
+    }
+
+    public static void mutate(StringBuffer test) {
+
     }
 
 }

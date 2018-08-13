@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 public class PathFinderUtils {
 
+    private static int count = 0;
+
     public static HashMap<String, String> initTypeVarMap(ClassInfo ci, MethodInfo mi) {
         String clsName = ci.getSimpleName();
         LocalVarInfo[] args = mi.getArgumentLocalVars();
@@ -67,7 +69,7 @@ public class PathFinderUtils {
 //	}
 
     public static void writeToFile(StringBuffer test, Config conf, ClassInfo ci, MethodInfo mi) {
-        String fileName = ci.getSimpleName() + "_" + mi.getName() + "1.java";
+        String fileName = ci.getSimpleName() + ".java";
         String path = conf.getProperty("star.test_path");
         // create the directory if it does not exist
         try {

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GenerateTest {
+
     public static void main(String[] args) {
         int size = 2;
         String pred = "pred tree(x) == x=null || x::Tree<left, right> * tree(left) * tree(right)";
@@ -31,6 +32,7 @@ public class GenerateTest {
         Initializer.initPrecondition(prec);
         Initializer.initDataNode(dn);
         getClassInfo();
+        TestGenerator.setPredicates(pred, dn, prec);
 
         Formula f = PreconditionMap.getFormulas()[0];
 
@@ -60,13 +62,17 @@ public class GenerateTest {
             }
         }
 
-        System.out.println(f + " " + f.depth);
-        System.out.println(Solver.checkSat(f));
+
+        Solver.checkSat(f);
         TestGenerator.addModel(Solver.getModel());
         System.out.println(Solver.getModel());
         TestGenerator.generateTests();
-        String testFile = "test_tmp";
+
         // mutate(testFile, 5);
+    }
+
+    public static void generateMutatedTest(String pred, String dataNode, String formula) {
+
     }
 
     public static boolean isBaseCase(Formula f) {
