@@ -29,6 +29,10 @@ public class SetFieldsTestGenVisitor extends TestGenVisitor {
             String nameI = vars[i].getName();
             if (nameI.startsWith("Anon_")) continue;
             nameI = standardizeName(vars[i]);
+            if (shoudlMutate()) {
+                nameI = "toMutate";
+                TestGenerator.count++;
+            }
             test.append("\t\t" + name0 + "." + fields[i - 1].getName() + " = " + nameI + ";\n");
         }
     }

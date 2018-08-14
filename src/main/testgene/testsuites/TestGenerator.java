@@ -2,10 +2,8 @@ package testgene.testsuites;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import starlib.data.DataNode;
 import starlib.data.DataNodeMap;
@@ -31,11 +29,14 @@ public class TestGenerator {
 
     private static HashSet<String> models = new HashSet<String>();
 
+    public static int count = 0;
+    public static int size = 1; //number of total corrupted pointers
+
     private static int index = 1;
 
     private static boolean first = true;
 
-    public static HashSet<String> allVars = new HashSet<>();
+    public static List<String> allVars = new ArrayList<>();
 
     public static void setClassAndMethodInfo(ClassInfo ci, MethodInfo mi, Config conf) {
         if (first) {
@@ -142,7 +143,8 @@ public class TestGenerator {
                 }
             }
 
-        TestGenVisitor jpfGen = new TestGenVisitor(knownTypeVars, initVars, objName, clsName, insFields, staFields, test);
+        TestGenVisitor jpfGen = new TestGenVisitor(knownTypeVars, initVars, objName,
+                clsName, insFields, staFields, test);
         jpfGen.visit(f);
 
 //		if (!mi.isStatic())
@@ -190,6 +192,7 @@ public class TestGenerator {
             }
         }
 
+        test.append("import repair.checker;\n");
         //test.append("import org.junit.Test;\n");
         //test.append("import gov.nasa.jpf.util.test.TestJPF;\n");
         test.append("\n");
@@ -228,9 +231,20 @@ public class TestGenerator {
         }
     }
 
-    public static void mutate(StringBuffer test) {
-        int size;
 
+    public static void mutate(StringBuffer test) {
+        Random rand = new Random(System.currentTimeMillis());
+        String from = "toMutate";
+        int index = test.indexOf(from);
+        while (count > 0) {
+            System.out.println("mutating");
+            int n = rand.nextInt(allVars.size());
+            String to = allVars.get(n);
+            test.replace(index, index + from.length(), to);
+            index += to.length();
+            index = test.indexOf(from, index);
+            count--;
+        }
     }
 
 }

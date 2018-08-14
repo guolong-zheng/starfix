@@ -3,6 +3,7 @@ package testgene.testsuites;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 
 import starlib.formula.Formula;
@@ -18,7 +19,8 @@ public class TestGenVisitor extends InitVarsVisitor {
     protected StringBuffer test;
 
     public TestGenVisitor(HashMap<String, String> knownTypeVars, HashSet<Variable> initVars,
-                          String objName, String clsName, FieldInfo[] insFields, FieldInfo[] staFields, StringBuffer test) {
+                          String objName, String clsName, FieldInfo[] insFields,
+                          FieldInfo[] staFields, StringBuffer test) {
         super(knownTypeVars, initVars, objName, clsName, insFields, staFields);
         this.test = test;
     }
@@ -105,4 +107,12 @@ public class TestGenVisitor extends InitVarsVisitor {
         return makeDeclAndInit(var, "new " + PathFinderUtils.toJavaType(var.getType()) + "()");
     }
 
+    public boolean shoudlMutate() {
+        Random rand = new Random(System.currentTimeMillis());
+        int n = rand.nextInt(initVars.size());
+        if (TestGenerator.count >= TestGenerator.size && n > TestGenerator.size)
+            return false;
+        else
+            return true;
+    }
 }
