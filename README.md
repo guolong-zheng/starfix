@@ -2,9 +2,9 @@
 STARFIX: Automatic Data Structure Repair using Separation Logic
 
 # Mentors #
-ThanhVu Nguyen
-Quang Loc Le
-Quoc-Sang Phan
+- ThanhVu Nguyen
+- Quang Loc Le
+- Quoc-Sang Phan
 
 # Project Summary #
 This project is supported by Google Summer of Code 2018. STARFIX takes as input a specification written in a separation logic formula and a concrete data structure that fails that specification, and performs on-the-fly repair to make the data conforms with the specification.
